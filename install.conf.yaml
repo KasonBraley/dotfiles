@@ -1,0 +1,20 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~','~/.config']
+
+- link:
+    ~/.dotfiles: ""
+    ~/.vim/vimrc: vim/vimrc
+    ~/.vim/coc-settings.json: vim/coc-settings.json
+    ~/.zshrc: zsh/zshrc
+    ~/.config/tmux/tmux.conf: tmux/tmux.conf
+    ~/.config/tmuxinator: tmuxinator
+    ~/.config/skhd: skhd
+    ~/.config/yabai: yabai
+- create:
+    - ~/localGit
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]
