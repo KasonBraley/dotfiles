@@ -27,6 +27,9 @@ brew "grep"
 brew "httpie"
 brew "jenkins"
 brew "jq"
+brew "lazygit"
+brew "luajit", args: ["HEAD"]
+brew "neovim", args: ["HEAD"]
 brew "node"
 brew "reattach-to-user-namespace"
 brew "ripgrep"
