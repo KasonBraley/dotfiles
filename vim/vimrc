@@ -30,13 +30,13 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " theme
 Plug 'joshdick/onedark.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 
 " utils
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'scrooloose/nerdcommenter'
-Plug 'mbbill/undotree'
 Plug 'christoomey/vim-tmux-navigator'
 
 " git
@@ -46,6 +46,8 @@ Plug 'airblade/vim-gitgutter'
 " cheat sheat
 Plug 'dbeniamine/cheat.sh-vim'
 
+" sandbox
+Plug 'metakirby5/codi.vim'
 
 " debugging
 Plug 'puremourning/vimspector'
@@ -58,9 +60,7 @@ call plug#end()
 
 
 "-------------------------------------- General ----------------
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
+"leader key is space
 let mapleader = "\<Space>"
 
 set encoding=UTF-8
@@ -73,7 +73,7 @@ set updatetime=300"
 set shortmess+=c
 
 " Sets how many lines of history VIM has to remember
-set history=500
+"set history=500
 
 " Enable filetype plugins
 filetype plugin on
@@ -134,8 +134,6 @@ let g:airline_theme='onedark'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
-
-set cursorline
 
 " Turn on the Wild menu
 set wildmenu
@@ -290,6 +288,9 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
+
+
+
 """"""""""""""""""""""""""""""
 " => Status line
 """"""""""""""""""""""""""""""
@@ -303,20 +304,6 @@ set laststatus=2
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
-" Move a line of text using ALT+[jk] or Command+[jk] on mac
-nmap <M-j> mz:m+<cr>`z
-nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
-if has("mac") || has("macunix")
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
-endif
-
-
 " Delete trailing white space on save, useful for some filetypes ;)
 fun! CleanExtraSpaces()
     let save_cursor = getpos(".")
@@ -329,7 +316,6 @@ endfun
 if has("autocmd")
     autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
-
 
 
 "-------------------------------------- NERDtree --------------------------
@@ -347,8 +333,8 @@ let NERDTreeShowHidden=1
 
 "-------------------------------------- NERDcommenter --------------------------
 "-------------------------------------------------------------------------
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
+vmap <leader>/ <plug>NERDCommenterToggle
+nmap <leader>/ <plug>NERDCommenterToggle
 let g:NERDCommentEmptyLines = 1
 
 
@@ -403,9 +389,6 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Remap for rename current word
-nmap <F2> <Plug>(coc-rename)
-
 " Remap for format selected region
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
@@ -425,9 +408,6 @@ augroup end
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
 
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
 
 " remove Keywords from snippet suggestions. 
 " the Keywords are useless and just take up more space
@@ -440,18 +420,6 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 vmap <leader>fs  <Plug>(coc-format-selected)
 vmap <leader>fs  <Plug>(coc-format-selected)
 noremap <leader>fa :Prettier<CR>
-
-"----------------------------------PowerShell----------------------
-
-
-
-
-
-
-
-
-"----------------------------------FUZZY FINDER CONFIG --------------
-"-------------------------------------------------------------------
 
 
 
@@ -468,11 +436,6 @@ nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>rp :resize 100<CR>
 
-"----------------------------------------------------------------
-"------------------------------------ Undotree  ----------------
-"Show undo tree (allows to see a timeline of changes made to the file)
-nnoremap <leader>u :UndotreeToggle<CR>
-let g:undotree_WindowLayout = 3
 
 "-------------------------------------- TERMINAL --------------
 "-------------------------------------------------------------
@@ -509,9 +472,6 @@ endfunction
                 \ 'javascript' : ['javascript', 'node', 'react', 'jquery'],
                 \}
 
-
-"-------------------------------------- PowerShell  --------------
-"-------------------------------------------------------------
 
 "------------ Debugger remaps ------------
 noremap <leader>dd :call vimspector#Launch()<CR>
