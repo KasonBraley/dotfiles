@@ -3,77 +3,88 @@ local use = packer.use
 
 -- using { } for using different branch , loading plugin with certain commands etc
 return packer.startup(
-    function()
-        use "wbthomason/packer.nvim"
+  function()
+    use "wbthomason/packer.nvim"
 
-        -- color related stuff
-        use "siduck76/nvim-base16.lua"
-        use "norcalli/nvim-colorizer.lua"
+    -- color related stuff
+    use "siduck76/nvim-base16.lua"
+    use "norcalli/nvim-colorizer.lua"
 
-        -- lang stuff
-        use "nvim-treesitter/nvim-treesitter"
-        use "neovim/nvim-lspconfig"
+    -- lang stuff
+    use "nvim-treesitter/nvim-treesitter"
+    use "neovim/nvim-lspconfig"
+    use "kabouzeid/nvim-lspinstall"
+    use "onsails/lspkind-nvim"
+    use "mhartington/formatter.nvim"
 
-        -- load compe in insert mode only
-        use {
-            "hrsh7th/nvim-compe",
-            event = "InsertEnter",
-            config = function()
-                require("compe-completion").config()
-            end
-        }
-
-        use "onsails/lspkind-nvim"
-        use "sbdchd/neoformat"
-        use "nvim-lua/plenary.nvim"
-        use "kabouzeid/nvim-lspinstall"
-
-        use "lewis6991/gitsigns.nvim"
-        use "akinsho/nvim-bufferline.lua"
-        use "glepnir/galaxyline.nvim"
-        use "windwp/nvim-autopairs"
-        --   use "alvan/vim-closetag" -- for html
-
-        -- Comment
-        use "terrortylor/nvim-comment"
-
-        -- Terminal
-        use {"akinsho/nvim-toggleterm.lua"}
-        
-        -- snippet support
-        use {
-            "hrsh7th/vim-vsnip",
-            event = "InsertCharPre"
-        }
-        use "rafamadriz/friendly-snippets"
-
-        -- file managing , picker etc
-        use "kyazdani42/nvim-tree.lua"
-        use "kyazdani42/nvim-web-devicons"
-        use "nvim-telescope/telescope.nvim"
-        use "nvim-telescope/telescope-media-files.nvim"
-        use "nvim-lua/popup.nvim"
-
-        -- misc
-        use "glepnir/dashboard-nvim"
-        use "tweekmonster/startuptime.vim"
-
-        -- load autosave plugin only if its globally enabled
-        use {
-            "907th/vim-auto-save",
-            cond = function()
-                return vim.g.auto_save == 1
-            end
-        }
-
-        use "karb94/neoscroll.nvim"
-        use "kdav5758/TrueZen.nvim"
-        use "folke/which-key.nvim"
-        use {"lukas-reineke/indent-blankline.nvim", branch = "lua"}
-    end,
-    {
-        display = {
-            border = {"┌", "─", "┐", "│", "┘", "─", "└", "│"}
-        }
+    -- load compe in insert mode only
+    use {
+      "hrsh7th/nvim-compe",
+      event = "InsertEnter",
+      config = function()
+        require("compe-completion").config()
+      end
     }
+
+    use "nvim-lua/plenary.nvim"
+    use {"npxbr/glow.nvim", run = ":GlowInstall"}
+
+    use "lewis6991/gitsigns.nvim"
+    use "akinsho/nvim-bufferline.lua"
+    use "glepnir/galaxyline.nvim"
+    use "windwp/nvim-autopairs"
+    --   use "alvan/vim-closetag" -- for html
+
+    -- Comment
+    use "terrortylor/nvim-comment"
+
+    -- Terminal
+    use "akinsho/nvim-toggleterm.lua"
+
+    -- snippet support
+    use {
+      "hrsh7th/vim-vsnip",
+      event = "InsertCharPre"
+    }
+    use "rafamadriz/friendly-snippets"
+
+    -- file managing , picker etc
+    use "kyazdani42/nvim-tree.lua"
+    use "kyazdani42/nvim-web-devicons"
+    use "nvim-telescope/telescope.nvim"
+    use "nvim-telescope/telescope-media-files.nvim"
+    use "nvim-lua/popup.nvim"
+
+    -- fast Motion plugin
+    use "ggandor/lightspeed.nvim"
+
+    use {
+      "blackCauldron7/surround.nvim",
+      config = function()
+        require "surround".setup {}
+      end
+    }
+
+    -- misc
+    use "glepnir/dashboard-nvim"
+    use "tweekmonster/startuptime.vim"
+
+    -- load autosave plugin only if its globally enabled
+    use {
+      "907th/vim-auto-save",
+      cond = function()
+        return vim.g.auto_save == 1
+      end
+    }
+
+    use "karb94/neoscroll.nvim"
+    use "kdav5758/TrueZen.nvim"
+    use "folke/which-key.nvim"
+    use {"lukas-reineke/indent-blankline.nvim", branch = "lua"}
+  end,
+  {
+    display = {
+      border = {"┌", "─", "┐", "│", "┘", "─", "└", "│"}
+    }
+  }
 )
