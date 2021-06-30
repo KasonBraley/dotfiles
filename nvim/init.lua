@@ -63,3 +63,4 @@ require "zenmode"
 require "whichkey"
 require "dashboard"
 require("nvim_comment").setup()
+require "format"
