@@ -9,8 +9,7 @@
 
 # Packages #
 ############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
+# it's better to unpack these files and commit the raw source git has its own built in compression methods
 *.7z
 *.dmg
 *.gz
@@ -37,3 +36,4 @@ ehthumbs.db
 Thumbs.db
 
 work.yml
+/nvim/plugin/
