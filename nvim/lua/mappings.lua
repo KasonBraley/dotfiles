@@ -1,5 +1,5 @@
 local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true}
+  local options = {noremap = true, silent = true}
   if opts then
     options = vim.tbl_extend("force", options, opts)
   end
@@ -8,15 +8,6 @@ end
 
 local opt = {}
 
--- dont copy any deleted text , this is disabled by default so uncomment the below mappings if you want them
---[[ remove this line
-
-map("n", "dd", [=[ "_dd ]=], opt)
-map("v", "dd", [=[ "_dd ]=], opt)
-map("v", "x", [=[ "_x ]=], opt)
-
- this line too ]]
---
 -- map navigation between splits using <C-{h,j,k,l}>
 map("n", "<C-k>", [[<Cmd> wincmd k<CR>]])
 map("n", "<C-l>", [[<Cmd> wincmd l<CR>]])
@@ -37,17 +28,47 @@ map("n", "<C-t>t", [[<Cmd> tabnew | term <CR>]], opt) -- term newtab
 -- copy whole file content
 map("n", "<C-a>", [[ <Cmd> %y+<CR>]], opt)
 
--- remove selection
+-- nvimtree (rest are defaults)
+map("n", "<C-n>", ":NvimTreeToggle<CR>", opt)
+
+-- buffer delete
+map("n", "<C-q>", ":Bdelete<CR>", opt)
+
+-- Bufferline tabs
+map("n", "<S-t>", ":tabnew<CR>", opt) -- new tab
+map("n", "<S-x>", ":Bdelete<CR>", opt) -- close tab
+map("n", "<S-x>x", ":Bdelete!<CR>", opt) -- force close tab
+
+-- move between tabs
+map("n", "<Tab>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
+map("n", "<S-Tab>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
+
+-- remove highlighted selection
 map("n", "<leader><Esc>", [[<Cmd> noh <CR>]], {silent = true})
 
 -- save
-map("n", "zz", [[<Cmd> w<CR>]], {silent = true})
+map("n", "zs", ":w<CR>", {silent = true})
+map("n", "<C-s>", ":w!<CR>", opt)
 
 -- return normal mode on esc in terminal
 map("t", "<Esc>", [[<C-\><C-n>]], {silent = true})
 
--- toggle numbers
-map("n", "<leader>n", [[ <Cmd> set nu!<CR>]], opt)
+-- dashboard stuff
+map("n", "<Leader>fw", [[<Cmd> Telescope live_grep<CR>]], opt)
+map("n", "<Leader>db", [[<Cmd> Dashboard<CR>]], opt)
+map("n", "<Leader>fn", [[<Cmd> DashboardNewFile<CR>]], opt)
+map("n", "<Leader>bm", [[<Cmd> DashboardJumpMarks<CR>]], opt)
+map("n", "<C-s>l", [[<Cmd> SessionLoad<CR>]], opt)
+map("n", "<C-s>s", [[<Cmd> SessionSave<CR>]], opt)
+
+-- Telescope
+map("n", "<Leader>gt", [[<Cmd> Telescope git_status <CR>]], opt)
+map("n", "<Leader>cm", [[<Cmd> Telescope git_commits <CR>]], opt)
+map("n", "<Leader>ff", [[<Cmd> Telescope find_files <CR>]], opt)
+map("n", "<Leader>fp", [[<Cmd>lua require('telescope').extensions.media_files.media_files()<CR>]], opt)
+map("n", "<Leader>fb", [[<Cmd>Telescope buffers<CR>]], opt)
+map("n", "<Leader>fh", [[<Cmd>Telescope help_tags<CR>]], opt)
+map("n", "<Leader>fo", [[<Cmd>Telescope oldfiles<CR>]], opt)
 
 -- lazy git
 local Terminal = require("toggleterm.terminal").Terminal
@@ -79,18 +100,14 @@ end
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- Truezen.nvim
-map("n", "<leader>z", [[ <Cmd> TZAtaraxis<CR>]], opt)
-map("n", "<leader>m", [[ <Cmd> TZMinimalist<CR>]], opt)
-
-map("n", "<C-s>", [[ <Cmd> w <CR>]], opt)
--- vim.cmd("inoremap jh <Esc>")
+map("n", "<leader>zz", ":TZAtaraxis<CR>", opt)
+map("n", "<leader>zm", ":TZMinimalist<CR>", opt)
 
 -- Commenter Keybinding
-map("n", "<leader>/", ":CommentToggle<CR>", {noremap = true, silent = true})
-map("v", "<leader>/", ":CommentToggle<CR>", {noremap = true, silent = true})
+map("n", "<leader>/", ":CommentToggle<CR>", opt)
+map("v", "<leader>/", ":CommentToggle<CR>", opt)
 
 -- compe stuff
-
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -117,8 +134,8 @@ end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
+  elseif require "luasnip".jumpable(-1) then
+    return t "<Plug>luasnip-jump-prev"
   else
     return t "<S-Tab>"
   end
@@ -133,7 +150,6 @@ function _G.completions()
   end
   return npairs.check_break_line_char()
 end
-
 --  compe mappings
 map("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 map("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
@@ -142,4 +158,4 @@ map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 map("i", "<CR>", "v:lua.completions()", {expr = true})
 
 -- Markdown
-map("n", "<leader>p", [[<Cmd> Glow <CR>]])
+map("n", "<leader>p", ":Glow <CR>")
