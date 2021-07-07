@@ -12,6 +12,26 @@ require("formatter").setup(
           }
         end
       },
+      html = {
+        -- prettier
+        function()
+          return {
+            exe = "prettierd",
+            args = {vim.api.nvim_buf_get_name(0)},
+            stdin = true
+          }
+        end
+      },
+      css = {
+        -- prettier
+        function()
+          return {
+            exe = "prettierd",
+            args = {vim.api.nvim_buf_get_name(0)},
+            stdin = true
+          }
+        end
+      },
       lua = {
         -- luafmt
         function()
@@ -31,6 +51,8 @@ vim.api.nvim_exec(
 augroup FormatAutogroup
   autocmd!
   autocmd FileType javascript autocmd BufWritePost <buffer> FormatWrite
+  autocmd FileType html autocmd BufWritePost <buffer> FormatWrite
+  autocmd FileType css autocmd BufWritePost <buffer> FormatWrite
   autocmd FileType lua autocmd BufWritePost <buffer> FormatWrite
   autocmd FileType typescript autocmd BufWritePost <buffer> FormatWrite
 augroup end
