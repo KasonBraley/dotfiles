@@ -58,7 +58,7 @@ M.config = function()
       },
       media_files = {
         filetypes = {"png", "webp", "jpg", "jpeg"},
-        find_cmd = "rg" -- find command (defaults to `fd`)
+        find_cmd = "rg" -- Ripgrep (requires installation) (defaults to `fd`)
       }
     }
   }
