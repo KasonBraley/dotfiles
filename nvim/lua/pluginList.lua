@@ -5,7 +5,10 @@ return packer.startup(
   function()
     use "wbthomason/packer.nvim"
 
+    -- tabline
     use "akinsho/nvim-bufferline.lua"
+
+    -- statusline
     use "glepnir/galaxyline.nvim"
 
     -- color related stuff
