@@ -54,7 +54,7 @@ map("n", "<C-s>", ":w!<CR>", opt)
 map("t", "<Esc>", [[<C-\><C-n>]], {silent = true})
 
 -- dashboard stuff
-map("n", "<Leader>fw", [[<Cmd> Telescope live_grep<CR>]], opt)
+map("n", "<Leader>fg", [[<Cmd> Telescope live_grep<CR>]], opt)
 map("n", "<Leader>db", [[<Cmd> Dashboard<CR>]], opt)
 map("n", "<Leader>fn", [[<Cmd> DashboardNewFile<CR>]], opt)
 map("n", "<Leader>bm", [[<Cmd> DashboardJumpMarks<CR>]], opt)
