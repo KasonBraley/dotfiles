@@ -16,6 +16,6 @@
     ~/.config/yabai: yabai
     ~/.config/nvim: nvim
 - create:
-    - ~/localGit
+    - ~/dev
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
