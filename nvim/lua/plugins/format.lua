@@ -3,16 +3,17 @@ require("formatter").setup(
     logging = false,
     filetype = {
       javascript = {
-        -- prettier
+        -- prettierd
         function()
           return {
             exe = "prettierd",
-            args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+            args = {vim.api.nvim_buf_get_name(0)},
             stdin = true
           }
         end
       },
       html = {
+        -- html-beutify for better html indentation
         function()
           return {
             exe = "html-beautify",
@@ -22,7 +23,7 @@ require("formatter").setup(
         end
       },
       css = {
-        -- prettier
+        -- prettierd
         function()
           return {
             exe = "prettierd",
