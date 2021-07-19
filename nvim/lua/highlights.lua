@@ -13,6 +13,7 @@ local one_bg3 = colors.one_bg3
 local light_grey = colors.light_grey
 local grey = colors.grey
 local grey_fg = colors.grey_fg
+local grey_fg2 = colors.grey_fg2
 local red = colors.red
 local line = colors.line
 local green = colors.green
@@ -41,7 +42,7 @@ fg("IndentBlanklineChar", line)
 
 -- misc --
 fg("LineNr", grey)
-fg("Comment", grey)
+fg("Comment", grey_fg2)
 fg("NvimInternalError", red)
 fg("VertSplit", line)
 fg("EndOfBuffer", black)
@@ -80,10 +81,10 @@ fg_bg("NvimTreeStatuslineNc", darker_black, darker_black)
 fg_bg("NvimTreeWindowPicker", red, black2)
 
 -- telescope
-fg("TelescopeBorder", line)
-fg("TelescopePromptBorder", line)
-fg("TelescopeResultsBorder", line)
-fg("TelescopePreviewBorder", grey)
+fg("TelescopeBorder", grey_fg2)
+fg("TelescopePromptBorder", grey_fg2)
+fg("TelescopeResultsBorder", grey_fg2)
+fg("TelescopePreviewBorder", grey_fg2)
 
 -- LspDiagnostics ---
 
@@ -141,5 +142,10 @@ fg("DashboardCenter", grey_fg)
 fg("DashboardShortcut", grey_fg)
 fg("DashboardFooter", grey_fg)
 
--- Default nvim bg (based on terminal bg)
--- cmd "hi Normal guibg=#1e222a"
+-- packer floating window
+bg("NormalFloat", black2)
+bg("FloatBorder", black2)
+fg("FloatBorder", grey_fg2)
+
+-- set bg color for nvim (so nvim wont use terminal bg)
+bg("Normal", black)
