@@ -21,8 +21,7 @@ map("n", "<leader>=", [[<Cmd> resize +5<CR>]])
 map("n", "<leader>-", [[<Cmd> resize -5<CR>]])
 
 -- OPEN TERMINALS --
-map("n", "<C-v>", [[<Cmd>vnew term:// <CR>]], opt) -- term over right
-map("n", "<C-x>", [[<Cmd> split term:// | resize 10 <CR>]], opt) --  term bottom
+map("n", "<C-v>", [[<Cmd>vnew term:// <CR>]], opt) -- term over right map("n", "<C-x>", [[<Cmd> split term:// | resize 10 <CR>]], opt) --  term bottom
 map("n", "<C-t>t", [[<Cmd> tabnew | term <CR>]], opt) -- term newtab
 
 -- copy whole file content
@@ -99,14 +98,6 @@ end
 
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
--- Truezen.nvim
-map("n", "<leader>zz", ":TZAtaraxis<CR>", opt)
-map("n", "<leader>zm", ":TZMinimalist<CR>", opt)
-
--- Commenter Keybinding
-map("n", "<leader>/", ":CommentToggle<CR>", opt)
-map("v", "<leader>/", ":CommentToggle<CR>", opt)
-
 -- compe stuff
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -150,6 +141,7 @@ function _G.completions()
   end
   return npairs.check_break_line_char()
 end
+
 --  compe mappings
 map("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 map("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
@@ -157,5 +149,19 @@ map("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 map("i", "<CR>", "v:lua.completions()", {expr = true})
 
+-- Truezen.nvim
+map("n", "<leader>zz", ":TZAtaraxis<CR>", opt)
+map("n", "<leader>zm", ":TZMinimalist<CR>", opt)
+
+-- Commenter Keybinding
+map("n", "<leader>/", ":CommentToggle<CR>", opt)
+map("v", "<leader>/", ":CommentToggle<CR>", opt)
+
 -- Markdown
-map("n", "<leader>p", ":Glow <CR>")
+map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
+
+-- Hop
+map("", "<leader>j", "<cmd>HopWord<CR>", opt)
+map("", "<leader>l", "<cmd>HopLineStart<CR>", opt)
+map("", "<leader>s", "<cmd>HopPattern<CR>", opt)
+map("", "<leader>c", "<cmd>HopChar1<CR>", opt)

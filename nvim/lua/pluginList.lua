@@ -46,16 +46,16 @@ return packer.startup(
     }
 
     use {
-      "neovim/nvim-lspconfig",
-      event = "BufRead",
-      config = function()
-        require("plugins.lspconfig").config()
-      end
+      "kabouzeid/nvim-lspinstall",
+      event = "BufRead"
     }
 
     use {
-      "kabouzeid/nvim-lspinstall",
-      event = "VimEnter"
+      "neovim/nvim-lspconfig",
+      after = "nvim-lspinstall",
+      config = function()
+        require("plugins.lspconfig").config()
+      end
     }
 
     use {
@@ -77,10 +77,15 @@ return packer.startup(
       requires = {
         {
           "L3MON4D3/LuaSnip",
+          wants = "friendly-snippets",
           event = "InsertCharPre",
           config = function()
             require("plugins.compe").snippets()
           end
+        },
+        {
+          "rafamadriz/friendly-snippets",
+          event = "InsertCharPre"
         }
       }
     }
@@ -117,8 +122,7 @@ return packer.startup(
     }
 
     use {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      run = "make",
+      "nvim-telescope/telescope-fzy-native.nvim",
       cmd = "Telescope"
     }
 
@@ -161,22 +165,6 @@ return packer.startup(
       end
     }
 
-    use {
-      "glepnir/dashboard-nvim",
-      cmd = {
-        "Dashboard",
-        "DashboardNewFile",
-        "DashboardJumpMarks",
-        "SessionLoad",
-        "SessionSave"
-      },
-      setup = function()
-        require("plugins.dashboard").config()
-      end
-    }
-
-    use {"tweekmonster/startuptime.vim", cmd = "StartupTime"}
-
     -- load autosave only if its globally enabled
     use {
       "Pocco81/AutoSave.nvim",
@@ -213,7 +201,7 @@ return packer.startup(
       end
     }
     -- Markdown previewer
-    use {"npxbr/glow.nvim", run = ":GlowInstall"}
+    use {"iamcco/markdown-preview.nvim"}
 
     -- Terminal
     use {
@@ -223,18 +211,20 @@ return packer.startup(
       end
     }
 
-    -- snippet support
-    -- use {
-    --   "hrsh7th/vim-vsnip",
-    --   event = "InsertCharPre"
-    -- }
     use {
       "rafamadriz/friendly-snippets",
       event = "InsertCharPre"
     }
 
     -- fast Motion plugin
-    use "ggandor/lightspeed.nvim"
+    use {
+      "phaazon/hop.nvim",
+      as = "hop",
+      config = function()
+        -- you can configure Hop the way you like here; see :h hop-config
+        require "hop".setup {keys = "etovxqpdygfblzhckisuran"}
+      end
+    }
 
     use {
       "blackCauldron7/surround.nvim",
@@ -243,7 +233,7 @@ return packer.startup(
       end
     }
 
-    use "ray-x/lsp_signature.nvim"
+    -- use "ray-x/lsp_signature.nvim"
 
     use {
       "folke/which-key.nvim",
