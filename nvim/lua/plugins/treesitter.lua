@@ -1,7 +1,7 @@
-local M = {}
-
-M.config = function()
-  local ts_config = require("nvim-treesitter.configs")
+local present, ts_config = pcall(require, "nvim-treesitter.configs")
+if not present then
+  return
+end
 
   ts_config.setup {
     ensure_installed = {
@@ -20,8 +20,9 @@ M.config = function()
     highlight = {
       enable = true,
       use_languagetree = true
+    },
+    matchup = {
+      enable = true,
+      disable = {}
     }
   }
-end
-
-return M

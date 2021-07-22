@@ -1,38 +1,43 @@
-local packer = require("packer")
-local use = packer.use
+local present, _ = pcall(require, "packerInit")
+local packer
 
-packer.init {
-  display = {
-    open_fn = function()
-      return require("packer.util").float {border = "single"}
-    end
-  }
-}
+if present then
+  packer = require "packer"
+else
+  return false
+end
+
+local use = packer.use
 
 return packer.startup(
   function()
-    use "wbthomason/packer.nvim"
+    use {"wbthomason/packer.nvim", event = "VimEnter"}
 
-    -- tabline
-    use "akinsho/nvim-bufferline.lua"
+    use {"akinsho/nvim-bufferline.lua", after = "nvim-base16.lua"}
 
     -- statusline
     use {
       "glepnir/galaxyline.nvim",
+      after = "nvim-base16.lua",
       config = function()
-        require("plugins.statusline").config()
+        require "plugins.statusline"
       end
     }
 
     -- color related stuff
-    use "siduck76/nvim-base16.lua"
+    use {
+      "siduck76/nvim-base16.lua",
+      after = "packer.nvim",
+      config = function()
+        require "theme"
+      end
+    }
 
     use {
       "norcalli/nvim-colorizer.lua",
       event = "BufRead",
       config = function()
-        require("colorizer").setup()
-        vim.cmd("ColorizerReloadAllBuffers")
+        require("plugins.others").colorizer()
       end
     }
 
@@ -41,20 +46,19 @@ return packer.startup(
       "nvim-treesitter/nvim-treesitter",
       event = "BufRead",
       config = function()
-        require("plugins.treesitter").config()
+        require "plugins.treesitter"
       end
     }
 
-    use {
-      "kabouzeid/nvim-lspinstall",
-      event = "BufRead"
-    }
+    -- use "nvim-treesitter/playground"
+
+    use {"kabouzeid/nvim-lspinstall", event = "BufRead"}
 
     use {
       "neovim/nvim-lspconfig",
       after = "nvim-lspinstall",
       config = function()
-        require("plugins.lspconfig").config()
+        require "plugins.lspconfig"
       end
     }
 
@@ -62,7 +66,7 @@ return packer.startup(
       "onsails/lspkind-nvim",
       event = "BufRead",
       config = function()
-        require("lspkind").init()
+        require("plugins.others").lspkind()
       end
     }
 
@@ -71,26 +75,29 @@ return packer.startup(
       "hrsh7th/nvim-compe",
       event = "InsertEnter",
       config = function()
-        require("plugins.compe").config()
+        require "plugins.compe"
       end,
-      wants = {"LuaSnip"},
+      wants = "LuaSnip",
       requires = {
         {
           "L3MON4D3/LuaSnip",
           wants = "friendly-snippets",
           event = "InsertCharPre",
           config = function()
-            require("plugins.compe").snippets()
+            require "plugins.luasnip"
           end
         },
-        {
-          "rafamadriz/friendly-snippets",
-          event = "InsertCharPre"
-        }
+        {"rafamadriz/friendly-snippets", event = "InsertCharPre"}
       }
     }
 
-    use "mhartington/formatter.nvim"
+    use {
+      "mhartington/formatter.nvim",
+      cmd = "Format",
+      config = function()
+        require("plugins.format")
+      end
+    }
     use "famiu/bufdelete.nvim"
 
     -- file managing , picker etc
@@ -98,45 +105,39 @@ return packer.startup(
       "kyazdani42/nvim-tree.lua",
       cmd = "NvimTreeToggle",
       config = function()
-        require("plugins.nvimtree").config()
+        require "plugins.nvimtree"
       end
     }
 
     use {
       "kyazdani42/nvim-web-devicons",
+      after = "nvim-base16.lua",
       config = function()
-        require("plugins.icons").config()
+        require "plugins.icons"
       end
     }
+
+    use {"nvim-lua/plenary.nvim", event = "BufRead"}
+    use {"nvim-lua/popup.nvim", after = "plenary.nvim"}
 
     use {
       "nvim-telescope/telescope.nvim",
-      requires = {
-        {"nvim-lua/popup.nvim"},
-        {"nvim-lua/plenary.nvim"}
-      },
       cmd = "Telescope",
       config = function()
-        require("plugins.telescope").config()
+        require "plugins.telescope"
       end
     }
 
-    use {
-      "nvim-telescope/telescope-fzy-native.nvim",
-      cmd = "Telescope"
-    }
+    use {"nvim-telescope/telescope-fzy-native.nvim", cmd = "Telescope"}
 
-    use {
-      "nvim-telescope/telescope-media-files.nvim",
-      cmd = "Telescope"
-    }
+    use {"nvim-telescope/telescope-media-files.nvim", cmd = "Telescope"}
 
     -- git stuff
     use {
       "lewis6991/gitsigns.nvim",
-      event = "BufRead",
+      after = "plenary.nvim",
       config = function()
-        require("plugins.gitsigns").config()
+        require "plugins.gitsigns"
       end
     }
 
@@ -145,13 +146,7 @@ return packer.startup(
       "windwp/nvim-autopairs",
       after = "nvim-compe",
       config = function()
-        require("nvim-autopairs").setup()
-        require("nvim-autopairs.completion.compe").setup(
-          {
-            map_cr = true,
-            map_complete = true -- insert () func completion
-          }
-        )
+        require "plugins.autopairs"
       end
     }
 
@@ -161,7 +156,7 @@ return packer.startup(
       "terrortylor/nvim-comment",
       cmd = "CommentToggle",
       config = function()
-        require("nvim_comment").setup()
+        require("plugins.others").comment()
       end
     }
 
@@ -169,7 +164,7 @@ return packer.startup(
     use {
       "Pocco81/AutoSave.nvim",
       config = function()
-        require("plugins.zenmode").autoSave()
+        require "plugins.autosave"
       end,
       cond = function()
         return vim.g.auto_save == true
@@ -181,15 +176,15 @@ return packer.startup(
       "karb94/neoscroll.nvim",
       event = "WinScrolled",
       config = function()
-        require("neoscroll").setup()
+        require("plugins.others").neoscroll()
       end
     }
 
     use {
       "Pocco81/TrueZen.nvim",
-      cmd = {"TZAtaraxis", "TZMinimalist"},
+      cmd = {"TZAtaraxis", "TZMinimalist", "TZFocus"},
       config = function()
-        require("plugins.zenmode").config()
+        require "plugins.zenmode"
       end
     }
 
@@ -197,24 +192,20 @@ return packer.startup(
       "lukas-reineke/indent-blankline.nvim",
       event = "BufRead",
       setup = function()
-        require("utils").blankline()
+        require("plugins.others").blankline()
       end
     }
+
     -- Markdown previewer
     use {"iamcco/markdown-preview.nvim"}
 
-    -- Terminal
-    use {
-      "akinsho/nvim-toggleterm.lua",
-      config = function()
-        require("plugins.toggleterm").config()
-      end
-    }
-
-    use {
-      "rafamadriz/friendly-snippets",
-      event = "InsertCharPre"
-    }
+    -- -- Terminal
+    -- -- use {
+    -- --   "akinsho/nvim-toggleterm.lua",
+    -- --   config = function()
+    -- --     require("plugins.toggleterm").config()
+    -- --   end
+    -- -- }
 
     -- fast Motion plugin
     use {
@@ -233,7 +224,7 @@ return packer.startup(
       end
     }
 
-    -- use "ray-x/lsp_signature.nvim"
+    -- -- use "ray-x/lsp_signature.nvim"
 
     use {
       "folke/which-key.nvim",
