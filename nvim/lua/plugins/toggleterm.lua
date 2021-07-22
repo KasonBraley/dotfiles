@@ -7,7 +7,7 @@ M.config = function()
   toggleterm.setup(
     {
       size = 10,
-      open_mapping = "<C-x>",
+      open_mapping = "<c-i>",
       -- shade_filetypes = {},
       shade_terminals = true,
       shading_factor = "1",

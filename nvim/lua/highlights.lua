@@ -1,6 +1,6 @@
 local cmd = vim.cmd
 
-local global_theme = "themes/" .. vim.g.nvchad_theme
+local global_theme = "themes/" .. vim.g.my_theme
 local colors = require(global_theme)
 
 local white = colors.white
@@ -62,7 +62,7 @@ fg("cursorlinenr", white)
 
 -- git signs ---
 fg_bg("DiffAdd", nord_blue, "none")
-fg_bg("DiffChange", one_bg2, "none")
+fg_bg("DiffChange", grey_fg, "none")
 fg_bg("DiffModified", nord_blue, "none")
 
 -- NvimTree
@@ -102,43 +102,10 @@ fg("LspDiagnosticsVirtualTextInformation", green)
 fg("LspDiagnosticsSignHint", purple)
 fg("LspDiagnosticsVirtualTextHint", purple)
 
--- bufferline
-
-fg_bg("BufferLineFill", grey_fg, black2)
-fg_bg("BufferLineBackground", light_grey, black2)
-
-fg_bg("BufferLineBufferVisible", light_grey, black2)
-fg_bg("BufferLineBufferSelected", white, black)
-
-cmd "hi BufferLineBufferSelected gui=bold"
-
--- tabs
-fg_bg("BufferLineTab", light_grey, one_bg3)
-fg_bg("BufferLineTabSelected", black2, nord_blue)
-fg_bg("BufferLineTabClose", red, black)
-
-fg_bg("BufferLineIndicator", black2, black2)
-fg_bg("BufferLineIndicatorSelected", black, black)
-
--- separators
-fg_bg("BufferLineSeparator", black2, black2)
-fg_bg("BufferLineSeparatorVisible", black2, black2)
-fg_bg("BufferLineSeparatorSelected", black, black2)
-
--- modified buffers
-fg_bg("BufferLineModified", red, black2)
-fg_bg("BufferLineModifiedVisible", red, black2)
-fg_bg("BufferLineModifiedSelected", green, black)
-
--- close buttons
-fg_bg("BufferLineCLoseButtonVisible", light_grey, black2)
-fg_bg("BufferLineCLoseButton", light_grey, black2)
-fg_bg("BufferLineCLoseButtonSelected", red, black)
-
 -- packer floating window
 bg("NormalFloat", black2)
 bg("FloatBorder", black2)
 fg("FloatBorder", grey_fg2)
 
 -- set bg color for nvim (so nvim wont use terminal bg)
-bg("Normal", black)
+-- bg("Normal", black)

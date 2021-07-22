@@ -1,4 +1,9 @@
-require("formatter").setup(
+local present, format = pcall(require, "formatter")
+if not present then
+  return
+end
+
+format.setup(
   {
     logging = false,
     filetype = {
@@ -32,6 +37,16 @@ require("formatter").setup(
           }
         end
       },
+      json = {
+        -- prettierd
+        function()
+          return {
+            exe = "prettierd",
+            args = {vim.api.nvim_buf_get_name(0)},
+            stdin = true
+          }
+        end
+      },
       lua = {
         -- luafmt
         function()
@@ -46,6 +61,7 @@ require("formatter").setup(
   }
 )
 
+-- format on save
 vim.api.nvim_exec(
   [[
 augroup FormatAutogroup
@@ -59,7 +75,3 @@ augroup end
 ]],
   true
 )
-
-local opt = {noremap = true, silent = true}
-
-vim.api.nvim_set_keymap("n", "<Leader>fm", [[<Cmd> Format<CR>]], opt)
