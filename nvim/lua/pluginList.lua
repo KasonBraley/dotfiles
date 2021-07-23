@@ -13,7 +13,13 @@ return packer.startup(
   function()
     use {"wbthomason/packer.nvim", event = "VimEnter"}
 
-    use {"akinsho/nvim-bufferline.lua", after = "nvim-base16.lua"}
+    use {
+      "akinsho/nvim-bufferline.lua",
+      after = "nvim-base16.lua",
+      config = function()
+        require "plugins.bufferline"
+      end
+    }
 
     -- statusline
     use {
@@ -197,7 +203,7 @@ return packer.startup(
     }
 
     -- Markdown previewer
-    use {"iamcco/markdown-preview.nvim"}
+    use "iamcco/markdown-preview.nvim"
 
     -- -- Terminal
     -- -- use {
