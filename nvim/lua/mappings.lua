@@ -1,32 +1,32 @@
 local function map(mode, lhs, rhs, opts)
-    local options = {noremap = true, silent = true}
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+  local options = {noremap = true, silent = true}
+  if opts then
+    options = vim.tbl_extend("force", options, opts)
+  end
+  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
 local opt = {}
 
 -- map navigation between splits using <C-{h,j,k,l}>
-map("n", "<C-k>", [[<Cmd> wincmd k<CR>]])
-map("n", "<C-l>", [[<Cmd> wincmd l<CR>]])
-map("n", "<C-h>", [[<Cmd> wincmd h<CR>]])
-map("n", "<C-j>", [[<Cmd> wincmd j<CR>]])
+map("n", "<C-k>", ":wincmd k<CR>")
+map("n", "<C-l>", ":wincmd l<CR>")
+map("n", "<C-h>", ":wincmd h<CR>")
+map("n", "<C-j>", ":wincmd j<CR>")
 
 -- horizontal & vertical resize
-map("n", "+", [[<Cmd> vertical resize +5<CR>]], opt)
-map("n", "_", [[<Cmd> vertical resize -5<CR>]], opt)
-map("n", "<leader>=", [[<Cmd> resize +5<CR>]], opt)
-map("n", "<leader>-", [[<Cmd> resize -5<CR>]], opt)
+map("n", "+", ":vertical resize +5<CR>", opt)
+map("n", "_", ":vertical resize -5<CR>", opt)
+map("n", "<leader>=", ":resize +5<CR>", opt)
+map("n", "<leader>-", ":resize -5<CR>", opt)
 
 -- OPEN TERMINALS --
-map("n", "<C-v>", [[<Cmd> vnew +terminal | setlocal nobuflisted <CR>]], opt) -- term over right
-map("n", "<C-x>", [[<Cmd> 10new +terminal | setlocal nobuflisted <CR>]], opt) --  term bottom
-map("n", "<C-t>t", [[<Cmd> terminal <CR>]], opt) -- term buffer
+map("n", "<C-v>", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- term over right
+map("n", "<C-x>", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term bottom
+map("n", "<C-t>t", ":<Cmd> terminal <CR>", opt) -- term buffer
 
 -- copy whole file content
-map("n", "<C-a>", [[ <Cmd> %y+<CR>]], opt)
+map("n", "<C-a>", ":%y+<CR>", opt)
 
 -- nvimtree (rest are defaults)
 map("n", "<C-n>", ":NvimTreeToggle<CR>", opt)
@@ -38,8 +38,8 @@ map("n", "<S-x>", ":Bdelete<CR>", opt) -- close tab
 map("n", "<S-x>x", ":Bdelete!<CR>", opt) -- force close tab
 
 -- move between tabs
-map("n", "<Tab>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
-map("n", "<S-Tab>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
+map("n", "<Tab>", ":BufferLineCycleNext<CR>", opt)
+map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", opt)
 
 -- remove highlighted selection
 map("n", "<Esc>", ":noh<CR>", opt)
@@ -52,13 +52,14 @@ map("n", "<C-s>", ":w!<CR>", opt)
 map("t", "<Esc>", [[<C-\><C-n>]], opt)
 
 -- Telescope
-map("n", "<Leader>gt", [[<Cmd> Telescope git_status <CR>]], opt)
-map("n", "<Leader>cm", [[<Cmd> Telescope git_commits <CR>]], opt)
-map("n", "<Leader>ff", [[<Cmd> Telescope find_files <CR>]], opt)
-map("n", "<Leader>fp", [[<Cmd>lua require('telescope').extensions.media_files.media_files()<CR>]], opt)
-map("n", "<Leader>fb", [[<Cmd>Telescope buffers<CR>]], opt)
-map("n", "<Leader>fh", [[<Cmd>Telescope help_tags<CR>]], opt)
-map("n", "<Leader>fo", [[<Cmd>Telescope oldfiles<CR>]], opt)
+map("n", "<Leader>gt", ":Telescope git_status <CR>", opt)
+map("n", "<Leader>cm", ":Telescope git_commits <CR>", opt)
+map("n", "<Leader>ff", ":Telescope find_files <CR>", opt)
+map("n", "<Leader>fp", ":lua require('telescope').extensions.media_files.media_files()<CR>", opt)
+map("n", "<Leader>fb", ":Telescope buffers<CR>", opt)
+map("n", "<Leader>fh", ":Telescope help_tags<CR>", opt)
+map("n", "<Leader>fo", ":Telescope oldfiles<CR>", opt)
+map("n", "<Leader>fw", ":Telescope live_grep<CR>", opt)
 
 -- compe stuff
 local t = function(str)
@@ -123,10 +124,10 @@ map("v", "<leader>/", ":CommentToggle<CR>", opt)
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 
 -- Hop
-map("", "<leader>j", "<cmd>HopWord<CR>", opt)
-map("", "<leader>l", "<cmd>HopLineStart<CR>", opt)
-map("", "<leader>s", "<cmd>HopPattern<CR>", opt)
-map("", "<leader>c", "<cmd>HopChar1<CR>", opt)
+map("", "<leader>j", ":HopWord<CR>", opt)
+map("", "<leader>l", ":HopLineStart<CR>", opt)
+map("", "<leader>s", ":HopPattern<CR>", opt)
+map("", "<leader>c", ":HopChar1<CR>", opt)
 
 -- Quickfix
 map("", "<C-q>", ":copen<cr>", opt)
@@ -141,4 +142,4 @@ map("", "<leader>k", ":lprevious<cr>", opt)
 map("", "cl", ":pclose | lclose | cclose<CR>", opt)
 
 -- format
-map("n", "<Leader>fm", [[<Cmd> Format<CR>]], opt)
+map("n", "<Leader>fm", ":Format<CR>", opt)
