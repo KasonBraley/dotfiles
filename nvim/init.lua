@@ -12,11 +12,7 @@ async =
   vim.schedule_wrap(
     function()
       for i = 1, #my_modules, 1 do
-        local ok, res = xpcall(require, debug.traceback, my_modules[i])
-        if not (ok) then
-          print("Error loading module : " .. my_modules[i])
-          print(res) -- print stack traceback of the error
-        end
+        pcall(require, my_modules[i])
       end
       async:close()
     end
