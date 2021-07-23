@@ -49,7 +49,7 @@ map("n", "zs", ":w<CR>", opt)
 map("n", "<C-s>", ":w!<CR>", opt)
 
 -- return normal mode on esc in terminal
-map("t", "<Esc>", [[<C-\><C-n>]], opt)
+map("t", "<Esc>", "<C-\\><C-n>", opt)
 
 -- Telescope
 map("n", "<Leader>gt", ":Telescope git_status <CR>", opt)
