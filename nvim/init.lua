@@ -1,6 +1,5 @@
 local my_modules = {
   "options",
-  "pluginList",
   "mappings",
   "utils"
 }
