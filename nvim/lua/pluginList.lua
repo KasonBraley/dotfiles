@@ -82,13 +82,6 @@ return packer.startup(
       end
     }
 
-    use {
-      "windwp/nvim-ts-autotag",
-      event = "BufRead",
-      config = function()
-        require("nvim-ts-autotag").setup()
-      end
-    }
 
     -------------------------------- File Tree
     -- file managing , picker etc
@@ -184,6 +177,19 @@ return packer.startup(
       config = function()
         require "plugins.autopairs"
       end
+    }
+
+    use {
+      "windwp/nvim-ts-autotag",
+      event = "BufRead",
+      config = function()
+        require("nvim-ts-autotag").setup()
+      end
+    }
+
+    use {
+      "p00f/nvim-ts-rainbow",
+      event = "BufRead"
     }
 
     use {"andymass/vim-matchup", event = "CursorMoved"}
