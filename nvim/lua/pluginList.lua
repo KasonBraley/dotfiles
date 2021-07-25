@@ -11,10 +11,8 @@ local use = packer.use
 
 return packer.startup(
   function()
-
     -- Plugin Manager
     use {"wbthomason/packer.nvim", event = "VimEnter"}
-
 
     -------------------------------- LSP
 
@@ -31,7 +29,16 @@ return packer.startup(
     use {
       "onsails/lspkind-nvim",
       event = "BufRead",
-      config = function() require("plugins.others").lspkind()
+      config = function()
+        require("plugins.others").lspkind()
+      end
+    }
+
+    use {
+      "glepnir/lspsaga.nvim",
+      event = "BufRead",
+      config = function()
+        require("lspsaga").init_lsp_saga()
       end
     }
 
