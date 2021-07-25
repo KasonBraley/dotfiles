@@ -25,24 +25,13 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 export TERM="xterm-256color"
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # cheat.sh (cheatsheet) alias 
 alias cht="~/bin/cht.sh"
 # for cheat.sh tab completion
 fpath=(~/.zsh.d/ $fpath)
 
-# clipboard
-#yanktoclipboard(){
-    #echo $BUFFER | xsel -i -b
-#}
-#pastefromclipboard(){
-    #RBUFFER=$(xsel -o -b </dev/null)$RBUFFER
-#}
-#zle -N yanktoclipboard
-#zle -N pastefromclipboard
-#bindkey -a 'yy' yanktoclipboard
-#bindkey -a 'p' pastefromclipboard
 
 # alias
 alias mux="tmuxinator" 
