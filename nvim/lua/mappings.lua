@@ -150,3 +150,18 @@ vim.cmd("silent! command PackerInstall lua require 'pluginList' require('packer'
 vim.cmd("silent! command PackerStatus lua require 'pluginList' require('packer').status()")
 vim.cmd("silent! command PackerSync lua require 'pluginList' require('packer').sync()")
 vim.cmd("silent! command PackerUpdate lua require 'pluginList' require('packer').update()")
+
+-- lspsaga
+map("n", "gh", ":Lspsaga lsp_finder<CR>", opt)
+map("n", "<leader>ca", ":Lspsaga code_action<CR>", opt)
+map("v", "<leader>ca", ":Lspsaga range_code_action<CR>", opt)
+map("n", "K", ":Lspsaga hover_doc<CR>", opt)
+map("n", "gs", ":Lspsaga signature_help<CR>", opt)
+map("n", "rn", ":Lspsaga rename<CR>", opt)
+map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
+map("n", "<leader>cd", ":Lspsaga show_line_diagnostics<CR>", opt)
+map("n", "<leader>cc", ":Lspsaga show_cursor_diagnostics<CR>", opt)
+map("n", "[e", ":Lspsaga diagnostic_jump_next<CR>", opt)
+map("n", "]e", ":Lspsaga diagnositic_jump_prev<CR>", opt)
+map("n", "<A-d>", ":Lspsaga open_floaterm", opt)
+map("t", "<A-d> <C-\\><C-n>", ":Lspsaga close_floaterm<CR>", opt)
