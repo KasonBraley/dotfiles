@@ -60,6 +60,7 @@ map("n", "<Leader>fb", ":Telescope buffers<CR>", opt)
 map("n", "<Leader>fh", ":Telescope help_tags<CR>", opt)
 map("n", "<Leader>fo", ":Telescope oldfiles<CR>", opt)
 map("n", "<Leader>fw", ":Telescope live_grep<CR>", opt)
+map("n", "<Leader>ft", ":Telescope file_browser<CR>", opt)
 
 -- compe stuff
 local t = function(str)
