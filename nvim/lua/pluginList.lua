@@ -51,7 +51,7 @@ return packer.startup(
       end
     }
 
-    -- use "nvim-treesitter/playground"
+    use "nvim-treesitter/playground"
 
     -- load compe in insert mode only
     use {
@@ -142,6 +142,13 @@ return packer.startup(
       after = "plenary.nvim",
       config = function()
         require "plugins.gitsigns"
+      end
+    }
+
+    use {
+      "sindrets/diffview.nvim",
+      config = function()
+        require "plugins.diffview"
       end
     }
 
