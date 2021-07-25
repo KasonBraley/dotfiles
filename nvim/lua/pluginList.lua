@@ -82,7 +82,6 @@ return packer.startup(
       end
     }
 
-
     -------------------------------- File Tree
     -- file managing , picker etc
     use {
@@ -257,5 +256,11 @@ return packer.startup(
 
     -- Markdown previewer
     use "iamcco/markdown-preview.nvim"
+
+    -- vim game
+    use {
+      "ThePrimeagen/vim-be-good",
+      cmd = "VimBeGood"
+    }
   end
 )
