@@ -24,5 +24,8 @@ end
     matchup = {
       enable = true,
       disable = {}
+    },
+    autotag = {
+      enable = true,
     }
   }
