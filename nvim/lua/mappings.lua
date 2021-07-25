@@ -9,6 +9,12 @@ end
 local opt = {}
 
 -- map navigation between splits using <C-{h,j,k,l}>
+-- map Packer commands since they are not loaded at startup
+vim.cmd("silent! command PackerCompile lua require 'pluginList' require('packer').compile()")
+vim.cmd("silent! command PackerInstall lua require 'pluginList' require('packer').install()")
+vim.cmd("silent! command PackerStatus lua require 'pluginList' require('packer').status()")
+vim.cmd("silent! command PackerSync lua require 'pluginList' require('packer').sync()")
+vim.cmd("silent! command PackerUpdate lua require 'pluginList' require('packer').update()")
 map("n", "<C-k>", ":wincmd k<CR>")
 map("n", "<C-l>", ":wincmd l<CR>")
 map("n", "<C-h>", ":wincmd h<CR>")
@@ -19,6 +25,13 @@ map("n", "+", ":vertical resize +5<CR>", opt)
 map("n", "_", ":vertical resize -5<CR>", opt)
 map("n", "<leader>=", ":resize +5<CR>", opt)
 map("n", "<leader>-", ":resize -5<CR>", opt)
+
+-- Commenter Keybinding
+map("n", "<leader>/", ":CommentToggle<CR>", opt)
+map("v", "<leader>/", ":CommentToggle<CR>", opt)
+
+-- format
+map("n", "<Leader>fm", ":Format<CR>", opt)
 
 -- OPEN TERMINALS --
 map("n", "<C-v>", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- term over right
@@ -61,6 +74,9 @@ map("n", "<Leader>fh", ":Telescope help_tags<CR>", opt)
 map("n", "<Leader>fo", ":Telescope oldfiles<CR>", opt)
 map("n", "<Leader>fw", ":Telescope live_grep<CR>", opt)
 map("n", "<Leader>ft", ":Telescope file_browser<CR>", opt)
+map("n", "<Leader>fd", ":lua require('plugins.others').search_dev()<CR>", opt)
+map("n", "<Leader>fc", ":lua require('plugins.others').search_dotfiles()<CR>", opt)
+map("n", "<leader>pw", ":lua require('telescope.builtin').grep_string {search = vim.fn.expand('<cword>')}<CR>", opt)
 
 -- compe stuff
 local t = function(str)
@@ -117,10 +133,6 @@ map("i", "<CR>", "v:lua.completions()", {expr = true})
 map("n", "<leader>zz", ":TZAtaraxis<CR>", opt)
 map("n", "<leader>zm", ":TZMinimalist<CR>", opt)
 
--- Commenter Keybinding
-map("n", "<leader>/", ":CommentToggle<CR>", opt)
-map("v", "<leader>/", ":CommentToggle<CR>", opt)
-
 -- Markdown
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 
@@ -141,16 +153,6 @@ map("", "<leader>k", ":lprevious<cr>", opt)
 
 -- don't be nothered with the type of little window to close, just get rid of it
 map("", "cl", ":pclose | lclose | cclose<CR>", opt)
-
--- format
-map("n", "<Leader>fm", ":Format<CR>", opt)
-
--- map Packer commands since they are not loaded at startup
-vim.cmd("silent! command PackerCompile lua require 'pluginList' require('packer').compile()")
-vim.cmd("silent! command PackerInstall lua require 'pluginList' require('packer').install()")
-vim.cmd("silent! command PackerStatus lua require 'pluginList' require('packer').status()")
-vim.cmd("silent! command PackerSync lua require 'pluginList' require('packer').sync()")
-vim.cmd("silent! command PackerUpdate lua require 'pluginList' require('packer').update()")
 
 -- lspsaga
 map("n", "gh", ":Lspsaga lsp_finder<CR>", opt)
