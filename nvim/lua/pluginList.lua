@@ -45,13 +45,14 @@ return packer.startup(
     -------------------------------- IDE Like Plugins
     use {
       "nvim-treesitter/nvim-treesitter",
+      branch = "0.5-compat",
       event = "BufRead",
       config = function()
         require "plugins.treesitter"
       end
     }
 
-    use "nvim-treesitter/playground"
+    -- use "nvim-treesitter/playground"
 
     -- load compe in insert mode only
     use {
