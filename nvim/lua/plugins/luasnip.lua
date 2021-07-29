@@ -5,7 +5,7 @@ end
 
 luasnip.config.set_config(
     {
-        history = true,
+        -- history = true,
         updateevents = "TextChanged,TextChangedI"
     }
 )
