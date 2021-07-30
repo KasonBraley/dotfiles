@@ -66,8 +66,11 @@ map("t", "<Esc>", "<C-\\><C-n>", opt)
 
 -- Telescope
 map("n", "<Leader>gt", ":Telescope git_status <CR>", opt)
+map("n", "<Leader>gb", ":Telescope git_branches <CR>", opt)
+map("n", "<Leader>gB", ":Telescope git_bcommits <Cr>", opt)
 map("n", "<Leader>cm", ":Telescope git_commits <CR>", opt)
 map("n", "<Leader>ff", ":Telescope find_files <CR>", opt)
+map("n", "<Leader>fi", ":Telescope current_buffer_fuzzy_find <CR>", opt)
 map("n", "<Leader>fp", ":Telescope media_files <CR>", opt)
 map("n", "<Leader>fb", ":Telescope buffers<CR>", opt)
 map("n", "<Leader>fh", ":Telescope help_tags<CR>", opt)
@@ -77,6 +80,8 @@ map("n", "<Leader>ft", ":Telescope file_browser<CR>", opt)
 map("n", "<Leader>fd", ":lua require('plugins.others').search_dev()<CR>", opt)
 map("n", "<Leader>fc", ":lua require('plugins.others').search_dotfiles()<CR>", opt)
 map("n", "<leader>pw", ":lua require('telescope.builtin').grep_string {search = vim.fn.expand('<cword>')}<CR>", opt)
+map("n", "<leader>fB", ":Telescope builtin <CR>", opt)
+map("n", "<leader>fe", ":Telescope treesitter <CR>", opt)
 
 -- compe stuff
 local t = function(str)
@@ -168,3 +173,6 @@ map("n", "[e", ":Lspsaga diagnostic_jump_next<CR>", opt)
 map("n", "]e", ":Lspsaga diagnositic_jump_prev<CR>", opt)
 map("n", "<A-d>", ":Lspsaga open_floaterm", opt)
 map("t", "<A-d> <C-\\><C-n>", ":Lspsaga close_floaterm<CR>", opt)
+
+
+map("", "Y", "y$", opt)
