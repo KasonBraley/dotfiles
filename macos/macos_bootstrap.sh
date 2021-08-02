@@ -14,8 +14,3 @@ source ../homebrew/install.sh
 # zsh setup
 echo "Calling zsh and oh-my-zsh setu[ scripts..."
 source ../zsh/install.sh
-
-
-# iTerm setup
-echo "Calling iTerm2 setup scripts..."
-source ../iterm/install.sh
