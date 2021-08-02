@@ -34,5 +34,8 @@ end
       max_file_lines = 1000,
       -- colors = {},
       -- termcolors = {}
+    },
+    context_commentstring = {
+      enable = true,
     }
   }

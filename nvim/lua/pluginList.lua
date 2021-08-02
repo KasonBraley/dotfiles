@@ -52,6 +52,11 @@ return packer.startup(
       end
     }
 
+    use {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      after = "nvim-treesitter"
+    }
+
     -- use "nvim-treesitter/playground"
 
     -- load compe in insert mode only
