@@ -20,11 +20,6 @@ map("n", "<C-l>", ":wincmd l<CR>")
 map("n", "<C-h>", ":wincmd h<CR>")
 map("n", "<C-j>", ":wincmd j<CR>")
 
--- horizontal & vertical resize
-map("n", "+", ":vertical resize +5<CR>", opt)
-map("n", "_", ":vertical resize -5<CR>", opt)
-map("n", "<leader>=", ":resize +5<CR>", opt)
-map("n", "<leader>-", ":resize -5<CR>", opt)
 
 -- Commenter Keybinding
 map("n", "<leader>/", ":CommentToggle<CR>", opt)
@@ -174,5 +169,17 @@ map("n", "]e", ":Lspsaga diagnositic_jump_prev<CR>", opt)
 map("n", "<A-d>", ":Lspsaga open_floaterm", opt)
 map("t", "<A-d> <C-\\><C-n>", ":Lspsaga close_floaterm<CR>", opt)
 
-
 map("", "Y", "y$", opt)
+
+-- Arrowkeys
+map("", "<up>", "<nop>", opt)
+map("", "<down>", "<nop>", opt)
+map("", "<left>", "<nop>", opt)
+map("", "<right>", "<nop>", opt)
+
+-- horizontal & vertical resize
+map("n", "<up>", ":resize +2<CR>", opt)
+map("n", "<down>", ":resize -2<CR>", opt)
+map("n", "<left>", ":vertical resize -2<CR>", opt)
+map("n", "<right>", ":vertical resize +2<CR>", opt)
+
