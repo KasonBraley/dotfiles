@@ -15,6 +15,3 @@ git submodule update --init --recursive "${DOTBOT_DIR}"
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
 #xcode-select --install
-#git clone https://github.com/KasonBraley/dotfiles.git ~/dotfiles
-#
-#cd ~/dotfiles
