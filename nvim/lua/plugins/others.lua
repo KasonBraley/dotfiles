@@ -60,7 +60,7 @@ M.search_dotfiles = function()
     {
       prompt_title = "~ dotfiles ~ ",
       shorten_path = false,
-      cwd = "~/dotfiles/",
+      cwd = "~/dotfiles/nvim",
       layout_strategy = "horizontal",
       layout_config = {
         preview_width = 0.65

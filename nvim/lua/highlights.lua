@@ -109,3 +109,7 @@ fg("FloatBorder", grey_fg2)
 
 -- set bg color for nvim (so nvim wont use terminal bg)
 -- bg("Normal", black)
+
+-- fix cursorline
+bg("CursorLine", one_bg)
+
