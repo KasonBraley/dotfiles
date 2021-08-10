@@ -1,7 +1,9 @@
 local my_modules = {
   "options",
+  "utils",
+  "plugins",
   "mappings",
-  "utils"
+  "packerInit",
 }
 
 for i = 1, #my_modules, 1 do
