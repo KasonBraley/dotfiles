@@ -1,41 +1,44 @@
-local present, ts_config = pcall(require, "nvim-treesitter.configs")
-if not present then
-  return
-end
+local ts_config = require "nvim-treesitter.configs"
 
-  ts_config.setup {
-    ensure_installed = {
-      "javascript",
-      "html",
-      "css",
-      "typescript",
-      "tsx",
-      "json",
-      "bash",
-      "lua",
-      "python"
-      -- "rust",
-      -- "go"
+ts_config.setup {
+  ensure_installed = {
+    "javascript",
+    "html",
+    "css",
+    "typescript",
+    "tsx",
+    "json",
+    "bash",
+    "lua",
+    "python",
+  },
+  highlight = {
+    enable = true,
+    -- use_languagetree = true
+  },
+  matchup = {
+    enable = true,
+    disable = {},
+  },
+  autotag = {
+    enable = true,
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = 1000,
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+    config = {
+      javascript = {
+        __default = "// %s",
+        jsx_element = "{/* %s */}",
+        jsx_fragment = "{/* %s */}",
+        jsx_attribute = "// %s",
+        comment = "// %s",
+      },
     },
-    highlight = {
-      enable = true,
-      use_languagetree = true
-    },
-    matchup = {
-      enable = true,
-      disable = {}
-    },
-    autotag = {
-      enable = true,
-    },
-    rainbow = {
-      enable = true,
-      extended_mode = true,
-      max_file_lines = 1000,
-      -- colors = {},
-      -- termcolors = {}
-    },
-    context_commentstring = {
-      enable = true,
-    }
-  }
+  },
+}
