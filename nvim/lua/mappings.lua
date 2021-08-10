@@ -1,5 +1,5 @@
 local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true, silent = true}
+  local options = { noremap = true, silent = true }
   if opts then
     options = vim.tbl_extend("force", options, opts)
   end
@@ -9,21 +9,15 @@ end
 local opt = {}
 
 -- map navigation between splits using <C-{h,j,k,l}>
--- map Packer commands since they are not loaded at startup
-vim.cmd("silent! command PackerCompile lua require 'pluginList' require('packer').compile()")
-vim.cmd("silent! command PackerInstall lua require 'pluginList' require('packer').install()")
-vim.cmd("silent! command PackerStatus lua require 'pluginList' require('packer').status()")
-vim.cmd("silent! command PackerSync lua require 'pluginList' require('packer').sync()")
-vim.cmd("silent! command PackerUpdate lua require 'pluginList' require('packer').update()")
 map("n", "<C-k>", ":wincmd k<CR>")
 map("n", "<C-l>", ":wincmd l<CR>")
 map("n", "<C-h>", ":wincmd h<CR>")
 map("n", "<C-j>", ":wincmd j<CR>")
 
-
 -- Commenter Keybinding
-map("n", "<leader>/", ":CommentToggle<CR>", opt)
-map("v", "<leader>/", ":CommentToggle<CR>", opt)
+vim.api.nvim_set_keymap("n", "<leader>/", "<Plug>kommentary_line_default", {})
+-- vim.api.nvim_set_keymap("n", "<leader>c", "<Plug>kommentary_motion_default", {})
+vim.api.nvim_set_keymap("x", "<leader>/", "<Plug>kommentary_visual_default<C-c>", {})
 
 -- format
 map("n", "<Leader>fm", ":Format<CR>", opt)
@@ -37,10 +31,10 @@ map("n", "<C-t>t", ":<Cmd> terminal <CR>", opt) -- term buffer
 map("n", "<C-a>", ":%y+<CR>", opt)
 
 -- nvimtree (rest are defaults)
-map("n", "<C-n>", ":NvimTreeToggle<CR>", opt)
+map("n", "<Leader>pv", ":NvimTreeToggle<CR>", opt)
 
 -- Bufferline tabs
-map("n", "<c-t>", ":enew<cr>", opt) -- new buffer
+map("n", "<C-t>", ":enew<cr>", opt) -- new buffer
 map("n", "tt", ":tabnew<CR>", opt) -- new tab
 map("n", "<S-x>", ":Bdelete<CR>", opt) -- close tab
 map("n", "<S-x>x", ":Bdelete!<CR>", opt) -- force close tab
@@ -53,17 +47,16 @@ map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", opt)
 map("n", "<Esc>", ":noh<CR>", opt)
 
 -- save
-map("n", "zs", ":w<CR>", opt)
-map("n", "<C-s>", ":w!<CR>", opt)
+map("n", "zs", ":w!<CR>", opt)
 
 -- return normal mode on esc in terminal
 map("t", "<Esc>", "<C-\\><C-n>", opt)
 
 -- Telescope
 map("n", "<Leader>gt", ":Telescope git_status <CR>", opt)
-map("n", "<Leader>gb", ":Telescope git_branches <CR>", opt)
-map("n", "<Leader>gB", ":Telescope git_bcommits <Cr>", opt)
-map("n", "<Leader>cm", ":Telescope git_commits <CR>", opt)
+map("n", "<Leader>gB", ":Telescope git_branches <CR>", opt)
+map("n", "<Leader>gb", ":Telescope git_bcommits <Cr>", opt)
+map("n", "<Leader>gc", ":Telescope git_commits <CR>", opt)
 map("n", "<Leader>ff", ":Telescope find_files <CR>", opt)
 map("n", "<Leader>fi", ":Telescope current_buffer_fuzzy_find <CR>", opt)
 map("n", "<Leader>fp", ":Telescope media_files <CR>", opt)
@@ -76,7 +69,7 @@ map("n", "<Leader>fd", ":lua require('plugins.others').search_dev()<CR>", opt)
 map("n", "<Leader>fc", ":lua require('plugins.others').search_dotfiles()<CR>", opt)
 map("n", "<leader>pw", ":lua require('telescope.builtin').grep_string {search = vim.fn.expand('<cword>')}<CR>", opt)
 map("n", "<leader>fB", ":Telescope builtin <CR>", opt)
-map("n", "<leader>fe", ":Telescope treesitter <CR>", opt)
+map("n", "<leader>fs", ":Telescope treesitter <CR>", opt)
 
 -- compe stuff
 local t = function(str)
@@ -84,8 +77,8 @@ local t = function(str)
 end
 
 local check_back_space = function()
-  local col = vim.fn.col(".") - 1
-  if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
+  local col = vim.fn.col "." - 1
+  if col == 0 or vim.fn.getline("."):sub(col, col):match "%s" then
     return true
   else
     return false
@@ -105,7 +98,7 @@ end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  elseif require "luasnip".jumpable(-1) then
+  elseif require("luasnip").jumpable(-1) then
     return t "<Plug>luasnip-jump-prev"
   else
     return t "<S-Tab>"
@@ -113,21 +106,21 @@ _G.s_tab_complete = function()
 end
 
 function _G.completions()
-  local npairs = require("nvim-autopairs")
+  local npairs = require "nvim-autopairs"
   if vim.fn.pumvisible() == 1 then
     if vim.fn.complete_info()["selected"] ~= -1 then
-      return vim.fn["compe#confirm"]("<CR>")
+      return vim.fn["compe#confirm"] "<CR>"
     end
   end
   return npairs.check_break_line_char()
 end
 
 --  compe mappings
-map("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-map("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-map("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-map("i", "<CR>", "v:lua.completions()", {expr = true})
+map("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
+map("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
+map("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
+map("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
+map("i", "<CR>", "v:lua.completions()", { expr = true })
 
 -- Truezen.nvim
 map("n", "<leader>zz", ":TZAtaraxis<CR>", opt)
@@ -139,8 +132,6 @@ map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 -- Hop
 map("", "<leader>j", ":HopWord<CR>", opt)
 map("", "<leader>l", ":HopLineStart<CR>", opt)
-map("", "<leader>s", ":HopPattern<CR>", opt)
-map("", "<leader>c", ":HopChar1<CR>", opt)
 
 -- Quickfix
 map("", "<C-q>", ":copen<cr>", opt)
@@ -169,6 +160,20 @@ map("n", "]e", ":Lspsaga diagnositic_jump_prev<CR>", opt)
 map("n", "<A-d>", ":Lspsaga open_floaterm", opt)
 map("t", "<A-d> <C-\\><C-n>", ":Lspsaga close_floaterm<CR>", opt)
 
+-- DAP
+map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
+map("n", "<leader>do", ":lua require'dap'.step_over()<CR>", opt)
+map("n", "<leader>di", ":lua require'dap'.step_into()<CR>", opt)
+map("n", "<leader>dx", ":lua require'dap'.step_out()<CR>", opt)
+map("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opt)
+map("n", "<leader>dB", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opt)
+map("n", "<leader>dp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opt)
+map("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", opt)
+map("n", "<leader>dl", ":lua require'dap'.run_last()<CR>", opt)
+map("n", "<leader>du", ":lua require'dapui'.toggle()<CR>")
+map("n", "<leader>de", ":lua require'dapui'.eval()<CR>")
+map("v", "<leader>de", ":lua require'dapui'.eval()<CR>")
+
 map("", "Y", "y$", opt)
 
 -- Arrowkeys
@@ -177,9 +182,8 @@ map("", "<down>", "<nop>", opt)
 map("", "<left>", "<nop>", opt)
 map("", "<right>", "<nop>", opt)
 
--- horizontal & vertical resize
+-- horizontal & vertical resize using arrow keys
 map("n", "<up>", ":resize +2<CR>", opt)
 map("n", "<down>", ":resize -2<CR>", opt)
 map("n", "<left>", ":vertical resize -2<CR>", opt)
 map("n", "<right>", ":vertical resize +2<CR>", opt)
-
