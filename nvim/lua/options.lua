@@ -16,10 +16,10 @@ opt.timeoutlen = 400
 opt.clipboard = "unnamedplus"
 
 -- disable nvim intro
-opt.shortmess:append("sI")
+opt.shortmess:append "sI"
 
 -- disable tilde on end of buffer: https://github.com/neovim/neovim/pull/8546#issuecomment-643643758
-vim.cmd("let &fcs='eob: '")
+vim.cmd "let &fcs='eob: '"
 
 -- Numbers
 opt.number = true
@@ -33,10 +33,18 @@ opt.smartindent = true
 
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
-opt.whichwrap:append("<>hl")
+opt.whichwrap:append "<>hl"
 
 g.mapleader = " "
-g.auto_save = false
+
+g.kommentary_create_default_mappings = false
+g.dap_virtual_text = true
+
+-- Lua
+vim.cmd [[colorscheme tokyonight]]
+
+-- opt.foldmethod = "expr"
+-- opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- disable builtin vim plugins
 local disabled_built_ins = {
@@ -57,12 +65,9 @@ local disabled_built_ins = {
   "logipat",
   "rrhelper",
   "spellfile_plugin",
-  "matchit"
+  "matchit",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
   vim.g["loaded_" .. plugin] = 1
 end
-
--- file extension specific tabbing
--- vim.cmd([[autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
