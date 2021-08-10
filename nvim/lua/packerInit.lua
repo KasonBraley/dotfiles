@@ -1,41 +1,12 @@
-vim.cmd("packadd packer.nvim")
+local execute = vim.api.nvim_command
 
-local present, packer = pcall(require, "packer")
+local fn = vim.fn
 
-if not present then
-    local packer_path = vim.fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
-
-    print("Cloning packer..")
-    -- remove the dir before cloning
-    vim.fn.delete(packer_path, "rf")
-    vim.fn.system(
-        {
-            "git",
-            "clone",
-            "https://github.com/wbthomason/packer.nvim",
-            "--depth",
-            "20",
-            packer_path
-        }
-    )
-
-    vim.cmd("packadd packer.nvim")
-    present, packer = pcall(require, "packer")
-
-    if present then
-        print("Packer cloned successfully.")
-    else
-        error("Couldn't clone packer !\nPacker path: " .. packer_path)
-    end
+-- Ensure Packer is installed
+local packer_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+if fn.empty(fn.glob(packer_path)) > 0 then
+  execute("!git clone https://github.com/wbthomason/packer.nvim " .. packer_path)
+  execute "packadd packer.nvim"
 end
 
-return packer.init {
-    display = {
-        open_fn = function()
-            return require("packer.util").float {border = "single"}
-        end
-    },
-    git = {
-        clone_timeout = 600 -- Timeout, in seconds, for git clones
-    }
-}
+vim.cmd "packadd packer.nvim"
