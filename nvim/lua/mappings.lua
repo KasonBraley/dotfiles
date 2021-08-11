@@ -31,23 +31,25 @@ map("n", "<C-t>t", ":<Cmd> terminal <CR>", opt) -- term buffer
 map("n", "<C-a>", ":%y+<CR>", opt)
 
 -- nvimtree (rest are defaults)
+-- pv for "project view"
 map("n", "<Leader>pv", ":NvimTreeToggle<CR>", opt)
 
 -- Bufferline tabs
-map("n", "<C-t>", ":enew<cr>", opt) -- new buffer
-map("n", "tt", ":tabnew<CR>", opt) -- new tab
+map("n", "<C-t>", ":enew<CR>", opt) -- new buffer
 map("n", "<S-x>", ":Bdelete<CR>", opt) -- close tab
 map("n", "<S-x>x", ":Bdelete!<CR>", opt) -- force close tab
-
--- move between tabs
-map("n", "<Tab>", ":BufferLineCycleNext<CR>", opt)
-map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", opt)
+map("n", "<Tab>", ":TablineBufferNext<CR>", opt)
+map("n", "<S-Tab>", ":TablineBufferPrevious<CR>", opt)
+map("n", "<Leader>tt", ":TablineTabNew ", opt) -- new tab
+map("n", "<Leader>ta", ":TablineToggleShowAllBuffers<CR>", opt)
+map("n", "<Leader>tb", ":TablineBuffersBind ", opt)
+map("n", "<Leader>tc", ":TablineBuffersClearBind<CR>", opt)
+map("n", "<Leader>tr", ":TablineTabRename ", opt)
+map("n", "<Leader>tn", ":tabnext<CR>", opt)
+map("n", "<Leader>tp", ":tabprevious<CR>", opt)
 
 -- remove highlighted selection
 map("n", "<Esc>", ":noh<CR>", opt)
-
--- save
-map("n", "zs", ":w!<CR>", opt)
 
 -- return normal mode on esc in terminal
 map("t", "<Esc>", "<C-\\><C-n>", opt)
@@ -147,18 +149,23 @@ map("", "cl", ":pclose | lclose | cclose<CR>", opt)
 
 -- lspsaga
 map("n", "gh", ":Lspsaga lsp_finder<CR>", opt)
+map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
+map("n", "K", ":Lspsaga hover_doc<CR>", opt)
+map("n", "<C-s>", ":Lspsaga signature_help<CR>", opt)
+map("i", "<C-s>", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", opt)
+map("n", "<Leader>rn", ":Lspsaga rename<CR>", opt)
 map("n", "<leader>ca", ":Lspsaga code_action<CR>", opt)
 map("v", "<leader>ca", ":Lspsaga range_code_action<CR>", opt)
-map("n", "K", ":Lspsaga hover_doc<CR>", opt)
-map("n", "gs", ":Lspsaga signature_help<CR>", opt)
-map("n", "rn", ":Lspsaga rename<CR>", opt)
-map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
-map("n", "<leader>cd", ":Lspsaga show_line_diagnostics<CR>", opt)
+map("n", "<leader>cl", ":Lspsaga show_line_diagnostics<CR>", opt)
 map("n", "<leader>cc", ":Lspsaga show_cursor_diagnostics<CR>", opt)
 map("n", "[e", ":Lspsaga diagnostic_jump_next<CR>", opt)
 map("n", "]e", ":Lspsaga diagnositic_jump_prev<CR>", opt)
 map("n", "<A-d>", ":Lspsaga open_floaterm", opt)
 map("t", "<A-d> <C-\\><C-n>", ":Lspsaga close_floaterm<CR>", opt)
+-- scroll down hover doc or scroll in definition preview
+map("n", "<C-f>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opt)
+-- scroll up hover doc
+map("n", "<C-b>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", opt)
 
 -- DAP
 map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
@@ -187,3 +194,7 @@ map("n", "<up>", ":resize +2<CR>", opt)
 map("n", "<down>", ":resize -2<CR>", opt)
 map("n", "<left>", ":vertical resize -2<CR>", opt)
 map("n", "<right>", ":vertical resize +2<CR>", opt)
+
+-- Packer
+map("n", "<Leader>ps", ":PackerSync<CR>", opt)
+map("n", "<Leader>pc", ":PackerCompile<CR>", opt)
