@@ -96,6 +96,7 @@ packer.startup(function()
   use {
     "mfussenegger/nvim-dap",
   }
+
   use {
     "rcarriga/nvim-dap-ui",
     requires = { "mfussenegger/nvim-dap" },
@@ -103,7 +104,9 @@ packer.startup(function()
       require("dapui").setup()
     end,
   }
+
   use { "theHamsta/nvim-dap-virtual-text", requires = { "mfussenegger/nvim-dap" } }
+
   use {
     "Pocco81/DAPInstall.nvim",
     config = function()
@@ -121,9 +124,10 @@ packer.startup(function()
 
   -- tabline
   use {
-    "akinsho/nvim-bufferline.lua",
+    "kdheepak/tabline.nvim",
+    requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
     config = function()
-      require "plugins.bufferline"
+      require "plugins.tabline"
     end,
   }
 
