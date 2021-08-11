@@ -1,7 +1,7 @@
 local lspconfig = require "lspconfig"
 local lspinstall = require "lspinstall"
 
-local function on_attach(client, bufnr)
+local function on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 end
 
@@ -53,15 +53,3 @@ lspinstall.post_install_hook = function()
   setup_servers() -- reload installed servers
   vim.cmd "bufdo e"
 end
-
--- suppress error messages from lang servers
--- vim.notify = function(msg, log_level, _opts)
---   if msg:match("exit code") then
---     return
---   end
---   if log_level == vim.log.levels.ERROR then
---     vim.api.nvim_err_writeln(msg)
---   else
---     vim.api.nvim_echo({{msg}}, true, {})
---   end
--- end
