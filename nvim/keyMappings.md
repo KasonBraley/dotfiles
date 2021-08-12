@@ -6,9 +6,24 @@
 ## Commenting
 `<leader>` `/` comment line
 
-## Tabs
-- `<tab>` next tab
-- `<shift-tab>` previous tab
+## Buffers / Tabs / Windows
+- `<tab>` next buffer
+- `<shift-tab>` previous buffer
+- `<shift x>` close buffer
+- `<shift x>` `x` force close buffer
+- `<leader>` `tt` new tab
+- `<leader>` `ta` toggle show all buffers from all tabs
+- `<leader>` `tb` bind buffers to tab
+- `<leader>` `tc` clear bound buffers to tab
+- `<leader>` `tr` rename tab
+- `<leader>` `tn` next tab 
+- `<leader>` `tp` previous tab
+
+#### Resize (Normal Mode)
+- `<up>` resize vertical +2
+- `<down>` resize vertical -2
+- `<left>` resize horizontal +2
+- `<right>` resize horizontal -2
 
 ## Navigation between splits
 - `<C-k>` up
@@ -16,38 +31,79 @@
 - `<C-h>` left
 - `<C-j>` down
 
+
+## LSP
+- `gh` lsp finder
+- `gd` preview definition
+- `K` hover info
+- `<C-s>` displays signature information
+- `<Leader>` `rn` rename
+- `<Leader>` `ca` code action
+- `<Leader>` `cl` show line diagnostics
+- `<Leader>` `cc` show cursor diagnostics
+- `[d` move to next diagnostic
+- `]d` move to previous diagnostic
+
+## Telescope
+- `<leader>` `ff` find files in current Directory
+- `<leader>` `fi` current buffer fuzzy find
+- `<leader>` `fp` media files
+- `<leader>` `fb` open buffers
+- `<leader>` `fh` help tags
+- `<leader>` `fo` open recently edited files
+- `<leader>` `fw` live grep
+- `<leader>` `ft` telescope file browser
+- `<leader>` `fd` custom search `dev` folder
+- `<leader>` `fc` custome search `dotfiles` folder
+- `<leader>` `fB` builtins
+- `<leader>` `fs` treesitter symbols
+- `<leader>` `pw` grep the hovered word in the cwd
+- `<leader>` `gt` git status
+- `<leader>` `gb` git current buffer commits
+- `<leader>` `gB` git branches
+- `<leader>` `gc` git commits
+- `<C-v>` open files in vertical split
+- `<C-x>` open files in horizontal split
+
+## DAP
+- `<leader>` `dc` start/continue
+- `<leader>` `do` step over
+- `<leader>` `di` step into
+- `<leader>` `dx` step out
+- `<leader>` `db` toggle breakpoint
+- `<leader>` `dB` toggle breakpoint with condition
+- `<leader>` `dp` toggle breakpoint with log message
+- `<leader>` `dr` open repl
+- `<leader>` `dl` run last
+- `<leader>` `du` toggle dapui
+- `<leader>` `de` dapui evaluate expression
+
+## Packer
+- `<leader>` `ps` Packer Sync
+- `<leader>` `pc` Packer Compile
+
+## Formatter
+- `<leader>` `fm` Format entire file
+
+## Neoscroll (smooth scrolling for window movement commands)
+- `<C-u>`
+- `<C-d>`
+
+## Terminal
+- `<C-v>` new terminal on right
+- `<C-x>` new terminal on bottom
+- `<C-t>` `t` new terminal in a new buffer
+
 ## Hop
 - `<leader>` `j` Hop word
 - `<leader>` `l` Hop line
-- `<leader>` `s` Hop pattern
-- `<leader>` `c` Hop char1
 
+## Extras
+- `<Esc>` remove highlighted selection
+- `<leader>` `p` toggle Markdown preview
 
-## LSP
-- `gD` jump to declaration of the symbol under cursor
-- `gd` jump to definition
-- `K` displays hover information. Call it twice to jump into the floating window
-- `gi` lists all the implementations in the quickfix window 
-- `<C-k>` displays signature information
-- `<space wa>` add the folder at path to the workspace folders
-- `<space wr>` remove the folder at path from the workspace folders
-- `<space wl>` list workspace folders
-- `<space D>` jumps to the definition of the type of the symbol
-- `<space rn>` rename
-- `gr` selects a code action from the input this
-- `<space e>` open the diagnostics for the specified lines
-- `[d` move to previous diagnostic
-- `]d` move to next diagnostic
-- `<space q>` set the location list
-- `<space>` `f` formats the current buffer
-
-## Telescope
-- `<leader>` `fb` open all buffers
-- `<leader>` `ff` find files in current Directory
-- `<leader>` `fo` open recently edited files
-- `<leader>` `fh` open up a help page
-- `<C-v>` open files in vertical split
-- `<C-x>` open files in horizontal split
+## Toggles
+- `<leader>` `zf` toggle Focus mode (truezen)
 
 ## Surround
 ##### Normal Mode - Sandwhich Mode
@@ -69,45 +125,8 @@
 - `stb` cycle surrounding bracket type
 - `<char> == f` for adding, replacing, deleting functions
 
-
-## Formatter
-- `<leader>` `fm` Format entire file
-
-## Neoscroll (smooth scrolling for window movement commands)
-- `<C-u>`
-- `<C-d>`
-- `<C-b>`
-- `<C-f>`
-- `<C-y>`
-- `<C-e>`
-
-## Terminal
-- `<C-v>` new terminal on right
-- `<C-x>` new terminal on bottom
-<!-- - `<C-t>` `t` new terminal in a new tab -->
-
-## Buffers / Windows / tabs / Panes
-## Resize (Normal Mode)
-- `+` resize vertical +5
-- `_` resize vertical -5
-- `<leader>` `=` resize horizontal +5
-- `<leader>` `-` resize horizontal +5
-
-## Git
-- `<leader>` `lg` toggle LazyGit plugin
-
-## Extras
-- `<leader>` `<Esc>` remove highlighted selection
-- `<leader>` `p` toggle Markdown preview
-- ``
-
-## Toggles
-- `<leader>` `n` toggle line numbers
-- `<leader>` `z` toggle Zen mode (truezen)
-- `<leader>` `m` toggle Minimalist mode (truezen)
-
-## File Tree (nvim-tree)
-- `<C-n>` toggle Tree
+## File Tree (nvim-tree defaults)
+- `<Leader>` `pv` toggle Tree
 - `g?` toggle Mappings (help)
 - `H` toggle hidden files
 - `I` Show ignored files
