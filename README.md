@@ -1,10 +1,24 @@
-The primary purpose of this repo is to make setting my development environment on Mac as quick and painless as possible. Most of the configuration and changes in this repo are centered around my `neovim` configuration.
+# Software Developer focused dotfiles
 
-#### Terminal
-Kitty
+The core component of this environment is the [neovim](https://neovim.io/) text editor and various open source plugins.
 
-#### Text Editor
-neovim
+The primary purpose of this repository is to make setting up my development environment on MacOS as quick and painless as possible.
 
-#### Shell
-zsh
+<hr>
+
+### Text Editor
+[neovim](./nvim/)
+
+### Terminal
+[Kitty](https://sw.kovidgoyal.net/kitty/)
+
+### Shell
+[zsh](https://ohmyz.sh/)
+
+### Theme
+[TokyoNight](https://github.com/folke/tokyonight.nvim)
+
+<hr>
+
+####
+![rice](../assets/rice_basic.png)<hr>
