@@ -11,9 +11,11 @@ opt.cul = true
 opt.mouse = "a"
 opt.signcolumn = "yes"
 opt.cmdheight = 1
-opt.updatetime = 250 -- update interval for gitsigns
+opt.updatetime = 50 -- update interval for gitsigns
 opt.timeoutlen = 400
 opt.clipboard = "unnamedplus"
+opt.swapfile = false
+opt.backup = false
 
 -- disable nvim intro
 opt.shortmess:append "sI"
@@ -37,10 +39,10 @@ opt.whichwrap:append "<>hl"
 
 g.mapleader = " "
 
-g.kommentary_create_default_mappings = false
 g.dap_virtual_text = true
+g.tabline_show_filename_only = true
 
--- Lua
+-- tokyonight theme
 vim.cmd [[colorscheme tokyonight]]
 
 -- opt.foldmethod = "expr"

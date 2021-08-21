@@ -9,7 +9,13 @@ M.lspkind = function()
 end
 
 M.neoscroll = function()
-  require("neoscroll").setup()
+  require("neoscroll").setup {
+    mappings = { "<C-u>", "<C-d>" },
+  }
+  local t = {}
+  t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "250" } }
+  t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "250" } }
+  require("neoscroll.config").set_mappings(t)
 end
 
 M.blankline = function()
@@ -31,7 +37,17 @@ M.search_dev = function()
     cwd = "~/dev/",
     layout_strategy = "horizontal",
     layout_config = {
-      preview_width = 0.65,
+      horizontal = {
+        prompt_position = "top",
+        preview_width = 0.55,
+        results_width = 0.8,
+      },
+      vertical = {
+        mirror = false,
+      },
+      width = 0.87,
+      height = 0.80,
+      preview_cutoff = 120,
     },
   }
 end
@@ -43,9 +59,46 @@ M.search_dotfiles = function()
     cwd = "~/dotfiles/nvim",
     layout_strategy = "horizontal",
     layout_config = {
-      preview_width = 0.65,
+      horizontal = {
+        prompt_position = "top",
+        preview_width = 0.55,
+        results_width = 0.8,
+      },
+      vertical = {
+        mirror = false,
+      },
+      width = 0.87,
+      height = 0.80,
+      preview_cutoff = 120,
     },
   }
+end
+
+local function refactor(prompt_bufnr)
+  local content = require("telescope.actions.state").get_selected_entry(prompt_bufnr)
+  require("telescope.actions").close(prompt_bufnr)
+  require("refactoring").refactor(content.value)
+end
+-- NOTE: M is a global object
+-- for the sake of simplicity in this example
+-- you can extract this function and the helper above
+-- and then require the file and call the extracted function
+-- in the mappings below
+
+M.refactors = function()
+  local opts = require("telescope.themes").get_cursor() -- set personal telescope options
+  require("telescope.pickers").new(opts, {
+    prompt_title = "refactors",
+    finder = require("telescope.finders").new_table {
+      results = require("refactoring").get_refactors(),
+    },
+    sorter = require("telescope.config").values.generic_sorter(opts),
+    attach_mappings = function(_, map)
+      map("i", "<CR>", refactor)
+      map("n", "<CR>", refactor)
+      return true
+    end,
+  }):find()
 end
 
 return M

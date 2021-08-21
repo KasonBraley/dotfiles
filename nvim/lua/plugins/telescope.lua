@@ -22,17 +22,27 @@ telescope.setup {
       horizontal = {
         prompt_position = "top",
         preview_width = 0.55,
-        results_width = 0.8,
+        results_width = 0.5,
       },
       vertical = {
         mirror = false,
       },
       width = 0.87,
-      height = 0.80,
-      preview_cutoff = 120,
+      height = 0.50,
+      preview_cutoff = 180,
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
-    file_ignore_patterns = {},
+    file_ignore_patterns = {
+      ".git/objects/*",
+      ".git/refs/*",
+      ".git/hooks/*",
+      ".git/info/*",
+      ".git/logs/*",
+      ".git/worktrees/*",
+      "*.png",
+      "*.jpg",
+      "node_modules/*",
+    },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
     path_display = {},
     winblend = 0,
@@ -61,3 +71,4 @@ telescope.setup {
 
 telescope.load_extension "fzy_native"
 telescope.load_extension "media_files"
+telescope.load_extension "git_worktree"

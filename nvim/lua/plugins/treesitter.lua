@@ -14,7 +14,12 @@ ts_config.setup {
   },
   highlight = {
     enable = true,
-    -- use_languagetree = true
+    use_languagetree = true,
+  },
+  query_linter = {
+    enable = true,
+    use_virtual_text = true,
+    lint_events = { "BufWrite", "CursorHold" },
   },
   matchup = {
     enable = true,
@@ -31,14 +36,34 @@ ts_config.setup {
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
-    config = {
-      javascript = {
-        __default = "// %s",
-        jsx_element = "{/* %s */}",
-        jsx_fragment = "{/* %s */}",
-        jsx_attribute = "// %s",
-        comment = "// %s",
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        -- ["ac"] = "@class.outer",
+        -- ["ic"] = "@class.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner",
+        ["ac"] = "@conditional.outer",
+        ["ic"] = "@conditional.inner",
       },
     },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>s"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader>S"] = "@parameter.inner",
+      },
+    },
+  },
+  refactor = {
+    highlight_definitions = { enable = true },
+    highlight_current_scope = { enable = true },
   },
 }

@@ -13,6 +13,16 @@ format.setup {
         }
       end,
     },
+    javascriptreact = {
+      -- prettierd
+      function()
+        return {
+          exe = "prettierd",
+          args = { vim.api.nvim_buf_get_name(0) },
+          stdin = true,
+        }
+      end,
+    },
     html = {
       -- html-beutify for better html indentation
       function()
@@ -61,7 +71,7 @@ vim.api.nvim_exec(
   [[
 augroup FormatAutogroup
   autocmd!
-  autocmd BufWritePost *.js,*.html,*css,*json,*lua FormatWrite
+  autocmd BufWritePost *.js,*.jsx,*.html,*css,*json,*lua FormatWrite
 augroup END
 ]],
   true

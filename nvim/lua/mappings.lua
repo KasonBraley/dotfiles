@@ -9,14 +9,13 @@ end
 local opt = {}
 
 -- map navigation between splits using <C-{h,j,k,l}>
-map("n", "<C-k>", ":wincmd k<CR>")
-map("n", "<C-l>", ":wincmd l<CR>")
-map("n", "<C-h>", ":wincmd h<CR>")
-map("n", "<C-j>", ":wincmd j<CR>")
+-- map("n", "<C-k>", ":wincmd k<CR>")
+-- map("n", "<C-l>", ":wincmd l<CR>")
+-- map("n", "<C-h>", ":wincmd h<CR>")
+-- map("n", "<C-j>", ":wincmd j<CR>")
 
 -- Commenter Keybinding
-vim.api.nvim_set_keymap("n", "<leader>/", "<Plug>kommentary_line_default", {})
-vim.api.nvim_set_keymap("x", "<leader>/", "<Plug>kommentary_visual_default<C-c>", {})
+vim.api.nvim_set_keymap("", "<leader>/", ":CommentToggle<CR>", opt)
 
 -- format
 map("n", "<Leader>fm", ":Format<CR>", opt)
@@ -27,18 +26,18 @@ map("n", "<C-x>", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term 
 map("n", "<C-t>t", ":<Cmd> terminal <CR>", opt) -- term buffer
 
 -- copy whole file content
-map("n", "<C-a>", ":%y+<CR>", opt)
+-- map("n", "<C-a>", ":%y+<CR>", opt)
 
 -- Nvimtree (rest are defaults)
 -- pv for "project view"
-map("n", "<Leader>pv", ":NvimTreeToggle<CR>", opt)
+map("n", "<C-a>", ":NvimTreeToggle<CR>", opt)
 
 -- Bufferline tabs
 map("n", "<C-t>", ":enew<CR>", opt) -- new buffer
 map("n", "<S-x>", ":Bdelete<CR>", opt) -- close tab
 map("n", "<S-x>x", ":Bdelete!<CR>", opt) -- force close tab
-map("n", "<Tab>", ":TablineBufferNext<CR>", opt)
-map("n", "<S-Tab>", ":TablineBufferPrevious<CR>", opt)
+map("n", "<Tab>", ":TablineBufferNext<CR>", opt) -- next buffer
+map("n", "<S-Tab>", ":TablineBufferPrevious<CR>", opt) -- previous buffer
 map("n", "<Leader>tt", ":TablineTabNew ", opt) -- new tab
 map("n", "<Leader>ta", ":TablineToggleShowAllBuffers<CR>", opt)
 map("n", "<Leader>tb", ":TablineBuffersBind ", opt)
@@ -55,6 +54,7 @@ map("t", "<Esc>", "<C-\\><C-n>", opt)
 
 -- Telescope
 map("n", "<Leader>ff", ":Telescope find_files <CR>", opt)
+map("n", "<C-h>", ":Telescope git_files<CR>", opt)
 map("n", "<Leader>fi", ":Telescope current_buffer_fuzzy_find <CR>", opt)
 map("n", "<Leader>fp", ":Telescope media_files <CR>", opt)
 map("n", "<Leader>fb", ":Telescope buffers<CR>", opt)
@@ -65,12 +65,17 @@ map("n", "<Leader>ft", ":Telescope file_browser<CR>", opt)
 map("n", "<Leader>fd", ":lua require('plugins.others').search_dev()<CR>", opt)
 map("n", "<Leader>fc", ":lua require('plugins.others').search_dotfiles()<CR>", opt)
 map("n", "<leader>pw", ":lua require('telescope.builtin').grep_string {search = vim.fn.expand('<cword>')}<CR>", opt)
-map("n", "<leader>fB", ":Telescope builtin <CR>", opt)
-map("n", "<leader>fs", ":Telescope treesitter <CR>", opt)
-map("n", "<Leader>gt", ":Telescope git_status <CR>", opt)
-map("n", "<Leader>gb", ":Telescope git_bcommits <Cr>", opt)
-map("n", "<Leader>gB", ":Telescope git_branches <CR>", opt)
-map("n", "<Leader>gc", ":Telescope git_commits <CR>", opt)
+map("n", "<leader>ps", ":lua require('telescope.builtin').grep_string {search = vim.fn.input('Grep For > ')}<CR>", opt)
+map("n", "<leader>fB", ":Telescope builtin<CR>", opt)
+map("n", "<leader>fs", ":Telescope treesitter<CR>", opt)
+
+-- Git
+map("n", "<Leader>gt", ":Telescope git_status<CR>", opt)
+map("n", "<Leader>gb", ":Telescope git_bcommits<Cr>", opt)
+map("n", "<Leader>gB", ":Telescope git_branches<CR>", opt)
+map("n", "<Leader>gc", ":Telescope git_commits<CR>", opt)
+map("n", "<leader>wg", ":Telescope git_worktree git_worktrees<CR>", opt)
+map("n", "<leader>wc", ":Telescope git_worktree create_git_worktree<CR>", opt)
 
 -- compe stuff
 local t = function(str)
@@ -134,13 +139,13 @@ map("", "<leader>j", ":HopWord<CR>", opt)
 map("", "<leader>l", ":HopLineStart<CR>", opt)
 
 -- Quickfix
-map("", "<C-q>", ":copen<cr>", opt)
-map("", "<C-j>", ":cnext<cr>", opt)
-map("", "<C-k>", ":cprevious<cr>", opt)
+-- map("", "<C-q>", ":copen<cr>", opt)
+-- map("", "<C-j>", ":cnext<cr>", opt)
+-- map("", "<C-k>", ":cprevious<cr>", opt)
 
-map("", "<leader>q", ":lopen<cr>", opt)
-map("", "<leader>n", ":lnext<cr>", opt)
-map("", "<leader>k", ":lprevious<cr>", opt)
+-- map("", "<leader>q", ":lopen<cr>", opt)
+-- map("", "<leader>n", ":lnext<cr>", opt)
+-- map("", "<leader>k", ":lprevious<cr>", opt)
 
 -- don't be nothered with the type of little window to close, just get rid of it
 map("", "cl", ":pclose | lclose | cclose<CR>", opt)
@@ -158,12 +163,10 @@ map("n", "<leader>cl", ":Lspsaga show_line_diagnostics<CR>", opt)
 map("n", "<leader>cc", ":Lspsaga show_cursor_diagnostics<CR>", opt)
 map("n", "[d", ":Lspsaga diagnostic_jump_next<CR>", opt)
 map("n", "]d", ":Lspsaga diagnositic_jump_prev<CR>", opt)
-map("n", "<A-d>", ":Lspsaga open_floaterm", opt)
-map("t", "<A-d> <C-\\><C-n>", ":Lspsaga close_floaterm<CR>", opt)
 -- scroll down hover doc or scroll in definition preview
-map("n", "<C-f>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opt)
+-- map("n", "<C-f>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opt)
 -- scroll up hover doc
-map("n", "<C-b>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", opt)
+-- map("n", "<C-b>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", opt)
 
 -- DAP
 map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
@@ -193,6 +196,28 @@ map("n", "<down>", ":resize -2<CR>", opt)
 map("n", "<left>", ":vertical resize -2<CR>", opt)
 map("n", "<right>", ":vertical resize +2<CR>", opt)
 
--- Packer
-map("n", "<Leader>ps", ":PackerSync<CR>", opt)
-map("n", "<Leader>pc", ":PackerCompile<CR>", opt)
+-- Harpoon
+map("n", "<C-f>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opt)
+map("n", "<Leader>a", ":lua require('harpoon.mark').add_file()<CR>")
+map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(1)<CR>")
+map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(2)<CR>")
+map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(3)<CR>")
+map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(4)<CR>")
+map("n", "<Leader>kf", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
+map("n", "<Leader>kd", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
+map(
+  "n",
+  "<Leader>uf",
+  ":lua require('harpoon.term').sendCommand(1,'ls -a'); require('harpoon.term').gotoTerminal(1)<CR>"
+)
+-- map("n", "<Leader>ue", ":lua require('harpoon.term').sendCommand(1,)<CR>")
+
+-- Refactoring
+map("v", "<Leader>re", ":lua require('refactoring').refactor('Extract Function')<CR>", opt)
+map("v", "<Leader>rf", ":lua require('refactoring').refactor('Extract Function To File')<CR>", opt)
+map("n", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
+map("v", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
+
+-- misc
+
+map("n", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>", opt)

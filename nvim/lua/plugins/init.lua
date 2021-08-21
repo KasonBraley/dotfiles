@@ -50,7 +50,19 @@ packer.startup(function()
     "JoosepAlviste/nvim-ts-context-commentstring",
   }
 
-  use "nvim-treesitter/playground"
+  use {
+    "romgrk/nvim-treesitter-context",
+  }
+
+  use {
+    "nvim-treesitter/nvim-treesitter-refactor",
+  }
+
+  use {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "0.5-compat",
+  }
+  use { "nvim-treesitter/playground" }
 
   use {
     "hrsh7th/nvim-compe",
@@ -70,8 +82,15 @@ packer.startup(function()
     },
   }
 
+  -- use {
+  --   "mfussenegger/nvim-lint",
+  --   config = function()
+  --     require "plugins.lint"
+  --   end,
+  -- }
+
   use {
-    "mfussenegger/nvim-lint",
+    "jose-elias-alvarez/null-ls.nvim",
     config = function()
       require "plugins.lint"
     end,
@@ -123,13 +142,13 @@ packer.startup(function()
   }
 
   -- tabline
-  use {
-    "kdheepak/tabline.nvim",
-    requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
-    config = function()
-      require "plugins.tabline"
-    end,
-  }
+  -- use {
+  --   "kdheepak/tabline.nvim",
+  --   requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
+  --   config = function()
+  --     require "plugins.tabline"
+  --   end,
+  -- }
 
   -- statusline
   use {
@@ -173,6 +192,13 @@ packer.startup(function()
     end,
   }
 
+  use {
+    "ThePrimeagen/git-worktree.nvim",
+    config = function()
+      require("git-worktree").setup()
+    end,
+  }
+
   -------------------------------- Fuzzy Finder
   use {
     "nvim-telescope/telescope.nvim",
@@ -188,6 +214,15 @@ packer.startup(function()
 
   -------------------------------- Utils
   use "famiu/bufdelete.nvim"
+
+  use "ThePrimeagen/harpoon"
+
+  use {
+    "ThePrimeagen/refactoring.nvim",
+    config = function()
+      require("refactoring").setup()
+    end,
+  }
 
   use {
     "windwp/nvim-autopairs",
@@ -210,7 +245,8 @@ packer.startup(function()
   use { "andymass/vim-matchup" }
 
   use {
-    "b3nj5m1n/kommentary",
+    -- "b3nj5m1n/kommentary",
+    "terrortylor/nvim-comment",
     config = function()
       require "plugins.comment"
     end,

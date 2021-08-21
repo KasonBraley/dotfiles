@@ -18,5 +18,9 @@ compe.setup {
     luasnip = { kind = "﬌", true },
     nvim_lsp = true,
     nvim_lua = true,
+    path = true,
+    tags = true,
+    spell = true,
+    treesitter = true,
   },
 }
