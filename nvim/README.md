@@ -1,3 +1,16 @@
+# Showcase
+
+![basic](../../assets/rice_basic.png)<hr>
+### File Tree
+![basictree](../../assets/rice_basic_tree.png)<hr>
+### Terminal
+![basictreeterminal](../../assets/rice_basic_tree_terminal.png)<hr>
+### Fuzzy Finder
+![telescope](../../assets/rice_telescope.png)<hr>
+### Intellisense
+![lsp](../../assets/rice_lsp_definition.png)<hr>
+<!-- ![completion](../../assets/rice_lsp_completion.mp4?raw=true)<hr> -->
+
 
 ### Neovim Plugins I Use
 
