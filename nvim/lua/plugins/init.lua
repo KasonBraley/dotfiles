@@ -266,16 +266,6 @@ packer.startup(function()
     end,
   }
 
-  -- fast Motion plugin
-  use {
-    "phaazon/hop.nvim",
-    as = "hop",
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
-    end,
-  }
-
   use {
     "blackCauldron7/surround.nvim",
     config = function()

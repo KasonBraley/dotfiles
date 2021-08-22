@@ -134,10 +134,6 @@ map("n", "<leader>zf", ":TZFocus<CR>", opt)
 -- Markdown
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 
--- Hop
-map("", "<leader>j", ":HopWord<CR>", opt)
-map("", "<leader>l", ":HopLineStart<CR>", opt)
-
 -- Quickfix
 -- map("", "<C-q>", ":copen<cr>", opt)
 -- map("", "<C-j>", ":cnext<cr>", opt)
