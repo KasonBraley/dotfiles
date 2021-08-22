@@ -13,5 +13,6 @@
     ~/.config/yabai: yabai
     ~/.config/nvim: nvim
     ~/.config/kitty: kitty
+    ~/.config/git: git
 - shell:
     - [git submodule update --init --recursive, Installing submodules]

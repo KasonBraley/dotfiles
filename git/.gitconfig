@@ -1,0 +1,33 @@
+[user]
+	name = kason
+	email = kbraley9@gmail.com
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
+[commit]
+  template = /Users/kason/.config/git/template
+
+[url "https://github.com/"]
+  insteadOf = gh:
+  insteadOf = github
+
+[url "https://github.com/KasonBraley/"]
+  insteadOf = me:
+
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+
+[delta]
+  features = decorations
+  syntax-theme = OneHalfDark
+  side-by-side = true
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = yellow
+    file-decoration-style = bold yellow ul
+    hunk-header-decoration-style = yellow box
