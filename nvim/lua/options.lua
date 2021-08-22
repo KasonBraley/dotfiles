@@ -16,6 +16,8 @@ opt.timeoutlen = 400
 opt.clipboard = "unnamedplus"
 opt.swapfile = false
 opt.backup = false
+opt.wildmenu = true
+opt.foldlevelstart = 99 -- start unfolded
 
 -- disable nvim intro
 opt.shortmess:append "sI"
@@ -45,8 +47,8 @@ g.tabline_show_filename_only = true
 -- tokyonight theme
 vim.cmd [[colorscheme tokyonight]]
 
--- opt.foldmethod = "expr"
--- opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- disable builtin vim plugins
 local disabled_built_ins = {
