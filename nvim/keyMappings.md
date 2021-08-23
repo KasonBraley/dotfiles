@@ -71,9 +71,10 @@
 - `<leader>` `du` toggle dapui
 - `<leader>` `de` dapui evaluate expression
 
-## Packer
-- `<leader>` `ps` Packer Sync
-- `<leader>` `pc` Packer Compile
+## Refactor
+- `<leader>` `rr` Refactor telescope ui open
+- `<leader>` `re` Refactor extract function
+- `<leader>` `rf` Refactor extract function to file
 
 ## Formatter
 - `<leader>` `fm` Format entire file
@@ -85,65 +86,8 @@
 ## Terminal
 - `<C-v>` new terminal on right
 - `<C-x>` new terminal on bottom
-- `<C-t>` `t` new terminal in a new buffer
-
-## Hop
-- `<leader>` `j` Hop word
-- `<leader>` `l` Hop line
 
 ## Extras
 - `<Esc>` remove highlighted selection
 - `<leader>` `p` toggle Markdown preview
-
-## Toggles
-- `<leader>` `zf` toggle Focus mode (truezen)
-
-## Surround
-##### Normal Mode - Sandwhich Mode
-- `ys{motion}{char}` **add** surrounding characters
-- `sr<from><to>` **replace** surrounding characters
-- `sd<char>` **delete** surrounding characters
-- `ss` **repeat** last surround command
-
-##### Insert Mode
-- `<C-s><char>` Insert both pairs of typed surrounding char
-- `<C-s><char><space>` Insert both pairs with surrounding whitespace
-- `<C-s><char><C-s>` Insert both pairs on newlines
-
-##### Visual Mode
-- `s<char>` Visually select first
-
-##### Extras
-- `stq` cycle surrounding quote type
-- `stb` cycle surrounding bracket type
-- `<char> == f` for adding, replacing, deleting functions
-
-## File Tree (nvim-tree defaults)
-- `<Leader>` `pv` toggle Tree
-- `g?` toggle Mappings (help)
-- `H` toggle hidden files
-- `I` Show ignored files
-- `<C-v>` open file in vertical split
-- `<C-x>` open file in horizontal split
-- `<CR>` or `o` or `<2-LeftMouse>` edit
-- `<C-t>` tabnew
-- `<tab>` preview
-- `<C-]>` or `<2-RightMouse>` cd
-- `R` refresh
-- `a` create
-- `d` remove
-- `r` rename
-- `<C-r>` full rename
-- `q` close
-- `x` cut
-- `p` paste
-- `c` copy
-- `y` copy name
-- `Y` copy path
-- `gy` copy absolute path
-- `[g` previous git item
-- `]g` next git item
-- `-` directory up
-- `<` previous sibling
-- `>` next sibling
-- `BS` or `<shift-CR>` close node
+- `<leader>` `cd` set current working directory to match current buffer working directory

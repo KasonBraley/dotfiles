@@ -28,10 +28,6 @@ map("n", "<Leader>fm", ":Format<CR>", opt)
 -- OPEN TERMINALS --
 map("n", "<C-v>", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- term over right
 map("n", "<C-x>", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term bottom
-map("n", "<C-t>t", ":<Cmd> terminal <CR>", opt) -- term buffer
-
--- copy whole file content
--- map("n", "<C-a>", ":%y+<CR>", opt)
 
 -- Nvimtree (rest are defaults)
 -- pv for "project view"
@@ -137,7 +133,6 @@ map("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 map("i", "<CR>", "v:lua.completions()", { expr = true })
 
 -- toggle focus of one window split
-map("n", "<leader>zf", ":TZFocus<CR>", opt)
 
 -- Markdown
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
@@ -222,5 +217,4 @@ map("n", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
 map("v", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
 
 -- misc
-
 map("n", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>", opt)
