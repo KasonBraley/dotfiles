@@ -54,6 +54,23 @@
 - `<C-v>` open files in vertical split
 - `<C-x>` open files in horizontal split
 
+## Git
+- `<leader>` `g` Neogit open
+- `<leader>` `gc` Neogit commit
+- `<leader>` `gs` git status
+- `<leader>` `gB` git branches
+- `<leader>` `gl` git commits
+
+## Harpoon
+- `<C-f>` Harpoon ui toogle
+- `<leader>` `a` Harpoon mark file
+- `<C-j>` Harpoon go to file 1
+- `<C-k>` Harpoon go to file 2
+- `<C-l>` Harpoon go to file 3
+- `<C-h>` Harpoon go to file 4
+- `<leader>` `kf` Harpoon go to terminal 1
+- `<leader>` `kd` Harpoon got to terminal 2
+
 ## DAP
 - `<leader>` `dc` start/continue
 - `<leader>` `do` step over
