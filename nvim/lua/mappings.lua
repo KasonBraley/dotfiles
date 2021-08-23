@@ -8,6 +8,16 @@ end
 
 local opt = {}
 
+map("n", "<Leader><Leader>", "<C-^>")
+
+-- 'j' and 'k' moves up and down visible lines in editor not actual lines
+-- This is noticable when text wraps to next line
+map("n", "j", "gj")
+map("n", "k", "gk")
+
+-- Keep selection when indent/outdent
+map("x", ">", ">gv")
+map("x", "<", "<gv")
 -- map navigation between splits using <C-{h,j,k,l}>
 -- map("n", "<C-k>", ":wincmd k<CR>")
 -- map("n", "<C-l>", ":wincmd l<CR>")
