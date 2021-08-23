@@ -152,14 +152,9 @@ map("n", "<C-s>", ":Lspsaga signature_help<CR>", opt)
 map("i", "<C-s>", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", opt)
 map("n", "<Leader>rn", ":Lspsaga rename<CR>", opt)
 map("n", "<leader>.a", ":Lspsaga code_action<CR>", opt)
-map("v", "<leader>ca", ":Lspsaga range_code_action<CR>", opt)
+map("v", "<leader>.a", ":Lspsaga range_code_action<CR>", opt)
 map("n", "<leader>.;", ":Lspsaga show_line_diagnostics<CR>", opt)
 map("n", "<Leader>.l", ":Lspsaga diagnostic_jump_next<CR>", opt)
-
--- scroll down hover doc or scroll in definition preview
--- map("n", "<C-f>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opt)
--- scroll up hover doc
--- map("n", "<C-b>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", opt)
 
 -- DAP
 map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
