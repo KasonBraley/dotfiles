@@ -134,15 +134,6 @@ packer.startup(function()
     end,
   }
 
-  -- tabline
-  -- use {
-  --   "kdheepak/tabline.nvim",
-  --   requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
-  --   config = function()
-  --     require "plugins.tabline"
-  --   end,
-  -- }
-
   -- statusline
   use {
     "hoob3rt/lualine.nvim",
@@ -153,13 +144,7 @@ packer.startup(function()
   }
 
   -- color/theme related stuff
-  use "folke/tokyonight.nvim"
-  -- use {
-  --   "EdenEast/nightfox.nvim",
-  --   config = function()
-  --     require("nightfox").set()
-  --   end,
-  -- }
+  use { "folke/tokyonight.nvim" }
 
   -- color highlighter
   use {
@@ -244,9 +229,7 @@ packer.startup(function()
     end,
   }
 
-  use {
-    "p00f/nvim-ts-rainbow",
-  }
+  use { "p00f/nvim-ts-rainbow" }
 
   use { "andymass/vim-matchup" }
 
@@ -281,18 +264,9 @@ packer.startup(function()
   }
 
   -------------------------------- Misc
-  use {
-    "Pocco81/TrueZen.nvim",
-    config = function()
-      require "plugins.zenmode"
-    end,
-  }
-
   -- Markdown previewer
-  use "iamcco/markdown-preview.nvim"
+  use { "iamcco/markdown-preview.nvim" }
 
   -- vim game
-  use {
-    "ThePrimeagen/vim-be-good",
-  }
+  use { "ThePrimeagen/vim-be-good" }
 end)
