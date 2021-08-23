@@ -82,15 +82,8 @@ packer.startup(function()
     },
   }
 
-  -- use {
-  --   "mfussenegger/nvim-lint",
-  --   config = function()
-  --     require "plugins.lint"
-  --   end,
-  -- }
-
   use {
-    "jose-elias-alvarez/null-ls.nvim",
+    "mfussenegger/nvim-lint",
     config = function()
       require "plugins.lint"
     end,
@@ -161,6 +154,12 @@ packer.startup(function()
 
   -- color/theme related stuff
   use "folke/tokyonight.nvim"
+  -- use {
+  --   "EdenEast/nightfox.nvim",
+  --   config = function()
+  --     require("nightfox").set()
+  --   end,
+  -- }
 
   -- color highlighter
   use {
@@ -182,6 +181,13 @@ packer.startup(function()
     "lewis6991/gitsigns.nvim",
     config = function()
       require "plugins.gitsigns"
+    end,
+  }
+
+  use {
+    "TimUntersberger/neogit",
+    config = function()
+      require("neogit").setup {}
     end,
   }
 
@@ -257,16 +263,6 @@ packer.startup(function()
     "karb94/neoscroll.nvim",
     config = function()
       require("plugins.others").neoscroll()
-    end,
-  }
-
-  -- fast Motion plugin
-  use {
-    "phaazon/hop.nvim",
-    as = "hop",
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
     end,
   }
 

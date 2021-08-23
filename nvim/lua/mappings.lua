@@ -8,6 +8,16 @@ end
 
 local opt = {}
 
+map("n", "<Leader><Leader>", "<C-^>")
+
+-- 'j' and 'k' moves up and down visible lines in editor not actual lines
+-- This is noticable when text wraps to next line
+map("n", "j", "gj")
+map("n", "k", "gk")
+
+-- Keep selection when indent/outdent
+map("x", ">", ">gv")
+map("x", "<", "<gv")
 -- map navigation between splits using <C-{h,j,k,l}>
 -- map("n", "<C-k>", ":wincmd k<CR>")
 -- map("n", "<C-l>", ":wincmd l<CR>")
@@ -70,12 +80,15 @@ map("n", "<leader>fB", ":Telescope builtin<CR>", opt)
 map("n", "<leader>fs", ":Telescope treesitter<CR>", opt)
 
 -- Git
-map("n", "<Leader>gt", ":Telescope git_status<CR>", opt)
-map("n", "<Leader>gb", ":Telescope git_bcommits<Cr>", opt)
+map("n", "<Leader>gs", ":Telescope git_status<CR>", opt)
+-- map("n", "<Leader>gg", ":Telescope git_bcommits<Cr>", opt)
 map("n", "<Leader>gB", ":Telescope git_branches<CR>", opt)
-map("n", "<Leader>gc", ":Telescope git_commits<CR>", opt)
+map("n", "<Leader>gl", ":Telescope git_commits<CR>", opt)
 map("n", "<leader>wg", ":Telescope git_worktree git_worktrees<CR>", opt)
 map("n", "<leader>wc", ":Telescope git_worktree create_git_worktree<CR>", opt)
+
+map("n", "<Leader>g", ":Neogit<CR>", opt)
+map("n", "<Leader>gc", ":Neogit commit<CR>", opt)
 
 -- compe stuff
 local t = function(str)
@@ -134,10 +147,6 @@ map("n", "<leader>zf", ":TZFocus<CR>", opt)
 -- Markdown
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 
--- Hop
-map("", "<leader>j", ":HopWord<CR>", opt)
-map("", "<leader>l", ":HopLineStart<CR>", opt)
-
 -- Quickfix
 -- map("", "<C-q>", ":copen<cr>", opt)
 -- map("", "<C-j>", ":cnext<cr>", opt)
@@ -157,12 +166,11 @@ map("n", "K", ":Lspsaga hover_doc<CR>", opt)
 map("n", "<C-s>", ":Lspsaga signature_help<CR>", opt)
 map("i", "<C-s>", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", opt)
 map("n", "<Leader>rn", ":Lspsaga rename<CR>", opt)
-map("n", "<leader>ca", ":Lspsaga code_action<CR>", opt)
+map("n", "<leader>.a", ":Lspsaga code_action<CR>", opt)
 map("v", "<leader>ca", ":Lspsaga range_code_action<CR>", opt)
-map("n", "<leader>cl", ":Lspsaga show_line_diagnostics<CR>", opt)
-map("n", "<leader>cc", ":Lspsaga show_cursor_diagnostics<CR>", opt)
-map("n", "[d", ":Lspsaga diagnostic_jump_next<CR>", opt)
-map("n", "]d", ":Lspsaga diagnositic_jump_prev<CR>", opt)
+map("n", "<leader>.;", ":Lspsaga show_line_diagnostics<CR>", opt)
+map("n", "<Leader>.l", ":Lspsaga diagnostic_jump_next<CR>", opt)
+
 -- scroll down hover doc or scroll in definition preview
 -- map("n", "<C-f>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opt)
 -- scroll up hover doc
