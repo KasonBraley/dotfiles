@@ -18,11 +18,6 @@ map("n", "k", "gk")
 -- Keep selection when indent/outdent
 map("x", ">", ">gv")
 map("x", "<", "<gv")
--- map navigation between splits using <C-{h,j,k,l}>
--- map("n", "<C-k>", ":wincmd k<CR>")
--- map("n", "<C-l>", ":wincmd l<CR>")
--- map("n", "<C-h>", ":wincmd h<CR>")
--- map("n", "<C-j>", ":wincmd j<CR>")
 
 -- Commenter Keybinding
 vim.api.nvim_set_keymap("", "<leader>/", ":CommentToggle<CR>", opt)

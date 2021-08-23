@@ -25,13 +25,6 @@
 - `<left>` resize horizontal +2
 - `<right>` resize horizontal -2
 
-## Navigation between splits
-- `<C-k>` up
-- `<C-l>` right
-- `<C-h>` left
-- `<C-j>` down
-
-
 ## LSP
 - `gh` lsp finder
 - `gd` preview definition
