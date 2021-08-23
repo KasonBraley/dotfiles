@@ -70,12 +70,15 @@ map("n", "<leader>fB", ":Telescope builtin<CR>", opt)
 map("n", "<leader>fs", ":Telescope treesitter<CR>", opt)
 
 -- Git
-map("n", "<Leader>gt", ":Telescope git_status<CR>", opt)
-map("n", "<Leader>gb", ":Telescope git_bcommits<Cr>", opt)
+map("n", "<Leader>gs", ":Telescope git_status<CR>", opt)
+-- map("n", "<Leader>gg", ":Telescope git_bcommits<Cr>", opt)
 map("n", "<Leader>gB", ":Telescope git_branches<CR>", opt)
-map("n", "<Leader>gc", ":Telescope git_commits<CR>", opt)
+map("n", "<Leader>gl", ":Telescope git_commits<CR>", opt)
 map("n", "<leader>wg", ":Telescope git_worktree git_worktrees<CR>", opt)
 map("n", "<leader>wc", ":Telescope git_worktree create_git_worktree<CR>", opt)
+
+map("n", "<Leader>g", ":Neogit<CR>", opt)
+map("n", "<Leader>gc", ":Neogit commit<CR>", opt)
 
 -- compe stuff
 local t = function(str)
