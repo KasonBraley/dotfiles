@@ -37,15 +37,10 @@ map("n", "<C-a>", ":NvimTreeToggle<CR>", opt)
 map("n", "<C-t>", ":enew<CR>", opt) -- new buffer
 map("n", "<S-x>", ":Bdelete<CR>", opt) -- close tab
 map("n", "<S-x>x", ":Bdelete!<CR>", opt) -- force close tab
-map("n", "<Tab>", ":TablineBufferNext<CR>", opt) -- next buffer
-map("n", "<S-Tab>", ":TablineBufferPrevious<CR>", opt) -- previous buffer
-map("n", "<Leader>tt", ":TablineTabNew ", opt) -- new tab
-map("n", "<Leader>ta", ":TablineToggleShowAllBuffers<CR>", opt)
-map("n", "<Leader>tb", ":TablineBuffersBind ", opt)
-map("n", "<Leader>tc", ":TablineBuffersClearBind<CR>", opt)
-map("n", "<Leader>tr", ":TablineTabRename ", opt)
+map("n", "<Leader>tt", ":tabnew<CR>", opt) -- new tab
 map("n", "<Leader>tn", ":tabnext<CR>", opt)
 map("n", "<Leader>tp", ":tabprevious<CR>", opt)
+map("n", "<Leader>tc", ":tabclose<CR>", opt)
 
 -- remove highlighted selection
 map("n", "<Esc>", ":noh<CR>", opt)

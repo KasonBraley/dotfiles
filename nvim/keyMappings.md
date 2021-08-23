@@ -7,17 +7,13 @@
 `<leader>` `/` comment line
 
 ## Buffers / Tabs / Windows
-- `<tab>` next buffer
-- `<shift-tab>` previous buffer
+- `<leader><leader>` last buffer
 - `<shift x>` close buffer
 - `<shift x>` `x` force close buffer
 - `<leader>` `tt` new tab
-- `<leader>` `ta` toggle show all buffers from all tabs
-- `<leader>` `tb` bind buffers to tab
-- `<leader>` `tc` clear bound buffers to tab
-- `<leader>` `tr` rename tab
 - `<leader>` `tn` next tab 
 - `<leader>` `tp` previous tab
+- `<leader>` `tc` close tab
 
 #### Resize (Normal Mode)
 - `<up>` resize vertical +2
