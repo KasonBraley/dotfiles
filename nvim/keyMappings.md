@@ -27,14 +27,17 @@
 - `K` hover info
 - `<C-s>` displays signature information
 - `<Leader>` `rn` rename
-- `<Leader>` `ca` code action
-- `<Leader>` `cl` show line diagnostics
-- `<Leader>` `cc` show cursor diagnostics
-- `[d` move to next diagnostic
-- `]d` move to previous diagnostic
+- `<Leader>` `.a` code action
+- `<Leader>` `.;` show line diagnostics
+- `.l` move to next diagnostic
+
+## File Tree (nvim-tree defaults)
+- `<C-a` toggle Tree
+- `g?` toggle Mappings (help)
 
 ## Telescope
 - `<leader>` `ff` find files in current Directory
+- `<C-h>` git files
 - `<leader>` `fi` current buffer fuzzy find
 - `<leader>` `fp` media files
 - `<leader>` `fb` open buffers
@@ -43,14 +46,11 @@
 - `<leader>` `fw` live grep
 - `<leader>` `ft` telescope file browser
 - `<leader>` `fd` custom search `dev` folder
-- `<leader>` `fc` custome search `dotfiles` folder
+- `<leader>` `fc` custom search `dotfiles` folder
 - `<leader>` `fB` builtins
 - `<leader>` `fs` treesitter symbols
 - `<leader>` `pw` grep the hovered word in the cwd
-- `<leader>` `gt` git status
-- `<leader>` `gb` git current buffer commits
-- `<leader>` `gB` git branches
-- `<leader>` `gc` git commits
+- `<leader>` `ps` grep for word input
 - `<C-v>` open files in vertical split
 - `<C-x>` open files in horizontal split
 
