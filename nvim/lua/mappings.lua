@@ -73,6 +73,15 @@ map("n", "<Leader>gl", ":Telescope git_commits<CR>", opt)
 map("n", "<leader>wg", ":Telescope git_worktree git_worktrees<CR>", opt)
 map("n", "<leader>wc", ":Telescope git_worktree create_git_worktree<CR>", opt)
 
+map("n", "<Leader>gh", ":Gitsigns stage_hunk<CR>", opt)
+map("v", "<Leader>gh", '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
+map("n", "<Leader>gu", ":Gitsigns undo_stage_hunk<CR>", opt)
+map("n", "<Leader>gr", ":Gitisigns reset_hunk<CR>", opt)
+map("v", "<Leader>gr", '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
+map("n", "<Leader>gR", ":Gitsigns reset_buffer<CR>", opt)
+map("", "<Leader>gp", ":Gitsigns preview_hunk<CR>", opt)
+map("n", "<Leader>gb", ":Gitsigns blame_line<CR>", opt)
+
 map("n", "<Leader>g", ":Neogit<CR>", opt)
 map("n", "<Leader>gc", ":Neogit commit<CR>", opt)
 
