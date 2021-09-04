@@ -82,13 +82,21 @@ packer.startup(function()
     },
   }
 
+  -- diagnostics
   use {
-    "mfussenegger/nvim-lint",
+    "jose-elias-alvarez/null-ls.nvim",
     config = function()
-      require "plugins.lint"
+      require("null-ls").config {}
+      require("lspconfig")["null-ls"].setup {}
     end,
+    requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
   }
 
+  use {
+    "jose-elias-alvarez/nvim-lsp-ts-utils",
+  }
+
+  -- formatting
   use {
     "mhartington/formatter.nvim",
     config = function()

@@ -6,7 +6,6 @@ vim.api.nvim_exec(
    au TermClose term://* bd!
    au FileType gitcommit setlocal spell
    au BufRead,BufNewFile *.md setlocal spell
-   au BufEnter, BufWritePost *.js, *.jsx lua require('lint').try_lint()
    au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "NvimTree" | set laststatus=0 | else | set laststatus=2 | endif
 ]],
   false
