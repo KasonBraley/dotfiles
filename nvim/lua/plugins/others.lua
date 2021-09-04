@@ -46,7 +46,7 @@ M.search_dev = function()
         mirror = false,
       },
       width = 0.87,
-      height = 0.80,
+      height = 0.60,
       preview_cutoff = 120,
     },
   }
@@ -68,7 +68,7 @@ M.search_dotfiles = function()
         mirror = false,
       },
       width = 0.87,
-      height = 0.80,
+      height = 0.60,
       preview_cutoff = 120,
     },
   }
