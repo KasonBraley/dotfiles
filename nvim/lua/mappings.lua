@@ -30,7 +30,6 @@ map("n", "<C-v>", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- term ov
 map("n", "<C-x>", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term bottom
 
 -- Nvimtree (rest are defaults)
--- pv for "project view"
 map("n", "<C-a>", ":NvimTreeToggle<CR>", opt)
 
 -- Bufferline tabs
@@ -76,7 +75,7 @@ map("n", "<leader>wc", ":Telescope git_worktree create_git_worktree<CR>", opt)
 map("n", "<Leader>gh", ":Gitsigns stage_hunk<CR>", opt)
 map("v", "<Leader>gh", '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
 map("n", "<Leader>gu", ":Gitsigns undo_stage_hunk<CR>", opt)
-map("n", "<Leader>gr", ":Gitisigns reset_hunk<CR>", opt)
+map("n", "<Leader>gr", ":Gitsigns reset_hunk<CR>", opt)
 map("v", "<Leader>gr", '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
 map("n", "<Leader>gR", ":Gitsigns reset_buffer<CR>", opt)
 map("", "<Leader>gp", ":Gitsigns preview_hunk<CR>", opt)
@@ -156,14 +155,15 @@ map("", "cl", ":pclose | lclose | cclose<CR>", opt)
 -- lspsaga
 map("n", "gh", ":Lspsaga lsp_finder<CR>", opt)
 map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
+map("n", "gt", ":lua vim.lsp.buf.type_definition()<CR>", opt)
 map("n", "K", ":Lspsaga hover_doc<CR>", opt)
 map("n", "<C-s>", ":Lspsaga signature_help<CR>", opt)
 map("i", "<C-s>", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", opt)
 map("n", "<Leader>rn", ":Lspsaga rename<CR>", opt)
-map("n", "<leader>.a", ":Lspsaga code_action<CR>", opt)
-map("v", "<leader>.a", ":Lspsaga range_code_action<CR>", opt)
-map("n", "<leader>.;", ":Lspsaga show_line_diagnostics<CR>", opt)
-map("n", "<Leader>.l", ":Lspsaga diagnostic_jump_next<CR>", opt)
+map("n", "<leader>ca", ":Lspsaga code_action<CR>", opt)
+map("v", "<leader>ca", ":Lspsaga range_code_action<CR>", opt)
+map("n", "<leader>ds", ":Lspsaga show_line_diagnostics<CR>", opt)
+map("n", "<Leader>dn", ":Lspsaga diagnostic_jump_next<CR>", opt)
 
 -- DAP
 map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
