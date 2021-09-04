@@ -8,7 +8,6 @@ packer.init {
 local use = packer.use
 
 packer.startup(function()
-  -- local use = use
   -- Plugin Manager
   use { "wbthomason/packer.nvim" }
 
@@ -31,9 +30,19 @@ packer.startup(function()
   }
 
   use {
-    "glepnir/lspsaga.nvim",
+    "jasonrhansen/lspsaga.nvim",
+    branch = "finder-preview-fixes",
     config = function()
-      require("lspsaga").init_lsp_saga()
+      require("lspsaga").init_lsp_saga {
+        finder_action_keys = {
+          open = "o",
+          vsplit = "<C-v>",
+          split = "<C-x>",
+          quit = "q",
+          scroll_down = "<C-f>",
+          scroll_up = "<C-b>",
+        },
+      }
     end,
   }
 
@@ -242,7 +251,6 @@ packer.startup(function()
   use { "andymass/vim-matchup" }
 
   use {
-    -- "b3nj5m1n/kommentary",
     "terrortylor/nvim-comment",
     config = function()
       require "plugins.comment"
@@ -258,18 +266,15 @@ packer.startup(function()
   }
 
   use {
-    "blackCauldron7/surround.nvim",
-    config = function()
-      require("surround").setup {}
-    end,
+    "machakann/vim-sandwich",
   }
 
-  use {
-    "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup {}
-    end,
-  }
+  -- use {
+  --   "folke/which-key.nvim",
+  --   config = function()
+  --     require("which-key").setup {}
+  --   end,
+  -- }
 
   -------------------------------- Misc
   -- Markdown previewer
