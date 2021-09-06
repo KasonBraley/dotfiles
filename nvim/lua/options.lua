@@ -18,6 +18,7 @@ opt.swapfile = false
 opt.backup = false
 opt.wildmenu = true
 opt.foldlevelstart = 99 -- start unfolded
+opt.completeopt = "menu,noselect"
 
 -- disable nvim intro
 opt.shortmess:append "sI"

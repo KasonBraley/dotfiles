@@ -71,23 +71,30 @@ packer.startup(function()
     "nvim-treesitter/nvim-treesitter-textobjects",
     branch = "0.5-compat",
   }
+
   use { "nvim-treesitter/playground" }
 
   use {
-    "hrsh7th/nvim-compe",
+    "L3MON4D3/LuaSnip",
     config = function()
-      require "plugins.compe"
+      require "plugins.luasnip"
     end,
-    wants = "LuaSnip",
+  }
+
+  use { "rafamadriz/friendly-snippets" }
+
+  use {
+    "hrsh7th/nvim-cmp",
+    config = function()
+      require "plugins.cmp"
+    end,
     requires = {
-      {
-        "L3MON4D3/LuaSnip",
-        wants = "friendly-snippets",
-        config = function()
-          require "plugins.luasnip"
-        end,
-      },
-      { "rafamadriz/friendly-snippets" },
+      "hrsh7th/cmp-buffer",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lua",
+      "f3fora/cmp-spell",
     },
   }
 

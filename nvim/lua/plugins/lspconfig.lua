@@ -77,7 +77,7 @@ local lua_settings = {
 -- config that activates keymaps and enables snippet support
 local function make_config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
   return {
     capabilities = capabilities,
     on_attach = on_attach,
