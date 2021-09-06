@@ -103,7 +103,9 @@ map("", "cl", ":pclose | lclose | cclose<CR>", opt)
 
 -- lspsaga
 map("n", "gh", ":Lspsaga lsp_finder<CR>", opt)
-map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
+-- map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
+map("n", "gd", ":lua vim.lsp.buf.definition()<CR>zz", opt)
+map("n", "gr", ":lua vim.lsp.buf.references()<CR>", opt)
 map("n", "gt", ":lua vim.lsp.buf.type_definition()<CR>", opt)
 map("n", "K", ":Lspsaga hover_doc<CR>", opt)
 map("n", "<C-s>", ":Lspsaga signature_help<CR>", opt)
