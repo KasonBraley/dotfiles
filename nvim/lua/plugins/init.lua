@@ -229,6 +229,7 @@ packer.startup(function()
   -------------------------------- Utils
   use "famiu/bufdelete.nvim"
 
+  use { "nvim-lua/popup.nvim" }
   use "ThePrimeagen/harpoon"
 
   use {
