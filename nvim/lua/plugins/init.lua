@@ -253,8 +253,6 @@ packer.startup(function()
     end,
   }
 
-  use { "p00f/nvim-ts-rainbow" }
-
   use { "andymass/vim-matchup" }
 
   use {

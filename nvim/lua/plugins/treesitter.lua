@@ -28,8 +28,11 @@ ts_config.setup {
   autotag = {
     enable = true,
   },
-  rainbow = {
+  autopairs = {
     enable = true,
+  },
+  rainbow = {
+    enable = false,
     extended_mode = true,
     max_file_lines = 1000,
   },
