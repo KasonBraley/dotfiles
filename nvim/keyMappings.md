@@ -7,7 +7,7 @@
 `<leader>` `/` comment line
 
 ## Buffers / Tabs / Windows
-- `<leader><leader>` last buffer
+- `<leader><leader>` switch to last buffer
 - `<shift x>` close buffer
 - `<shift x>` `x` force close buffer
 - `<leader>` `tt` new tab
@@ -22,14 +22,15 @@
 - `<right>` resize horizontal -2
 
 ## LSP
-- `gh` lsp finder
-- `gd` preview definition
+- `gh` LSPSaga lsp finder
+- `gd` go to definition
+- `gt` go to type definition
 - `K` hover info
 - `<C-s>` displays signature information
 - `<Leader>` `rn` rename
-- `<Leader>` `.a` code action
-- `<Leader>` `.;` show line diagnostics
-- `.l` move to next diagnostic
+- `<Leader>` `ca` code action
+- `<Leader>` `ds` show line diagnostics
+- `<Leader>` `dn` move to next diagnostic
 
 ## File Tree (nvim-tree defaults)
 - `<C-a` toggle Tree
@@ -37,7 +38,7 @@
 
 ## Telescope
 - `<leader>` `ff` find files in current Directory
-- `<C-h>` git files
+- `<leader>` `fg` git files
 - `<leader>` `fi` current buffer fuzzy find
 - `<leader>` `fp` media files
 - `<leader>` `fb` open buffers
@@ -60,6 +61,14 @@
 - `<leader>` `gs` git status
 - `<leader>` `gB` git branches
 - `<leader>` `gl` git commits
+- `<leader>` `gp` preview hunk
+- `<leader>` `gb` blame line
+- `<leader>` `gh` stage hunk
+- `<leader>` `gu` undo stage hunk
+- `<leader>` `gr` reset hunk
+- `<leader>` `gR` reset buffer
+- `<leader>` `wg` show git worktrees 
+- `<leader>` `wc` create git worktree
 
 ## Harpoon
 - `<C-f>` Harpoon ui toogle
@@ -79,7 +88,7 @@
 - `<leader>` `db` toggle breakpoint
 - `<leader>` `dB` toggle breakpoint with condition
 - `<leader>` `dp` toggle breakpoint with log message
-- `<leader>` `dr` open repl
+- `<leader>` `dr` toggle repl
 - `<leader>` `dl` run last
 - `<leader>` `du` toggle dapui
 - `<leader>` `de` dapui evaluate expression

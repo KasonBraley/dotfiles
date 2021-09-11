@@ -10,6 +10,11 @@ local opt = {}
 
 map("n", "<Leader><Leader>", "<C-^>")
 
+map("n", "n", "nzz")
+map("n", "N", "Nzz")
+map("n", "<C-o>", "<C-o>zz")
+map("n", "<C-i>", "<C-i>zz")
+
 -- 'j' and 'k' moves up and down visible lines in editor not actual lines
 -- This is noticable when text wraps to next line
 map("n", "j", "gj")
@@ -49,7 +54,7 @@ map("t", "<Esc>", "<C-\\><C-n>", opt)
 
 -- Telescope
 map("n", "<Leader>ff", ":Telescope find_files <CR>", opt)
-map("n", "<C-h>", ":Telescope git_files<CR>", opt)
+map("n", "<Leader>fg", ":Telescope git_files<CR>", opt)
 map("n", "<Leader>fi", ":Telescope current_buffer_fuzzy_find <CR>", opt)
 map("n", "<Leader>fp", ":Telescope media_files <CR>", opt)
 map("n", "<Leader>fb", ":Telescope buffers<CR>", opt)
@@ -90,9 +95,9 @@ map("n", "<Leader>gc", ":Neogit commit<CR>", opt)
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 
 -- Quickfix
--- map("", "<C-q>", ":copen<cr>", opt)
--- map("", "<C-j>", ":cnext<cr>", opt)
--- map("", "<C-k>", ":cprevious<cr>", opt)
+map("", "<Leader>q", ":copen<cr>", opt)
+map("n", "<Leader>j", ":cnext<cr>", opt)
+map("n", "<Leader>k", ":cprevious<cr>", opt)
 
 -- map("", "<leader>q", ":lopen<cr>", opt)
 -- map("", "<leader>n", ":lnext<cr>", opt)
@@ -101,12 +106,12 @@ map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 -- don't be nothered with the type of little window to close, just get rid of it
 map("", "cl", ":pclose | lclose | cclose<CR>", opt)
 
--- lspsaga
+-- LSP
 map("n", "gh", ":Lspsaga lsp_finder<CR>", opt)
 -- map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
 map("n", "gd", ":lua vim.lsp.buf.definition()<CR>zz", opt)
 map("n", "gr", ":lua vim.lsp.buf.references()<CR>", opt)
-map("n", "gt", ":lua vim.lsp.buf.type_definition()<CR>", opt)
+map("n", "gt", ":lua vim.lsp.buf.type_definition()<CR>zz", opt)
 map("n", "K", ":Lspsaga hover_doc<CR>", opt)
 map("n", "<C-s>", ":Lspsaga signature_help<CR>", opt)
 map("i", "<C-s>", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", opt)
@@ -124,7 +129,7 @@ map("n", "<leader>dx", ":lua require'dap'.step_out()<CR>", opt)
 map("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opt)
 map("n", "<leader>dB", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opt)
 map("n", "<leader>dp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opt)
-map("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", opt)
+map("n", "<leader>dr", ":lua require'dap'.repl.toggle()<CR>", opt)
 map("n", "<leader>dl", ":lua require'dap'.run_last()<CR>", opt)
 map("n", "<leader>du", ":lua require'dapui'.toggle()<CR>")
 map("n", "<leader>de", ":lua require'dapui'.eval()<CR>")
