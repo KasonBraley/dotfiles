@@ -5,11 +5,11 @@ dap_install.setup {
   verbosely_call_debuggers = false,
 }
 
-dap_install.config("jsnode_dbg", {
+dap_install.config("jsnode", {
   adapters = {
     type = "executable",
     command = "node",
-    args = { os.getenv "HOME" .. "/.local/share/nvim/dapinstall/jsnode_dbg/vscode-node-debug2/out/src/nodeDebug.js" },
+    args = { os.getenv "HOME" .. "/.local/share/nvim/dapinstall/jsnode/vscode-node-debug2/out/src/nodeDebug.js" },
   },
   configurations = {
     {
