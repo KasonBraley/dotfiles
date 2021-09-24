@@ -4,8 +4,7 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=common
 
 # installed plugins
-plugins=(git zsh-autosuggestions autojump zsh-syntax-highlighting vi-mode)
-
+plugins=(git zsh-autosuggestions autojump zsh-syntax-highlighting vi-mode osx ripgrep)
 
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 VI_MODE_SET_CURSOR=true
@@ -30,10 +29,7 @@ alias cht="~/bin/cht.sh"
 # for cheat.sh tab completion
 fpath=(~/.zsh.d/ $fpath)
 
-
 # alias
-alias mux="tmuxinator" 
+alias m="music"
 
 source $ZSH/oh-my-zsh.sh
-
-eval $(thefuck --alias)
