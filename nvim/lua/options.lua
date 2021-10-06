@@ -43,7 +43,6 @@ opt.whichwrap:append "<>hl"
 g.mapleader = " "
 
 g.dap_virtual_text = true
-g.tabline_show_filename_only = true
 
 -- tokyonight theme
 vim.cmd [[colorscheme tokyonight]]

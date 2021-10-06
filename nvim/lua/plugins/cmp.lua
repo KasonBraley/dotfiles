@@ -16,15 +16,11 @@ cmp.setup {
   },
   formatting = {
     format = function(entry, vim_item)
-      -- fancy icons and a name of kind
-      vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
-
       -- set a name for each source
       vim_item.menu = ({
         buffer = "[Buffer]",
         nvim_lsp = "[LSP]",
         luasnip = "[LuaSnip]",
-        nvim_lua = "[Lua]",
         spell = "[Spell]",
         path = "[Path]",
       })[entry.source.name]
@@ -66,7 +62,6 @@ cmp.setup {
     { name = "luasnip" },
     { name = "buffer" },
     { name = "spell" },
-    { name = "nvim_lua" },
     { name = "path" },
   },
 }

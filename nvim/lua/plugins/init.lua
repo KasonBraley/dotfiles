@@ -22,30 +22,6 @@ packer.startup(function()
 
   use { "kabouzeid/nvim-lspinstall" }
 
-  use {
-    "onsails/lspkind-nvim",
-    config = function()
-      require("plugins.others").lspkind()
-    end,
-  }
-
-  use {
-    "jasonrhansen/lspsaga.nvim",
-    branch = "finder-preview-fixes",
-    config = function()
-      require("lspsaga").init_lsp_saga {
-        finder_action_keys = {
-          open = "o",
-          vsplit = "<C-v>",
-          split = "<C-x>",
-          quit = "q",
-          scroll_down = "<C-f>",
-          scroll_up = "<C-b>",
-        },
-      }
-    end,
-  }
-
   -------------------------------- IDE Like Plugins
   use {
     "nvim-treesitter/nvim-treesitter",
@@ -93,7 +69,6 @@ packer.startup(function()
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
-      "hrsh7th/cmp-nvim-lua",
       "f3fora/cmp-spell",
     },
   }
@@ -201,6 +176,13 @@ packer.startup(function()
   }
 
   use {
+    "pwntester/octo.nvim",
+    config = function()
+      require("octo").setup()
+    end,
+  }
+
+  use {
     "sindrets/diffview.nvim",
     config = function()
       require "plugins.diffview"
@@ -227,17 +209,9 @@ packer.startup(function()
   use { "nvim-telescope/telescope-media-files.nvim" }
 
   -------------------------------- Utils
-  use "famiu/bufdelete.nvim"
-
   use { "nvim-lua/popup.nvim" }
-  use "ThePrimeagen/harpoon"
 
-  use {
-    "ThePrimeagen/refactoring.nvim",
-    config = function()
-      require("refactoring").setup()
-    end,
-  }
+  use { "ThePrimeagen/harpoon" }
 
   use {
     "windwp/nvim-autopairs",
@@ -273,13 +247,6 @@ packer.startup(function()
   use {
     "machakann/vim-sandwich",
   }
-
-  -- use {
-  --   "folke/which-key.nvim",
-  --   config = function()
-  --     require("which-key").setup {}
-  --   end,
-  -- }
 
   -------------------------------- Misc
   -- Markdown previewer

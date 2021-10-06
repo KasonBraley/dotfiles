@@ -23,3 +23,23 @@ dap_install.config("jsnode", {
     },
   },
 })
+
+dap_install.config("chrome", {
+  adapters = {
+    type = "executable",
+    command = "node",
+    args = { os.getenv "HOME" .. "/.local/share/nvim/dapinstall/chrome/vscode-chrome-debug/out/src/chromeDebug.js" },
+  },
+  configurations = {
+    {
+      type = "chrome",
+      request = "attach",
+      program = "${file}",
+      cwd = vim.fn.getcwd(),
+      sourceMaps = true,
+      protocol = "inspector",
+      port = 3000,
+      webRoot = "${workspaceFolder}",
+    },
+  },
+})

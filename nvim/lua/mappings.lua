@@ -38,9 +38,6 @@ map("n", "<C-x>", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term 
 map("n", "<C-a>", ":NvimTreeToggle<CR>", opt)
 
 -- Bufferline tabs
-map("n", "<C-t>", ":enew<CR>", opt) -- new buffer
-map("n", "<S-x>", ":Bdelete<CR>", opt) -- close tab
-map("n", "<S-x>x", ":Bdelete!<CR>", opt) -- force close tab
 map("n", "<Leader>tt", ":tabnew<CR>", opt) -- new tab
 map("n", "<Leader>tn", ":tabnext<CR>", opt)
 map("n", "<Leader>tp", ":tabprevious<CR>", opt)
@@ -89,8 +86,6 @@ map("n", "<Leader>gb", ":Gitsigns blame_line<CR>", opt)
 map("n", "<Leader>g", ":Neogit<CR>", opt)
 map("n", "<Leader>gc", ":Neogit commit<CR>", opt)
 
--- toggle focus of one window split
-
 -- Markdown
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 
@@ -107,19 +102,16 @@ map("n", "<Leader>k", ":cprevious<cr>", opt)
 map("", "cl", ":pclose | lclose | cclose<CR>", opt)
 
 -- LSP
-map("n", "gh", ":Lspsaga lsp_finder<CR>", opt)
--- map("n", "gd", ":Lspsaga preview_definition<CR>", opt)
 map("n", "gd", ":lua vim.lsp.buf.definition()<CR>zz", opt)
 map("n", "gr", ":lua vim.lsp.buf.references()<CR>", opt)
 map("n", "gt", ":lua vim.lsp.buf.type_definition()<CR>zz", opt)
-map("n", "K", ":Lspsaga hover_doc<CR>", opt)
-map("n", "<C-s>", ":Lspsaga signature_help<CR>", opt)
-map("i", "<C-s>", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", opt)
-map("n", "<Leader>rn", ":Lspsaga rename<CR>", opt)
-map("n", "<leader>ca", ":Lspsaga code_action<CR>", opt)
-map("v", "<leader>ca", ":Lspsaga range_code_action<CR>", opt)
-map("n", "<leader>ds", ":Lspsaga show_line_diagnostics<CR>", opt)
-map("n", "<Leader>dn", ":Lspsaga diagnostic_jump_next<CR>", opt)
+map("n", "gi", ":lua vim.lsp.buf.implementation()<CR>zz", opt)
+map("n", "K", ":lua vim.lsp.buf.hover()<CR>", opt)
+map("n", "<C-s>", ":lua vim.lsp.buf.signature_help()<CR>", opt)
+map("n", "<Leader>rn", ":lua vim.lsp.buf.rename()<CR>", opt)
+map("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opt)
+map("n", "<leader>ds", ":lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opt)
+map("n", "<Leader>dn", ":lua vim.lsp.diagnostic.goto_next()<CR>", opt)
 
 -- DAP
 map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)

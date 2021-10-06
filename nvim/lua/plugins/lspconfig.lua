@@ -3,6 +3,7 @@ local lspinstall = require "lspinstall"
 
 require("null-ls").config {}
 require("lspconfig")["null-ls"].setup {}
+require("lspconfig").tailwindcss.setup {}
 
 local function on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -14,7 +15,7 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_pub
   underline = true,
   signs = true,
   virtual_text = true,
-  update_in_insert = true,
+  update_in_insert = false,
 })
 
 -- Capture real implementation of function that sets signs
@@ -155,7 +156,7 @@ local function setup_servers()
         -- no default maps, so you may want to define some here
         local opts = { silent = true }
         vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", opts)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", opts)
+        -- vim.api.nvim_buf_set_keymap(bufnr, "n", "grn", ":TSLspRenameFile<CR>", opts)
         vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", opts)
       end
     end
