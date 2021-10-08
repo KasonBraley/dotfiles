@@ -1,6 +1,4 @@
 #!/bin/sh
-#
-# Homebrew
 
 # install
 echo "Installing homebrew..."
@@ -14,7 +12,7 @@ echo "Upgrading Homebrew packages..."
 brew upgrade
 
 echo "Install all Homebrew packages..."
-brew bundle install --file="~/dotfiles/homebrew/Brewfile"
+brew bundle install --file="./Brewfile"
 
 echo "Cleaning up from Homebrew installations..."
 brew cleanup
