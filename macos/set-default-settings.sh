@@ -1,7 +1,7 @@
 # Set a really fast key repeat.
 defaults write NSGlobalDomain KeyRepeat -int 2
 
-# Always open everything in Finder's list view. This is important.
+# Always open everything in Finder's list view.
 defaults write com.apple.Finder FXPreferredViewStyle Nlsv
 
 # Disable press-and-hold for keys in favor of key repeat.
