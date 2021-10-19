@@ -18,19 +18,19 @@ telescope.setup {
     selection_strategy = "reset",
     sorting_strategy = "ascending",
     layout_strategy = "bottom_pane",
-    -- layout_config = {
-    --   horizontal = {
-    --     prompt_position = "bottom",
-    --     preview_width = 0.55,
-    --     results_width = 0.8,
-    --   },
-    --   vertical = {
-    --     mirror = false,
-    --   },
-    --   width = 0.87,
-    --   height = 0.60,
-    --   preview_cutoff = 120,
-    -- },
+    layout_config = {
+      horizontal = {
+        prompt_position = "top",
+        preview_width = 0.55,
+        results_width = 0.8,
+      },
+      vertical = {
+        mirror = false,
+      },
+      width = 0.87,
+      height = 0.60,
+      preview_cutoff = 120,
+    },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
     file_ignore_patterns = {
       ".git/objects/*",

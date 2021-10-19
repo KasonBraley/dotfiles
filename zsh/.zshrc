@@ -4,12 +4,7 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=common
 
 # installed plugins
-<<<<<<< HEAD:zsh/.zshrc
 plugins=(git zsh-autosuggestions autojump zsh-syntax-highlighting vi-mode osx ripgrep)
-=======
-plugins=(git zsh-autosuggestions autojump zsh-syntax-highlighting vi-mode npm osx fd gh ripgrep tmux tmuxinator)
-
->>>>>>> 77e10a4 (Delete dotbot; Use stow):zsh/zshrc
 
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 VI_MODE_SET_CURSOR=true

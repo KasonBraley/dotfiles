@@ -45,6 +45,7 @@ map("n", "<Leader>tc", ":tabclose<CR>", opt)
 
 -- remove highlighted selection
 map("n", "<Esc>", ":noh<CR>", opt)
+map("n", "<C-c>", ":noh<CR>", opt)
 
 -- return normal mode on esc in terminal
 map("t", "<Esc>", "<C-\\><C-n>", opt)

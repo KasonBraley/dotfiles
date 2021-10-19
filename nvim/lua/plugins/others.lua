@@ -52,7 +52,15 @@ M.search_dotfiles = function()
   require("telescope.builtin").find_files {
     prompt_title = "~ dotfiles ~ ",
     shorten_path = false,
-    cwd = "~/dotfiles/nvim",
+    hidden = true,
+    cwd = "~/dotfiles",
+    file_ignore_patterns = {
+      ".git/*",
+      "*.png",
+      "*.jpg",
+      "node_modules/*",
+      "dist/*",
+    },
     layout_strategy = "bottom_pane",
     layout_config = {
       horizontal = {
