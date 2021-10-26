@@ -14,7 +14,7 @@ local lsp = vim.lsp
 lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
   underline = true,
   signs = true,
-  virtual_text = true,
+  virtual_text = false,
   update_in_insert = false,
 })
 

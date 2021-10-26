@@ -17,9 +17,9 @@ cmp.setup {
     format = function(entry, vim_item)
       -- set a name for each source
       vim_item.menu = ({
-        buffer = "[Buffer]",
+        buffer = "[Buff]",
         nvim_lsp = "[LSP]",
-        luasnip = "[LuaSnip]",
+        luasnip = "[Snip]",
         spell = "[Spell]",
         path = "[Path]",
       })[entry.source.name]
@@ -40,9 +40,9 @@ cmp.setup {
   },
   sources = {
     { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "buffer" },
-    { name = "spell" },
     { name = "path" },
+    { name = "luasnip" },
+    { name = "buffer", keyword_length = 5 },
+    { name = "spell" },
   },
 }

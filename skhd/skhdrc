@@ -24,11 +24,6 @@ alt - j : yabai -m query --spaces --space \
   | jq -sre "add | map(select(.minimized != 1)) | sort_by(.display, .frame.y, .frame.y, .id) | nth(index(map(select(.focused == 1))) - 1).id" \
   | xargs -I{} yabai -m window --focus {}
 
-# create desktop and follow focus - uses jq for parsing json (brew install jq)
-alt - n : yabai -m space --create && \
-                index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
-                yabai -m space --focus "${index}"
-
 # destroy desktop
 alt - w : yabai -m space --destroy
 
