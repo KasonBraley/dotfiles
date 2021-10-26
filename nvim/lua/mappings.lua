@@ -143,20 +143,25 @@ map("n", "<left>", ":vertical resize -2<CR>", opt)
 map("n", "<right>", ":vertical resize +2<CR>", opt)
 
 -- Harpoon
-map("n", "<C-f>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opt)
+map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opt)
+map("n", "<C-y>", ":lua require('harpoon.cmd-ui').toggle_quick_menu()<CR>", opt)
 map("n", "<Leader>a", ":lua require('harpoon.mark').add_file()<CR>")
-map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(1)<CR>")
-map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(2)<CR>")
-map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(3)<CR>")
-map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(4)<CR>")
-map("n", "<Leader>kf", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
-map("n", "<Leader>kd", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
+map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>")
+map("n", "<C-t>", ":lua require('harpoon.ui').nav_file(2)<CR>")
+map("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>")
+map("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>")
+map("n", "<Leader>tu", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
+map("n", "<Leader>te", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
 map(
   "n",
-  "<Leader>uf",
-  ":lua require('harpoon.term').sendCommand(1,'ls -a'); require('harpoon.term').gotoTerminal(1)<CR>"
+  "<Leader>cu",
+  ":lua require('harpoon.term').sendCommand(2,1)<CR>:lua require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
--- map("n", "<Leader>ue", ":lua require('harpoon.term').sendCommand(1,)<CR>")
+map(
+  "n",
+  "<Leader>ce",
+  ":lua require('harpoon.term').sendCommand(2,2)<CR>:lua require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
+)
 
 -- Refactoring
 map("v", "<Leader>re", ":lua require('refactoring').refactor('Extract Function')<CR>", opt)
