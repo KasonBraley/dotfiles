@@ -206,7 +206,6 @@ packer.startup(function()
 
   use { "nvim-lua/plenary.nvim" }
   use { "nvim-telescope/telescope-fzy-native.nvim" }
-  use { "nvim-telescope/telescope-media-files.nvim" }
 
   -------------------------------- Utils
   use { "nvim-lua/popup.nvim" }
