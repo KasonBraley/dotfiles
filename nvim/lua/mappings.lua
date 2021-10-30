@@ -8,7 +8,7 @@ end
 
 local opt = {}
 
-map("n", "<Leader><Leader>", "<C-^>")
+map("n", "<Leader><Leader>", "<C-^>zz")
 
 map("n", "n", "nzz")
 map("n", "N", "Nzz")
@@ -91,13 +91,13 @@ map("n", "<Leader>gc", ":Neogit commit<CR>", opt)
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 
 -- Quickfix
-map("", "<Leader>q", ":copen<cr>", opt)
-map("n", "<Leader>j", ":cnext<cr>", opt)
-map("n", "<Leader>k", ":cprevious<cr>", opt)
+map("", "<C-q>", ":copen<cr>", opt)
+map("n", "<C-k>", ":cnext<cr>zz", opt)
+map("n", "<C-j>", ":cprevious<cr>zz", opt)
 
 -- map("", "<leader>q", ":lopen<cr>", opt)
--- map("", "<leader>n", ":lnext<cr>", opt)
--- map("", "<leader>k", ":lprevious<cr>", opt)
+map("", "<leader>j", ":lnext<cr>zz", opt)
+map("", "<leader>k", ":lprevious<cr>zz", opt)
 
 -- don't be nothered with the type of little window to close, just get rid of it
 map("", "cl", ":pclose | lclose | cclose<CR>", opt)
