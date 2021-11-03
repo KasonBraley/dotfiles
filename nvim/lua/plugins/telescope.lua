@@ -63,13 +63,8 @@ telescope.setup {
       override_generic_sorter = true,
       override_file_sorter = true,
     },
-    media_files = {
-      filetypes = { "png", "webp", "jpg", "jpeg" },
-      find_cmd = "rg", -- Ripgrep (requires installation) (defaults to `fd`)
-    },
   },
 }
 
 telescope.load_extension "fzy_native"
-telescope.load_extension "media_files"
 telescope.load_extension "git_worktree"
