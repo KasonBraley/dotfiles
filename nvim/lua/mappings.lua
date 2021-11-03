@@ -37,8 +37,8 @@ map("n", "<C-x>", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term 
 -- Nvimtree (rest are defaults)
 map("n", "<C-a>", ":NvimTreeToggle<CR>", opt)
 
--- Bufferline tabs
-map("n", "<Leader>tt", ":tabnew<CR>", opt) -- new tab
+-- Tabs
+map("n", "<Leader>tt", ":tabnew<CR>", opt)
 map("n", "<Leader>tn", ":tabnext<CR>", opt)
 map("n", "<Leader>tp", ":tabprevious<CR>", opt)
 map("n", "<Leader>tc", ":tabclose<CR>", opt)
@@ -67,15 +67,15 @@ map("n", "<leader>fB", ":Telescope builtin<CR>", opt)
 map("n", "<leader>fs", ":Telescope treesitter<CR>", opt)
 
 -- Git
-map("n", "<Leader>gs", ":Telescope git_status<CR>", opt)
+-- map("n", "<Leader>gs", ":Telescope git_status<CR>", opt)
 -- map("n", "<Leader>gg", ":Telescope git_bcommits<Cr>", opt)
 map("n", "<Leader>gB", ":Telescope git_branches<CR>", opt)
 map("n", "<Leader>gl", ":Telescope git_commits<CR>", opt)
 map("n", "<leader>wg", ":Telescope git_worktree git_worktrees<CR>", opt)
 map("n", "<leader>wc", ":Telescope git_worktree create_git_worktree<CR>", opt)
 
-map("n", "<Leader>gh", ":Gitsigns stage_hunk<CR>", opt)
-map("v", "<Leader>gh", '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
+map("n", "<Leader>gs", ":Gitsigns stage_hunk<CR>", opt)
+map("v", "<Leader>gs", '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
 map("n", "<Leader>gu", ":Gitsigns undo_stage_hunk<CR>", opt)
 map("n", "<Leader>gr", ":Gitsigns reset_hunk<CR>", opt)
 map("v", "<Leader>gr", '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
@@ -145,16 +145,16 @@ map("n", "<right>", ":vertical resize +2<CR>", opt)
 map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opt)
 map("n", "<C-y>", ":lua require('harpoon.cmd-ui').toggle_quick_menu()<CR>", opt)
 map("n", "<Leader>a", ":lua require('harpoon.mark').add_file()<CR>")
-map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>")
-map("n", "<C-t>", ":lua require('harpoon.ui').nav_file(2)<CR>")
-map("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>")
-map("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>")
+map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>zz")
+map("n", "<C-t>", ":lua require('harpoon.ui').nav_file(2)<CR>zz")
+map("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>zz")
+map("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>zz")
 map("n", "<Leader>tu", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
 map("n", "<Leader>te", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
 map(
   "n",
   "<Leader>cu",
-  ":lua require('harpoon.term').sendCommand(2,1)<CR>:lua require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
+  ":lua require('harpoon.term').sendCommand(2,1); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 map(
   "n",
