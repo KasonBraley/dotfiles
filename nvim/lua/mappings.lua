@@ -170,3 +170,4 @@ map("v", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
 
 -- misc
 map("n", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>", opt)
+map("n", "Q", "<nop>", opt) -- disable Ex mode
