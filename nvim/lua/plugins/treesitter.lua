@@ -1,6 +1,6 @@
-local ts_config = require "nvim-treesitter.configs"
+local ts_config = require("nvim-treesitter.configs")
 
-ts_config.setup {
+ts_config.setup({
   ensure_installed = {
     "javascript",
     "html",
@@ -64,4 +64,4 @@ ts_config.setup {
     highlight_definitions = { enable = true },
     highlight_current_scope = { enable = true },
   },
-}
+})

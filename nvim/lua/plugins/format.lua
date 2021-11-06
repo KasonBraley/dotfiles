@@ -1,4 +1,4 @@
-local format = require "formatter"
+local format = require("formatter")
 
 local prettier = function()
   return {
@@ -8,7 +8,7 @@ local prettier = function()
   }
 end
 
-format.setup {
+format.setup({
   logging = false,
   filetype = {
     javascript = { prettier },
@@ -30,7 +30,7 @@ format.setup {
       end,
     },
   },
-}
+})
 
 -- format on save
 vim.api.nvim_exec(

@@ -1,5 +1,5 @@
-local lspconfig = require "lspconfig"
-local lspinstall = require "lspinstall"
+local lspconfig = require("lspconfig")
+local lspinstall = require("lspinstall")
 
 require("null-ls").config({})
 require("lspconfig")["null-ls"].setup({})
@@ -63,8 +63,8 @@ local lua_settings = {
     diagnostics = { globals = { "vim" } },
     workspace = {
       library = {
-        [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-        [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+        [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
       },
       maxPreload = 100000,
       preloadFileSize = 10000,
@@ -105,10 +105,10 @@ local function setup_servers()
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
 
-        local ts_utils = require "nvim-lsp-ts-utils"
+        local ts_utils = require("nvim-lsp-ts-utils")
 
         -- defaults
-        ts_utils.setup {
+        ts_utils.setup({
           debug = false,
           disable_commands = false,
           enable_import_on_completion = true,
@@ -131,7 +131,7 @@ local function setup_servers()
           eslint_enable_diagnostics = false,
           eslint_opts = {
             condition = function(utils)
-              return utils.root_has_file ".eslintrc.json"
+              return utils.root_has_file(".eslintrc.json")
             end,
             diagnostics_format = "#{m} (#{s})",
           },
@@ -149,7 +149,7 @@ local function setup_servers()
           -- filter diagnostics
           filter_out_diagnostics_by_severity = { "hint" },
           filter_out_diagnostics_by_code = { 80001 },
-        }
+        })
 
         -- required to fix code action ranges and filter diagnostics
         ts_utils.setup_client(client)
@@ -171,5 +171,5 @@ setup_servers()
 -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
 lspinstall.post_install_hook = function()
   setup_servers() -- reload installed servers
-  vim.cmd "bufdo e"
+  vim.cmd("bufdo e")
 end

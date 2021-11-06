@@ -1,5 +1,5 @@
-local icons = require "nvim-web-devicons"
+local icons = require("nvim-web-devicons")
 
-icons.setup {
+icons.setup({
   default = true,
-}
+})

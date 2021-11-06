@@ -1,6 +1,6 @@
-local telescope = require "telescope"
+local telescope = require("telescope")
 
-telescope.setup {
+telescope.setup({
   defaults = {
     vimgrep_arguments = {
       "rg",
@@ -64,7 +64,7 @@ telescope.setup {
       override_file_sorter = true,
     },
   },
-}
+})
 
-telescope.load_extension "fzy_native"
-telescope.load_extension "git_worktree"
+telescope.load_extension("fzy_native")
+telescope.load_extension("git_worktree")

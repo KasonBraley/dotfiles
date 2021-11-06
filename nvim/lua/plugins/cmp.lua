@@ -1,6 +1,6 @@
-local cmp = require "cmp"
+local cmp = require("cmp")
 
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       require("luasnip").lsp_expand(args.body)
@@ -33,10 +33,10 @@ cmp.setup {
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm {
+    ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = false,
-    },
+    }),
   },
   sources = {
     { name = "nvim_lsp" },
@@ -45,4 +45,4 @@ cmp.setup {
     { name = "buffer", keyword_length = 5 },
     { name = "spell" },
   },
-}
+})

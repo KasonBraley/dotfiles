@@ -1,6 +1,6 @@
-local lualine = require "lualine"
+local lualine = require("lualine")
 
-lualine.setup {
+lualine.setup({
   options = {
     icons_enabled = true,
     theme = "tokyonight",
@@ -26,4 +26,4 @@ lualine.setup {
   },
   tabline = {},
   extensions = {},
-}
+})

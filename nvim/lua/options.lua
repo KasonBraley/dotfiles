@@ -21,10 +21,10 @@ opt.foldlevelstart = 99 -- start unfolded
 opt.completeopt = "menu,noselect"
 
 -- disable nvim intro
-opt.shortmess:append "sI"
+opt.shortmess:append("sI")
 
 -- disable tilde on end of buffer: https://github.com/neovim/neovim/pull/8546#issuecomment-643643758
-vim.cmd "let &fcs='eob: '"
+vim.cmd("let &fcs='eob: '")
 
 -- Numbers
 opt.number = true
@@ -39,14 +39,14 @@ opt.smartindent = true
 
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
-opt.whichwrap:append "<>hl"
+opt.whichwrap:append("<>hl")
 
 g.mapleader = " "
 
-g.dap_virtual_text = true
+-- g.dap_virtual_text = true
 
 -- tokyonight theme
-vim.cmd [[colorscheme tokyonight]]
+vim.cmd([[colorscheme tokyonight]])
 
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"

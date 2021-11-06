@@ -1,15 +1,15 @@
-local dap_install = require "dap-install"
+local dap_install = require("dap-install")
 
-dap_install.setup {
-  installation_path = vim.fn.stdpath "data" .. "/dapinstall/",
+dap_install.setup({
+  installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
   verbosely_call_debuggers = false,
-}
+})
 
 dap_install.config("jsnode", {
   adapters = {
     type = "executable",
     command = "node",
-    args = { os.getenv "HOME" .. "/.local/share/nvim/dapinstall/jsnode/vscode-node-debug2/out/src/nodeDebug.js" },
+    args = { os.getenv("HOME") .. "/.local/share/nvim/dapinstall/jsnode/vscode-node-debug2/out/src/nodeDebug.js" },
   },
   configurations = {
     {
@@ -28,7 +28,9 @@ dap_install.config("chrome", {
   adapters = {
     type = "executable",
     command = "node",
-    args = { os.getenv "HOME" .. "/.local/share/nvim/dapinstall/chrome/vscode-chrome-debug/out/src/chromeDebug.js" },
+    args = {
+      os.getenv("HOME") .. "/.local/share/nvim/dapinstall/chrome/vscode-chrome-debug/out/src/chromeDebug.js",
+    },
   },
   configurations = {
     {
