@@ -1,5 +1,5 @@
 local function map(mode, lhs, rhs, opts)
-  local options = { noremap = true, silent = true }
+  local options = { noremap = true, silent = false }
   if opts then
     options = vim.tbl_extend("force", options, opts)
   end
@@ -51,7 +51,7 @@ map("n", "<C-c>", ":noh<CR>", opt)
 map("t", "<Esc>", "<C-\\><C-n>", opt)
 
 -- Telescope
-map("n", "<Leader>ff", ":Telescope find_files <CR>", opt)
+map("n", "<Leader>ff", ":Telescope find_files<CR>", opt)
 map("n", "<Leader>fg", ":Telescope git_files<CR>", opt)
 map("n", "<Leader>fi", ":Telescope current_buffer_fuzzy_find <CR>", opt)
 map("n", "<Leader>fb", ":Telescope buffers<CR>", opt)

@@ -18,16 +18,7 @@ format.setup {
     css = { prettier },
     json = { prettier },
     jsonc = { prettier },
-    html = {
-      -- html-beutify for better html indentation
-      function()
-        return {
-          exe = "html-beautify",
-          args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
-          stdin = true,
-        }
-      end,
-    },
+    html = { prettier },
     lua = {
       -- stylua
       function()

@@ -97,4 +97,4 @@ shift + alt - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
 
 
 ctrl - return : open /Applications/kitty.app -n --args --single-instance --title="zsh"
-
+ctrl + shift - o : open /Applications/kitty.app -n --args --single-instance --title="zsh"; open "/Applications/Google Chrome.app"; open /System/Applications/Music.app; open /Applications/Slack.app; open /Applications/Discord.app; open /Applications/draw.io.app;

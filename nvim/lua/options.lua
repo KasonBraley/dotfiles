@@ -32,8 +32,9 @@ opt.numberwidth = 2
 opt.relativenumber = true
 
 -- Indenline
-opt.expandtab = true
+opt.tabstop = 2
 opt.shiftwidth = 2
+opt.expandtab = true
 opt.smartindent = true
 
 -- go to previous/next line with h,l,left arrow and right arrow

@@ -1,9 +1,10 @@
 local lspconfig = require "lspconfig"
 local lspinstall = require "lspinstall"
 
-require("null-ls").config {}
-require("lspconfig")["null-ls"].setup {}
-require("lspconfig").tailwindcss.setup {}
+require("null-ls").config({})
+require("lspconfig")["null-ls"].setup({})
+require("lspconfig").tailwindcss.setup({})
+require("lspconfig/quick_lint_js").setup({})
 
 local function on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -15,7 +16,7 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_pub
   underline = true,
   signs = true,
   virtual_text = false,
-  update_in_insert = false,
+  update_in_insert = true,
 })
 
 -- Capture real implementation of function that sets signs
@@ -127,12 +128,12 @@ local function setup_servers()
           eslint_enable_code_actions = true,
           eslint_enable_disable_comments = true,
           eslint_bin = "eslint_d",
-          eslint_enable_diagnostics = true,
+          eslint_enable_diagnostics = false,
           eslint_opts = {
             condition = function(utils)
               return utils.root_has_file ".eslintrc.json"
             end,
-            diagnostics_format = "#{m} [#{c}] (#{s})",
+            diagnostics_format = "#{m} (#{s})",
           },
 
           -- formatting

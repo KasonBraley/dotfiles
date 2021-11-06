@@ -85,7 +85,14 @@ packer.startup(function()
 
   use {
     "jose-elias-alvarez/nvim-lsp-ts-utils",
-  }
+  })
+
+  use({
+    "quick-lint/quick-lint-js",
+    rtp = "plugin/vim/quick-lint-js.vim",
+    tag = "0.5.0",
+    opt = true,
+  })
 
   -- formatting
   use {
