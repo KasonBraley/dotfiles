@@ -6,7 +6,7 @@
 [init]
 	defaultBranch = main
 [commit]
-  template = /Users/kason/.config/git/template
+  template = ~/.config/git/template
 
 [url "https://github.com/"]
   insteadOf = gh:

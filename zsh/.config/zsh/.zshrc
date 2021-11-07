@@ -1,10 +1,10 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
+ZSH_CUSTOM=~/.config/zsh
 ZSH_THEME=common
 
 # installed plugins
-plugins=(git zsh-autosuggestions autojump zsh-syntax-highlighting vi-mode osx ripgrep)
+plugins=(git zsh-autosuggestions vi-mode ripgrep zsh-syntax-highlighting)
 
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 VI_MODE_SET_CURSOR=true
