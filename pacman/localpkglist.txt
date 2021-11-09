@@ -1,0 +1,7 @@
+aws-cli-v2-bin
+postman-bin
+quick-lint-js
+slack-desktop
+stylua
+visual-studio-code-bin
+zoom
