@@ -13,15 +13,14 @@ packer.startup(function()
 
   -------------------------------- LSP
 
+  use({ "neovim/nvim-lspconfig" })
+
   use({
-    "neovim/nvim-lspconfig",
+    "williamboman/nvim-lsp-installer",
     config = function()
       require("plugins.lspconfig")
     end,
   })
-
-  use({ "kabouzeid/nvim-lspinstall" })
-
   -------------------------------- IDE Like Plugins
   use({
     "nvim-treesitter/nvim-treesitter",

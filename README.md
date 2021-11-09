@@ -1,10 +1,11 @@
-# Software Developer focused dotfiles
+# dotfiles
 
 The core component of this environment is the [neovim](https://neovim.io/) text editor and various open source plugins.
 
-The primary purpose of this repository is to make setting up my development environment on MacOS as quick and painless as possible.
-
 <hr>
+
+### OS
+[manjaro](https://manjaro.org/)
 
 ### Text Editor
 [neovim](./nvim/)
@@ -18,7 +19,3 @@ The primary purpose of this repository is to make setting up my development envi
 ### Theme
 [TokyoNight](https://github.com/folke/tokyonight.nvim)
 
-<hr>
-
-####
-![rice](../assets/rice_basic.png)<hr>

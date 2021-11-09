@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#Credit to Michael Paulson.
 selected=`cat ~/.config/kitty/.cht-languages ~/.config/kitty/.cht-command | fzf`
 if [[ -z $selected ]]; then
     exit 0

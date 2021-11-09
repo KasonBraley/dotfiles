@@ -1,17 +1,3 @@
-# Showcase
-
-![basic](../../assets/rice_basic.png)<hr>
-### File Tree
-![basictree](../../assets/rice_basic_tree.png)<hr>
-### Terminal
-![basictreeterminal](../../assets/rice_basic_tree_terminal.png)<hr>
-### Fuzzy Finder
-![telescope](../../assets/rice_telescope.png)<hr>
-### Intellisense
-![lsp](../../assets/rice_lsp_definition.png)<hr>
-<!-- ![completion](../../assets/rice_lsp_completion.mp4?raw=true)<hr> -->
-
-
 ### Neovim Plugins I Use
 
 ###### Plugin Manager
@@ -19,7 +5,7 @@
 
 ###### LSP 
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) - Quickstart configurations for the Nvim LSP client.
-- [kabouzeid/nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall) - Provides the missing :LspInstall for nvim-lspconfig.
+- [williamboman/nvim-lsp-installer](https://github.com/williamboman/nvim-lsp-installer) - Provides the missing :LspInstall for nvim-lspconfig.
 
 
 ######  IDE plugins - Intellisense, Linting, Formatting, Code Completion
@@ -84,10 +70,8 @@
 - [ThePrimeagen/vim-be-good](https://github.com/ThePrimeagen/vim-be-good) - Vim-be-good is a nvim plugin designed to make you better at Vim Movements.
 
 #### NPM Dependencies
-- [prettierD](https://github.com/fsouza/prettierd)
-- [live-server](https://github.com/tapio/live-server)
-- [eslint](https://github.com/eslint/eslint)
-- [js-beautify](https://github.com/beautify-web/js-beautify) - I only use the `html-beautify` portion of this package. I use `html-beautify` to format HTML files instead of `Prettier` because I don't like how `Prettier` formats HTML files.
+- [prettier_d_slim](https://github.com/mikew/prettier_d_slim)
+- [eslint_d](https://github.com/mantoni/eslint_d.js/)
 
 #### Other Dependencies
 - [StyLua](https://github.com/JohnnyMorganz/StyLua)
