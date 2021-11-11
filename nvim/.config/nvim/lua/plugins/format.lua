@@ -3,7 +3,7 @@ local format = require("formatter")
 local prettier = function()
   return {
     exe = "prettier_d_slim",
-    args = {"--stdin", "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+    args = { "--stdin", "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
     stdin = true,
   }
 end
@@ -18,6 +18,7 @@ format.setup({
     css = { prettier },
     json = { prettier },
     jsonc = { prettier },
+    yaml = { prettier },
     html = { prettier },
     lua = {
       -- stylua
