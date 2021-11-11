@@ -1,8 +1,5 @@
--- local lspconfig = require("lspconfig")
 local lsp_installer = require("nvim-lsp-installer")
 
--- require("null-ls").config({})
--- require("lspconfig")["null-ls"].setup({})
 require("lspconfig/quick_lint_js").setup({})
 
 local servers = {
@@ -113,22 +110,12 @@ lsp_installer.on_server_ready(function(server)
 
       return default_opts
     end,
-    -- currently breaks quick_lint_js. Seems to be taking over the result_id. Ask Strager
---     ["tsserver"] = function()
---       default_opts.on_attach = function(client)
---         local ts_utils = require("nvim-lsp-ts-utils")
-
---         ts_utils.setup({
---           debug = true,
---           -- filter diagnostics
---           filter_out_diagnostics_by_severity = { "hint" },
---           filter_out_diagnostics_by_code = { 80001 },
---         })
-
---         -- required to fix code action ranges and filter diagnostics
---         ts_utils.setup_client(client)
---       end
---     end,
+    ["tsserver"] = function()
+      default_opts.handlers = {
+        ["textDocument/publishDiagnostics"] = function() end,
+      }
+      return default_opts
+    end,
   }
 
   -- We check to see if any custom server_opts exist for the LSP server, if so, load them, if not, use our default_opts
