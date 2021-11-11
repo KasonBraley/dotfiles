@@ -36,3 +36,5 @@ ehthumbs.db
 Thumbs.db
 
 /nvim/.config/nvim/plugin/
+/bin
+/zsh
