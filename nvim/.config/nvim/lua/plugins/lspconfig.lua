@@ -7,10 +7,12 @@ local servers = {
   "pyright",
   "jsonls",
   "sumneko_lua",
+  "jsonls",
   "yamlls",
   "html",
   "cssls",
   "tailwindcss",
+  "clangd",
 }
 
 local function on_attach(_, bufnr)

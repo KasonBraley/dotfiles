@@ -15,6 +15,7 @@ format.setup({
     javascriptreact = { prettier },
     typescript = { prettier },
     typescriptreact = { prettier },
+    markdown = { prettier },
     css = { prettier },
     json = { prettier },
     jsonc = { prettier },

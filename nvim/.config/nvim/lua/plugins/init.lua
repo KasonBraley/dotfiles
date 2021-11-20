@@ -104,6 +104,7 @@ packer.startup(function()
   -- File tree
   use({
     "kyazdani42/nvim-tree.lua",
+    requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("plugins.nvimtree")
     end,
@@ -169,6 +170,9 @@ packer.startup(function()
   -- git stuff
   use({
     "lewis6991/gitsigns.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+    },
     config = function()
       require("plugins.gitsigns")
     end,
