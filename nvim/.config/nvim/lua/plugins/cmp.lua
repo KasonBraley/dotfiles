@@ -44,5 +44,8 @@ cmp.setup({
     { name = "luasnip" },
     { name = "buffer", keyword_length = 5 },
     { name = "spell" },
+    { name = "cmp_git" },
   },
 })
+
+require("cmp_git").setup()
