@@ -24,9 +24,6 @@ map("n", "k", "gk")
 map("x", ">", ">gv")
 map("x", "<", "<gv")
 
--- Commenter Keybinding
-vim.api.nvim_set_keymap("", "<leader>/", ":CommentToggle<CR>", opt)
-
 -- format
 map("n", "<Leader>fm", ":Format<CR>", opt)
 

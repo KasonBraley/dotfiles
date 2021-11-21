@@ -58,7 +58,7 @@
 ###### Utils
 - [lukas-reineke/indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim) - IndentLine replacement in lua with more features and treesitter support.
 - [windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs) - A minimalist autopairs for Neovim written by Lua.
-- [terrortylor/nvim-comment](https://github.com/b3nj5m1n/kommentary) - Commenting plugin written in lua
+- [numToStr/Comment.nvim](https://github.com/numToStr/Comment.nvim) - Commenting plugin written in lua
 - [karb94/neoscroll.nvim](https://github.com/karb94/neoscroll.nvim) - Smooth scrolling for neovim.
 - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) - Use treesitter to autoclose and autorename xml,html,jsx tag.
 - [andymass/vim-matchup](https://github.com/andymass/vim-matchup) - match-up is a plugin that lets you highlight, navigate, and operate on sets of matching text. It extends vim's % key to language-specific words instead of just single characters.

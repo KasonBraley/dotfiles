@@ -31,10 +31,6 @@ packer.startup(function()
   })
 
   use({
-    "JoosepAlviste/nvim-ts-context-commentstring",
-  })
-
-  use({
     "romgrk/nvim-treesitter-context",
   })
 
@@ -247,11 +243,16 @@ packer.startup(function()
 
   use({ "andymass/vim-matchup" })
 
+  -- commenting
   use({
-    "terrortylor/nvim-comment",
+    "numToStr/Comment.nvim",
     config = function()
       require("plugins.comment")
     end,
+  })
+
+  use({
+    "JoosepAlviste/nvim-ts-context-commentstring",
   })
 
   -- smooth scroll
