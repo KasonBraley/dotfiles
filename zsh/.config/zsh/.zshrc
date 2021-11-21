@@ -4,7 +4,7 @@ ZSH_CUSTOM=~/.config/zsh
 ZSH_THEME=common
 
 # installed plugins
-plugins=(git zsh-autosuggestions vi-mode ripgrep zsh-syntax-highlighting)
+plugins=(zsh-autosuggestions vi-mode ripgrep zsh-syntax-highlighting)
 
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 VI_MODE_SET_CURSOR=true
@@ -26,4 +26,15 @@ export EDITOR='nvim'
 # alias
 alias m="music"
 
+# git
+alias gs="git status -sb"
+alias gl="git log --graph --oneline --decorate --all"
+alias gql="git log --color --pretty=format:'%Cgreen%h%Creset%C(yellow)%d%Creset %s%Creset' --abbrev-commit -n5"
+alias gc="git commit -v"
+alias gd="git diff"
+alias g.="git add -p"
+alias gar="git add --all ."
+alias ga="git commit --amend --reuse-message=HEAD"
+
 source $ZSH/oh-my-zsh.sh
+source /usr/share/nvm/init-nvm.sh
