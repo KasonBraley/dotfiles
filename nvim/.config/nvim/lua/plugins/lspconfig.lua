@@ -85,6 +85,38 @@ local lua_settings = {
   },
 }
 
+local json_settings = {
+  json = {
+    -- Schemas https://www.schemastore.org
+    schemas = {
+      {
+        fileMatch = { "package.json" },
+        url = "https://json.schemastore.org/package.json",
+      },
+      {
+        fileMatch = { "tsconfig*.json" },
+        url = "https://json.schemastore.org/tsconfig.json",
+      },
+      {
+        fileMatch = {
+          ".prettierrc",
+          ".prettierrc.json",
+          "prettier.config.json",
+        },
+        url = "https://json.schemastore.org/prettierrc.json",
+      },
+      {
+        fileMatch = { ".eslintrc", ".eslintrc.json" },
+        url = "https://json.schemastore.org/eslintrc.json",
+      },
+      {
+        fileMatch = { ".babelrc", ".babelrc.json", "babel.config.json" },
+        url = "https://json.schemastore.org/babelrc.json",
+      },
+    },
+  },
+}
+
 -- config that activates keymaps and enables snippet support
 local function make_config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -116,6 +148,10 @@ lsp_installer.on_server_ready(function(server)
       default_opts.handlers = {
         ["textDocument/publishDiagnostics"] = function() end,
       }
+      return default_opts
+    end,
+    ["jsonls"] = function()
+      default_opts.settings = json_settings
       return default_opts
     end,
   }
