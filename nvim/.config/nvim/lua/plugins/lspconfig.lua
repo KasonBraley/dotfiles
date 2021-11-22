@@ -13,6 +13,7 @@ local servers = {
   "cssls",
   "tailwindcss",
   "clangd",
+  "eslint",
 }
 
 local function on_attach(_, bufnr)
@@ -149,6 +150,17 @@ lsp_installer.on_server_ready(function(server)
         ["textDocument/publishDiagnostics"] = function() end,
       }
       return default_opts
+    end,
+    ["eslint"] = function()
+      default_opts.filetypes = {
+        -- "javascript",
+        "javascriptreact",
+        "javascript.jsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
+        "vue",
+      }
     end,
     ["jsonls"] = function()
       default_opts.settings = json_settings
