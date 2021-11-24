@@ -14,6 +14,7 @@ local servers = {
   "tailwindcss",
   "clangd",
   "eslint",
+  "dockerls",
 }
 
 local function on_attach(_, bufnr)
@@ -118,6 +119,16 @@ local json_settings = {
   },
 }
 
+local yaml_settings = {
+  yaml = {
+    -- Schemas https://www.schemastore.org
+    schemas = {
+      ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.yml",
+      ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+    },
+  },
+}
+
 -- config that activates keymaps and enables snippet support
 local function make_config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -164,6 +175,10 @@ lsp_installer.on_server_ready(function(server)
     end,
     ["jsonls"] = function()
       default_opts.settings = json_settings
+      return default_opts
+    end,
+    ["yamlls"] = function()
+      default_opts.settings = yaml_settings
       return default_opts
     end,
   }
