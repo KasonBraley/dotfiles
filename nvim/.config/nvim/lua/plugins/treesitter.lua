@@ -42,12 +42,10 @@ ts_config.setup({
       keymaps = {
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
-        -- ["ac"] = "@class.outer",
-        -- ["ic"] = "@class.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
         ["al"] = "@loop.outer",
         ["il"] = "@loop.inner",
-        ["ac"] = "@conditional.outer",
-        ["ic"] = "@conditional.inner",
       },
     },
     swap = {
@@ -62,6 +60,5 @@ ts_config.setup({
   },
   refactor = {
     highlight_definitions = { enable = true },
-    highlight_current_scope = { enable = true },
   },
 })

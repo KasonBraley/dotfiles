@@ -31,10 +31,6 @@ packer.startup(function()
   })
 
   use({
-    "romgrk/nvim-treesitter-context",
-  })
-
-  use({
     "nvim-treesitter/nvim-treesitter-refactor",
   })
 
@@ -67,19 +63,6 @@ packer.startup(function()
       "f3fora/cmp-spell",
       "petertriho/cmp-git",
     },
-  })
-
-  -- diagnostics
-  -- use({
-  --   "jose-elias-alvarez/null-ls.nvim",
-  --   config = function()
-  --     require("plugins.lspconfig")
-  --   end,
-  --   requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-  -- })
-
-  use({
-    "jose-elias-alvarez/nvim-lsp-ts-utils",
   })
 
   use({
@@ -185,13 +168,6 @@ packer.startup(function()
     "pwntester/octo.nvim",
     config = function()
       require("octo").setup()
-    end,
-  })
-
-  use({
-    "sindrets/diffview.nvim",
-    config = function()
-      require("plugins.diffview")
     end,
   })
 

@@ -158,12 +158,14 @@ lsp_installer.on_server_ready(function(server)
     end,
     ["tsserver"] = function()
       default_opts.handlers = {
+        -- disable tsserver diagnostics
         ["textDocument/publishDiagnostics"] = function() end,
       }
       return default_opts
     end,
     ["eslint"] = function()
       default_opts.filetypes = {
+        -- disable eslint diagnotics for .js files, instead it is handled by quick_lint_js
         -- "javascript",
         "javascriptreact",
         "javascript.jsx",

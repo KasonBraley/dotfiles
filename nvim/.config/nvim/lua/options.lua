@@ -6,7 +6,6 @@ opt.hidden = true
 opt.ignorecase = true
 opt.splitbelow = true
 opt.splitright = true
-opt.termguicolors = true
 opt.cul = true
 opt.mouse = "a"
 opt.signcolumn = "yes"
@@ -45,11 +44,15 @@ g.mapleader = " "
 
 -- g.dap_virtual_text = true
 
--- tokyonight theme
+-- colorscheme
+opt.termguicolors = true
 vim.cmd([[colorscheme tokyonight]])
 
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+-- vim-matchup
+g.matchup_matchparen_offscreen = {}
 
 -- disable builtin vim plugins
 local disabled_built_ins = {
