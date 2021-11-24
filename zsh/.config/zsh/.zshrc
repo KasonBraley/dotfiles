@@ -35,6 +35,7 @@ alias gd="git diff"
 alias g.="git add -p"
 alias gar="git add --all ."
 alias ga="git commit --amend --reuse-message=HEAD"
+alias gr="git rebase"
 
 source $ZSH/oh-my-zsh.sh
 source /usr/share/nvm/init-nvm.sh
