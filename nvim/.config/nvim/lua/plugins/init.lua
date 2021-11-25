@@ -129,7 +129,11 @@ packer.startup(function()
   })
 
   -- color/theme related stuff
-  use({ "folke/tokyonight.nvim" })
+
+  -- use({ "KasonBraley/nvim-solarized-lua" })
+
+  -- local theme development
+  use({ "~/dev/lua/nvim-solarized-lua" })
 
   -- color highlighter
   use({
