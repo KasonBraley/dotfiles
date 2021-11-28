@@ -38,7 +38,7 @@ map("n", "<C-a>", ":NvimTreeToggle<CR>", opt)
 map("n", "<Leader>tt", ":tabnew<CR>", opt)
 map("n", "<Leader>tn", ":tabnext<CR>", opt)
 map("n", "<Leader>tp", ":tabprevious<CR>", opt)
-map("n", "<Leader>tc", ":tabclose<CR>", opt)
+map("n", "<Leader>tq", ":tabclose<CR>", opt)
 
 -- remove highlighted selection
 map("n", "<Esc>", ":noh<CR>", opt)
@@ -164,6 +164,10 @@ map("v", "<Leader>re", ":lua require('refactoring').refactor('Extract Function')
 map("v", "<Leader>rf", ":lua require('refactoring').refactor('Extract Function To File')<CR>", opt)
 map("n", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
 map("v", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
+
+-- cmp
+-- toggle cmp completion
+map("n", "<Leader>tc", ":lua require('plugins.others').toggle_completion()<CR>", opt)
 
 -- misc
 map("n", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>", opt)
