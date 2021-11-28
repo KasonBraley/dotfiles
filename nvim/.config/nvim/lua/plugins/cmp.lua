@@ -35,20 +35,8 @@ cmp.setup({
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
-    -- ["<CR>"] = cmp.mapping.confirm({
-    --   behavior = cmp.ConfirmBehavior.Replace,
-    --   select = false,
-    -- }),
     ["<CR>"] = cmp.mapping({
       i = function(fallback)
-        if cmp.visible() then
-          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-          require("plugins.others").toggle_completion()
-        else
-          fallback()
-        end
-      end,
-      c = function(fallback)
         if cmp.visible() then
           cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
           require("plugins.others").toggle_completion()
@@ -66,13 +54,6 @@ cmp.setup({
         else
           cmp.complete()
           require("plugins.others").toggle_completion()
-        end
-      end,
-      c = function()
-        if cmp.visible() then
-          cmp.close()
-        else
-          cmp.complete()
         end
       end,
     }),
