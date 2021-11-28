@@ -6,3 +6,5 @@ html
 lua
 bash
 zsh
+docker
+docker-compose
