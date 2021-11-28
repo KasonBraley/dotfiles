@@ -4,7 +4,7 @@ ZSH_CUSTOM=~/.config/zsh
 ZSH_THEME=common
 
 # installed plugins
-plugins=(zsh-autosuggestions vi-mode ripgrep zsh-syntax-highlighting)
+plugins=(zsh-autosuggestions zsh-syntax-highlighting)
 
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 VI_MODE_SET_CURSOR=true
