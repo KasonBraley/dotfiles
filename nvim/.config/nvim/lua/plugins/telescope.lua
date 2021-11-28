@@ -27,9 +27,9 @@ telescope.setup({
       vertical = {
         mirror = false,
       },
-      width = 0.87,
-      height = 0.60,
-      preview_cutoff = 120,
+      width = 0.5,
+      height = 0.5,
+      preview_cutoff = 10,
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
     file_ignore_patterns = {

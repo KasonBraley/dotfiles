@@ -42,9 +42,9 @@ M.search_dev = function()
       vertical = {
         mirror = false,
       },
-      width = 0.87,
-      height = 0.60,
-      preview_cutoff = 120,
+      width = 0.5,
+      height = 0.5,
+      preview_cutoff = 10,
     },
   })
 end
@@ -71,9 +71,9 @@ M.search_dotfiles = function()
       vertical = {
         mirror = false,
       },
-      width = 0.87,
-      height = 0.60,
-      preview_cutoff = 120,
+      width = 0.5,
+      height = 0.5,
+      preview_cutoff = 10,
     },
   })
 end
