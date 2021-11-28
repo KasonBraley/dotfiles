@@ -249,7 +249,11 @@ packer.startup(function()
 
   -------------------------------- Misc
   -- Markdown previewer
-  use({ "iamcco/markdown-preview.nvim" })
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    ft = { "markdown" },
+  })
 
   -- vim game
   use({ "ThePrimeagen/vim-be-good" })
