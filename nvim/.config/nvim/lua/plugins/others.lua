@@ -14,17 +14,6 @@ M.neoscroll = function()
   require("neoscroll.config").set_mappings(t)
 end
 
-M.blankline = function()
-  vim.g.indentLine_enabled = 1
-  vim.g.indent_blankline_char = "▏"
-
-  vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard", "packer" }
-  vim.g.indent_blankline_buftype_exclude = { "terminal" }
-
-  vim.g.indent_blankline_show_trailing_blankline_indent = false
-  vim.g.indent_blankline_show_first_indent_level = false
-end
-
 -- custom telescope search functions
 M.search_dev = function()
   require("telescope.builtin").find_files({

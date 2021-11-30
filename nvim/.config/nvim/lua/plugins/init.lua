@@ -112,13 +112,6 @@ packer.startup(function()
   })
 
   -------------------------------- UI
-  use({
-    "lukas-reineke/indent-blankline.nvim",
-    setup = function()
-      require("plugins.others").blankline()
-    end,
-  })
-
   -- statusline
   use({
     "hoob3rt/lualine.nvim",
