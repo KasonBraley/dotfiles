@@ -6,17 +6,8 @@ ZSH_THEME=common
 # installed plugins
 plugins=(zsh-autosuggestions zsh-syntax-highlighting)
 
-VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
-VI_MODE_SET_CURSOR=true
-
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
