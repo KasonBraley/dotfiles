@@ -14,8 +14,21 @@ zmodload zsh/complist
 export TERM="xterm-256color"
 export EDITOR='nvim'
 
-# alias
-alias m="music"
+pb-kill-line () {
+  zle kill-line   # `kill-line` is the default ctrl+k binding
+  echo -n $CUTBUFFER | xsel -ib
+}
+
+pb-kill-whole-line () {
+  zle kill-whole-line
+  echo -n $CUTBUFFER | xsel -ib 
+}
+
+zle -N pb-kill-line  # register our new function
+zle -N pb-kill-whole-line  # register our new function
+
+bindkey '^K' pb-kill-line  # change the ctrl+k binding to use our new function
+bindkey '^U' pb-kill-whole-line  # change the ctrl+u binding to use our new function
 
 # git
 alias gs="git status -sb"
