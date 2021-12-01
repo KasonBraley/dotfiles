@@ -11,6 +11,8 @@ ts_config.setup({
     "bash",
     "lua",
     "python",
+    "yaml",
+    "dockerfile",
   },
   highlight = {
     enable = true,
