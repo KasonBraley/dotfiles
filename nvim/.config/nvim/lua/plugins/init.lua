@@ -132,7 +132,7 @@ packer.startup(function()
   use({
     "norcalli/nvim-colorizer.lua",
     config = function()
-      require("plugins.others").colorizer()
+      require("colorizer").setup()
     end,
   })
 
@@ -247,7 +247,4 @@ packer.startup(function()
     run = "cd app && npm install",
     ft = { "markdown" },
   })
-
-  -- vim game
-  use({ "ThePrimeagen/vim-be-good" })
 end)

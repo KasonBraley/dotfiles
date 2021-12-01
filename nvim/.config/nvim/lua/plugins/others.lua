@@ -1,9 +1,5 @@
 local M = {}
 
-M.colorizer = function()
-  require("colorizer").setup()
-end
-
 M.neoscroll = function()
   require("neoscroll").setup({
     mappings = { "<C-u>", "<C-d>" },
