@@ -24,7 +24,6 @@ packer.startup(function()
   -------------------------------- IDE Like Plugins
   use({
     "nvim-treesitter/nvim-treesitter",
-    branch = "0.5-compat",
     config = function()
       require("plugins.treesitter")
     end,
@@ -36,7 +35,6 @@ packer.startup(function()
 
   use({
     "nvim-treesitter/nvim-treesitter-textobjects",
-    branch = "0.5-compat",
   })
 
   use({ "nvim-treesitter/playground" })
