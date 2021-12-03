@@ -102,13 +102,6 @@ packer.startup(function()
 
   use({ "theHamsta/nvim-dap-virtual-text", requires = { "mfussenegger/nvim-dap" } })
 
-  use({
-    "Pocco81/DAPInstall.nvim",
-    config = function()
-      require("plugins.dapInstall")
-    end,
-  })
-
   -------------------------------- UI
   -- statusline
   use({
