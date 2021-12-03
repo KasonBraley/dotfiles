@@ -24,27 +24,17 @@ packer.startup(function()
   -------------------------------- IDE Like Plugins
   use({
     "nvim-treesitter/nvim-treesitter",
+    requires = {
+      "nvim-treesitter/nvim-treesitter-refactor",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    run = ":TSUpdate",
     config = function()
       require("plugins.treesitter")
     end,
   })
 
-  use({
-    "nvim-treesitter/nvim-treesitter-refactor",
-  })
-
-  use({
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  })
-
-  use({ "nvim-treesitter/playground" })
-
-  use({
-    "L3MON4D3/LuaSnip",
-    config = function()
-      require("plugins.luasnip")
-    end,
-  })
+  use({ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" })
 
   use({ "rafamadriz/friendly-snippets" })
 
@@ -54,6 +44,7 @@ packer.startup(function()
       require("plugins.cmp")
     end,
     requires = {
+      "L3MON4D3/LuaSnip",
       "hrsh7th/cmp-buffer",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp",
@@ -73,6 +64,7 @@ packer.startup(function()
   -- formatting
   use({
     "mhartington/formatter.nvim",
+    cmd = "Format",
     config = function()
       require("plugins.format")
     end,
@@ -81,6 +73,7 @@ packer.startup(function()
   -- File tree
   use({
     "kyazdani42/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("plugins.nvimtree")
@@ -89,18 +82,25 @@ packer.startup(function()
 
   -- Debugging
   use({
-    "mfussenegger/nvim-dap",
-  })
+    {
+      "mfussenegger/nvim-dap",
+      module = "dap",
+    },
+    {
 
-  use({
-    "rcarriga/nvim-dap-ui",
-    requires = { "mfussenegger/nvim-dap" },
-    config = function()
-      require("dapui").setup()
-    end,
+      "rcarriga/nvim-dap-ui",
+      -- module = "dapui",
+      requires = "mfussenegger/nvim-dap",
+      after = "nvim-dap",
+      config = function()
+        require("dapui").setup()
+      end,
+    },
+    {
+      "theHamsta/nvim-dap-virtual-text",
+      requires = "mfussenegger/nvim-dap",
+    },
   })
-
-  use({ "theHamsta/nvim-dap-virtual-text", requires = { "mfussenegger/nvim-dap" } })
 
   -------------------------------- UI
   -- statusline
@@ -136,46 +136,53 @@ packer.startup(function()
 
   -- git stuff
   use({
-    "lewis6991/gitsigns.nvim",
-    requires = {
-      "nvim-lua/plenary.nvim",
+    {
+      "lewis6991/gitsigns.nvim",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("plugins.gitsigns")
+      end,
     },
-    config = function()
-      require("plugins.gitsigns")
-    end,
-  })
-
-  use({
-    "TimUntersberger/neogit",
-    config = function()
-      require("neogit").setup({})
-    end,
-  })
-
-  use({
-    "pwntester/octo.nvim",
-    config = function()
-      require("octo").setup()
-    end,
-  })
-
-  use({
-    "ThePrimeagen/git-worktree.nvim",
-    config = function()
-      require("git-worktree").setup()
-    end,
+    {
+      "TimUntersberger/neogit",
+      cmd = "Neogit",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("neogit").setup({})
+      end,
+    },
+    {
+      "pwntester/octo.nvim",
+      cmd = "Octo",
+      config = function()
+        require("octo").setup()
+      end,
+    },
+    {
+      "ThePrimeagen/git-worktree.nvim",
+      config = function()
+        require("git-worktree").setup()
+      end,
+    },
   })
 
   -------------------------------- Fuzzy Finder
   use({
     "nvim-telescope/telescope.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-fzy-native.nvim",
+    },
+    wants = {
+      "plenary.nvim",
+      "telescope-fzy-native.nvim",
+    },
+    cmd = "Telescope",
+    module = "telescope",
     config = function()
       require("plugins.telescope")
     end,
   })
-
-  use({ "nvim-lua/plenary.nvim" })
-  use({ "nvim-telescope/telescope-fzy-native.nvim" })
 
   -------------------------------- Utils
   use({ "nvim-lua/popup.nvim" })
@@ -209,14 +216,15 @@ packer.startup(function()
 
   -- commenting
   use({
-    "numToStr/Comment.nvim",
-    config = function()
-      require("plugins.comment")
-    end,
-  })
-
-  use({
-    "JoosepAlviste/nvim-ts-context-commentstring",
+    {
+      "numToStr/Comment.nvim",
+      config = function()
+        require("plugins.comment")
+      end,
+    },
+    {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+    },
   })
 
   -- smooth scroll
@@ -236,6 +244,7 @@ packer.startup(function()
   use({
     "iamcco/markdown-preview.nvim",
     run = "cd app && npm install",
-    ft = { "markdown" },
+    ft = "markdown",
   })
+
 end)
