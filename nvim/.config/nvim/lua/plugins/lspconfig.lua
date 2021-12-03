@@ -23,6 +23,14 @@ end
 
 local lsp = vim.lsp
 
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  underline = true,
+  update_in_insert = true,
+  severity_sort = false,
+})
+
 lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
   underline = true,
   signs = true,
@@ -30,43 +38,34 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_pub
   update_in_insert = true,
 })
 
--- Capture real implementation of function that sets signs
-local orig_set_signs = lsp.diagnostic.set_signs
-local set_signs_limited = function(diagnostics, bufnr, client_id, sign_ns, opts)
-  -- original func runs some checks, which I think is worth doing
-  -- but maybe overkill
-  if not diagnostics then
-    diagnostics = diagnostic_cache[bufnr][client_id]
-  end
 
-  -- early escape
-  if not diagnostics then
-    return
-  end
+local ns = vim.api.nvim_create_namespace("my_namespace")
 
-  -- Work out max severity diagnostic per line
-  local max_severity_per_line = {}
-  for _, d in pairs(diagnostics) do
-    if max_severity_per_line[d.range.start.line] then
-      local current_d = max_severity_per_line[d.range.start.line]
-      if d.severity < current_d.severity then
-        max_severity_per_line[d.range.start.line] = d
+-- Get a reference to the original signs handler
+local orig_signs_handler = vim.diagnostic.handlers.signs
+-- Override the built-in signs handler
+vim.diagnostic.handlers.signs = {
+  show = function(_, bufnr, _, opts)
+    -- Get all diagnostics from the whole buffer rather than just the
+    -- diagnostics passed to the handler
+    local diagnostics = vim.diagnostic.get(bufnr)
+    -- Find the "worst" diagnostic per line
+    local max_severity_per_line = {}
+    for _, d in pairs(diagnostics) do
+      local m = max_severity_per_line[d.lnum]
+      if not m or d.severity < m.severity then
+        max_severity_per_line[d.lnum] = d
       end
-    else
-      max_severity_per_line[d.range.start.line] = d
     end
-  end
-
-  -- map to list
-  local filtered_diagnostics = {}
-  for i, v in pairs(max_severity_per_line) do
-    table.insert(filtered_diagnostics, v)
-  end
-
-  -- call original function
-  orig_set_signs(filtered_diagnostics, bufnr, client_id, sign_ns, opts)
-end
-lsp.diagnostic.set_signs = set_signs_limited
+    -- Pass the filtered diagnostics (with our custom namespace) to
+    -- the original handler
+    local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
+    orig_signs_handler.show(ns, bufnr, filtered_diagnostics, opts)
+  end,
+  hide = function(_, bufnr)
+    orig_signs_handler.hide(ns, bufnr)
+  end,
+}
 
 -- Configure lua language server for neovim development
 local lua_settings = {

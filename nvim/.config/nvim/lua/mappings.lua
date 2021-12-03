@@ -107,8 +107,8 @@ map("n", "K", ":lua vim.lsp.buf.hover()<CR>", opt)
 map("n", "S", ":lua vim.lsp.buf.signature_help()<cr>", opt)
 map("n", "<Leader>rn", ":lua vim.lsp.buf.rename()<CR>", opt)
 map("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opt)
-map("n", "<leader>ds", ":lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opt)
-map("n", "<Leader>dn", ":lua vim.lsp.diagnostic.goto_next()<CR>", opt)
+map("n", "<leader>ds", ":lua vim.diagnostic.open_float()<CR>", opt)
+map("n", "<Leader>dn", ":lua vim.diagnostic.goto_next()<CR>", opt)
 
 -- DAP
 map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
