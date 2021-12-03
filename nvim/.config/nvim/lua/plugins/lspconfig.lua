@@ -22,7 +22,14 @@ local function on_attach(_, bufnr)
 end
 
 local lsp = vim.lsp
-vim.diagnostic.config({ update_in_insert = true })
+
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  underline = true,
+  update_in_insert = true,
+  severity_sort = false,
+})
 
 lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
   underline = true,
@@ -31,12 +38,9 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_pub
   update_in_insert = true,
 })
 
--- Existing handlers can be overriden. For example, use the following to only
--- show a sign for the highest severity diagnostic on a given line: >
--- Create a custom namespace. This will aggregate signs from all other
--- namespaces and only show the one with the highest severity on a
--- given line
+
 local ns = vim.api.nvim_create_namespace("my_namespace")
+
 -- Get a reference to the original signs handler
 local orig_signs_handler = vim.diagnostic.handlers.signs
 -- Override the built-in signs handler
