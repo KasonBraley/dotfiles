@@ -1,6 +1,6 @@
 local lsp_installer = require("nvim-lsp-installer")
 
-require("lspconfig/quick_lint_js").setup({})
+-- require("lspconfig/quick_lint_js").setup({})
 
 local servers = {
   "tsserver",
@@ -38,7 +38,6 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_pub
   update_in_insert = true,
 })
 
-
 local ns = vim.api.nvim_create_namespace("my_namespace")
 
 -- Get a reference to the original signs handler
@@ -67,67 +66,6 @@ vim.diagnostic.handlers.signs = {
   end,
 }
 
--- Configure lua language server for neovim development
-local lua_settings = {
-  Lua = {
-    diagnostics = { globals = { "vim" } },
-    workspace = {
-      library = {
-        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-        [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-      },
-      maxPreload = 100000,
-      preloadFileSize = 10000,
-      checkThirdParty = false,
-    },
-    telemetry = {
-      enable = false,
-    },
-  },
-}
-
-local json_settings = {
-  json = {
-    -- Schemas https://www.schemastore.org
-    schemas = {
-      {
-        fileMatch = { "package.json" },
-        url = "https://json.schemastore.org/package.json",
-      },
-      {
-        fileMatch = { "tsconfig*.json" },
-        url = "https://json.schemastore.org/tsconfig.json",
-      },
-      {
-        fileMatch = {
-          ".prettierrc",
-          ".prettierrc.json",
-          "prettier.config.json",
-        },
-        url = "https://json.schemastore.org/prettierrc.json",
-      },
-      {
-        fileMatch = { ".eslintrc", ".eslintrc.json" },
-        url = "https://json.schemastore.org/eslintrc.json",
-      },
-      {
-        fileMatch = { ".babelrc", ".babelrc.json", "babel.config.json" },
-        url = "https://json.schemastore.org/babelrc.json",
-      },
-    },
-  },
-}
-
-local yaml_settings = {
-  yaml = {
-    -- Schemas https://www.schemastore.org
-    schemas = {
-      ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.yml",
-      ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-    },
-  },
-}
-
 -- config that activates keymaps and enables snippet support
 local function make_config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -151,35 +89,22 @@ lsp_installer.on_server_ready(function(server)
   -- Now we'll create a server_opts table where we'll specify our custom LSP server configuration
   local server_opts = {
     ["sumneko_lua"] = function()
-      default_opts.settings = lua_settings
-
+      default_opts.settings = require("lsp.servers.lua").settings
       return default_opts
     end,
     ["tsserver"] = function()
-      default_opts.handlers = {
-        -- disable tsserver diagnostics
-        ["textDocument/publishDiagnostics"] = function() end,
-      }
+      default_opts.handlers = require("lsp.servers.tsserver").handlers
       return default_opts
     end,
     ["eslint"] = function()
-      default_opts.filetypes = {
-        -- disable eslint diagnotics for .js files, instead it is handled by quick_lint_js
-        -- "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-        "vue",
-      }
+      default_opts.filetypes = require("lsp.servers.eslint").filetypes
     end,
     ["jsonls"] = function()
-      default_opts.settings = json_settings
+      default_opts.settings = require("lsp.servers.json").settings
       return default_opts
     end,
     ["yamlls"] = function()
-      default_opts.settings = yaml_settings
+      default_opts.settings = require("lsp.servers.yaml").settings
       return default_opts
     end,
   }
