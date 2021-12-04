@@ -24,11 +24,16 @@ packer.startup(function()
   -------------------------------- IDE Like Plugins
   use({
     "nvim-treesitter/nvim-treesitter",
-    requires = {
-      "nvim-treesitter/nvim-treesitter-refactor",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
     run = ":TSUpdate",
+    requires = {
+      { "nvim-treesitter/nvim-treesitter-refactor", after = "nvim-treesitter" },
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        module = "nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
+      },
+    },
+    event = "BufRead",
     config = function()
       require("plugins.treesitter")
     end,
@@ -138,6 +143,7 @@ packer.startup(function()
   use({
     {
       "lewis6991/gitsigns.nvim",
+      event = "Bufread",
       requires = "nvim-lua/plenary.nvim",
       config = function()
         require("plugins.gitsigns")
@@ -207,23 +213,27 @@ packer.startup(function()
 
   use({
     "windwp/nvim-ts-autotag",
+    after = "nvim-treesitter",
     config = function()
       require("nvim-ts-autotag").setup()
     end,
   })
 
-  use({ "andymass/vim-matchup" })
+  use({ "andymass/vim-matchup", event = { "BufRead" } })
 
   -- commenting
   use({
     {
       "numToStr/Comment.nvim",
+      event = "BufRead",
+      -- module = "Comment",
       config = function()
         require("plugins.comment")
       end,
     },
     {
       "JoosepAlviste/nvim-ts-context-commentstring",
+      after = "nvim-treesitter",
     },
   })
 
@@ -237,6 +247,7 @@ packer.startup(function()
 
   use({
     "machakann/vim-sandwich",
+    event = { "BufRead" },
   })
 
   -------------------------------- Misc
