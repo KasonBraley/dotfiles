@@ -3,7 +3,9 @@ if not present then
   return
 end
 
--- require("lspconfig/quick_lint_js").setup({})
+require("lspconfig").quick_lint_js.setup({
+  single_file_support = true,
+})
 
 local servers = {
   "tsserver",
