@@ -28,11 +28,11 @@ map("x", "<", "<gv")
 map("n", "<Leader>fm", ":Format<CR>", opt)
 
 -- OPEN TERMINALS --
-map("n", "<C-v>", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- term over right
-map("n", "<C-x>", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term bottom
+map("n", "<Leader>tv", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- term over right
+map("n", "<Leader>tx", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term bottom
 
 -- Nvimtree (rest are defaults)
-map("n", "<C-a>", ":NvimTreeToggle<CR>", opt)
+map("n", "<C-b>", ":NvimTreeToggle<CR>", opt)
 
 -- Tabs
 map("n", "<Leader>tt", ":tabnew<CR>", opt)
