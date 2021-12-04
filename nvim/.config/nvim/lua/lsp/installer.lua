@@ -98,6 +98,7 @@ lsp_installer.on_server_ready(function(server)
       return default_opts
     end,
     ["tsserver"] = function()
+      default_opts.single_file_support = require("lsp.servers.tsserver").single_file_support
       default_opts.handlers = require("lsp.servers.tsserver").handlers
       return default_opts
     end,

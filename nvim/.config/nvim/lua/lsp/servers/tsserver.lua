@@ -11,6 +11,7 @@ if ok then
 end
 
 -- Settings
+M.single_file_support = true
 
 M.handlers = {
   -- disable tsserver diagnostics
