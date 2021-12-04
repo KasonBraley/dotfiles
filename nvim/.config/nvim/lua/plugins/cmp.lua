@@ -1,4 +1,7 @@
-local cmp = require("cmp")
+local present, cmp = pcall(require, "cmp")
+if not present then
+  return
+end
 
 cmp.setup({
   snippet = {
@@ -7,7 +10,7 @@ cmp.setup({
     end,
   },
   completion = {
-  -- default to disabled completion, toggled on/off via a mapping
+    -- default to disabled completion, toggled on/off via a mapping
     autocomplete = false,
     get_trigger_characters = function(trigger_characters)
       return vim.tbl_filter(function(char)

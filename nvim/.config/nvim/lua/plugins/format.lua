@@ -1,4 +1,7 @@
-local format = require("formatter")
+local present, format = pcall(require, "formatter")
+if not present then
+  return
+end
 
 local prettier = function()
   return {

@@ -1,4 +1,7 @@
-local icons = require("nvim-web-devicons")
+local present, icons = pcall(require, "nvim-web-devicons")
+if not present then
+  return
+end
 
 icons.setup({
   default = true,
