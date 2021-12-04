@@ -1,13 +1,17 @@
-local packer = require("packer")
-local util = require("packer.util")
+local fn = vim.fn
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    install_path,
+  })
+end
 
-packer.init({
-  package_root = util.join_paths(vim.fn.stdpath("data"), "site", "pack"),
-})
-
-local use = packer.use
-
-packer.startup(function()
+return require("packer").startup(function(use)
   -- Plugin Manager
   use({ "wbthomason/packer.nvim" })
 
@@ -258,4 +262,7 @@ packer.startup(function()
     ft = "markdown",
   })
 
+  if packer_bootstrap then
+    require("packer").sync()
+  end
 end)
