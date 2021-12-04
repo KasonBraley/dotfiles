@@ -6,6 +6,9 @@ local my_modules = {
   "packerInit",
 }
 
-for i = 1, #my_modules, 1 do
-  pcall(require, my_modules[i])
+for _, module in ipairs(my_modules) do
+  local ok, err = pcall(require, module)
+  if not ok then
+    error("Error loading " .. module .. "\n\n" .. err)
+  end
 end
