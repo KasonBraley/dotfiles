@@ -1,7 +1,7 @@
 local my_modules = {
+  "plugins",
   "options",
   "utils",
-  "plugins",
   "mappings",
   "packerInit",
 }

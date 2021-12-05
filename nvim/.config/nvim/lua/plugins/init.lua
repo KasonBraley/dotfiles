@@ -9,6 +9,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     "https://github.com/wbthomason/packer.nvim",
     install_path,
   })
+  vim.cmd("packadd packer.nvim")
 end
 
 return require("packer").startup(function(use)
@@ -123,10 +124,10 @@ return require("packer").startup(function(use)
 
   -- color/theme related stuff
 
-  -- use({ "KasonBraley/nvim-solarized-lua" })
+  use({ "KasonBraley/nvim-solarized-lua" })
 
   -- local theme development
-  use({ "~/dev/lua/nvim-solarized-lua" })
+  -- use({ "~/dev/lua/nvim-solarized-lua" })
 
   -- color highlighter
   use({
