@@ -1,4 +1,8 @@
-local autopairs = require("nvim-autopairs")
+local present, autopairs = pcall(require,"nvim-autopairs")
+if not present then
+  return
+end
+
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local cmp = require("cmp")
 
