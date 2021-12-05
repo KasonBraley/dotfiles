@@ -46,7 +46,11 @@ g.mapleader = " "
 
 -- colorscheme
 opt.termguicolors = true
-vim.cmd([[colorscheme solarized]])
+
+local function colorscheme()
+  vim.cmd([[colorscheme solarized]])
+end
+pcall(colorscheme)
 
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
