@@ -3,7 +3,6 @@ local my_modules = {
   "options",
   "utils",
   "mappings",
-  "packerInit",
 }
 
 for _, module in ipairs(my_modules) do
