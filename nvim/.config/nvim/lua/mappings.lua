@@ -40,10 +40,6 @@ map("n", "<Leader>tn", ":tabnext<CR>", opt)
 map("n", "<Leader>tp", ":tabprevious<CR>", opt)
 map("n", "<Leader>tq", ":tabclose<CR>", opt)
 
--- remove highlighted selection
-map("n", "<Esc>", ":noh<CR>", opt)
-map("n", "<C-c>", ":noh<CR>", opt)
-
 -- return normal mode on esc in terminal
 map("t", "<Esc>", "<C-\\><C-n>", opt)
 
@@ -123,8 +119,6 @@ map("n", "<leader>dl", ":lua require'dap'.run_last()<CR>", opt)
 map("n", "<leader>du", ":lua require'dapui'.toggle()<CR>")
 map("n", "<leader>de", ":lua require'dapui'.eval()<CR>")
 map("v", "<leader>de", ":lua require'dapui'.eval()<CR>")
-
-map("", "Y", "y$", opt)
 
 -- Arrowkeys
 map("", "<up>", "<nop>", opt)

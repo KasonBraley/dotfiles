@@ -2,7 +2,6 @@ local opt = vim.opt
 local g = vim.g
 
 opt.ruler = false
-opt.hidden = true
 opt.ignorecase = true
 opt.splitbelow = true
 opt.splitright = true
@@ -15,7 +14,6 @@ opt.timeoutlen = 400
 opt.clipboard = "unnamedplus"
 opt.swapfile = false
 opt.backup = false
-opt.wildmenu = true
 opt.foldlevelstart = 99 -- start unfolded
 opt.completeopt = "menu,noselect"
 
