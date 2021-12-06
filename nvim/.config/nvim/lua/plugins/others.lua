@@ -1,15 +1,5 @@
 local M = {}
 
-M.neoscroll = function()
-  require("neoscroll").setup({
-    mappings = { "<C-u>", "<C-d>" },
-  })
-  local t = {}
-  t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "250" } }
-  t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "250" } }
-  require("neoscroll.config").set_mappings(t)
-end
-
 -- custom telescope search functions
 M.search_dev = function()
   require("telescope.builtin").find_files({

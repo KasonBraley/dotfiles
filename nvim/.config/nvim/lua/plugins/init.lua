@@ -242,14 +242,6 @@ return require("packer").startup(function(use)
     },
   })
 
-  -- smooth scroll
-  use({
-    "karb94/neoscroll.nvim",
-    config = function()
-      require("plugins.others").neoscroll()
-    end,
-  })
-
   use({
     "machakann/vim-sandwich",
     event = { "BufRead" },
