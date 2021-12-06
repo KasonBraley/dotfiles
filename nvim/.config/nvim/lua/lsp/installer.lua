@@ -24,50 +24,13 @@ local function on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 end
 
-local lsp = vim.lsp
-
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,
   underline = true,
   update_in_insert = true,
-  severity_sort = false,
+  severity_sort = true,
 })
-
-lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
-  underline = true,
-  signs = true,
-  virtual_text = false,
-  update_in_insert = true,
-})
-
-local ns = vim.api.nvim_create_namespace("my_namespace")
-
--- Get a reference to the original signs handler
-local orig_signs_handler = vim.diagnostic.handlers.signs
--- Override the built-in signs handler
-vim.diagnostic.handlers.signs = {
-  show = function(_, bufnr, _, opts)
-    -- Get all diagnostics from the whole buffer rather than just the
-    -- diagnostics passed to the handler
-    local diagnostics = vim.diagnostic.get(bufnr)
-    -- Find the "worst" diagnostic per line
-    local max_severity_per_line = {}
-    for _, d in pairs(diagnostics) do
-      local m = max_severity_per_line[d.lnum]
-      if not m or d.severity < m.severity then
-        max_severity_per_line[d.lnum] = d
-      end
-    end
-    -- Pass the filtered diagnostics (with our custom namespace) to
-    -- the original handler
-    local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
-    orig_signs_handler.show(ns, bufnr, filtered_diagnostics, opts)
-  end,
-  hide = function(_, bufnr)
-    orig_signs_handler.hide(ns, bufnr)
-  end,
-}
 
 -- config that activates keymaps and enables snippet support
 local function make_config()
