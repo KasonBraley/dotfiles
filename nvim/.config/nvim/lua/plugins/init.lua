@@ -16,6 +16,7 @@ return require("packer").startup(function(use)
   -- Plugin Manager
   use({ "wbthomason/packer.nvim" })
 
+  use("lewis6991/impatient.nvim")
   -------------------------------- LSP
 
   use({ "neovim/nvim-lspconfig" })
@@ -238,6 +239,8 @@ return require("packer").startup(function(use)
     run = "cd app && npm install",
     ft = "markdown",
   })
+
+  use({ "dstein64/vim-startuptime", cmd = "StartupTime" })
 
   if packer_bootstrap then
     require("packer").sync()

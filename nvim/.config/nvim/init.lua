@@ -1,3 +1,5 @@
+pcall(require, "impatient")
+
 local my_modules = {
   "plugins",
   "options",
