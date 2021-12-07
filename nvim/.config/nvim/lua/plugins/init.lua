@@ -84,7 +84,6 @@ return require("packer").startup(function(use)
   use({
     "kyazdani42/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("plugins.nvimtree")
     end,
@@ -116,7 +115,6 @@ return require("packer").startup(function(use)
   -- statusline
   use({
     "hoob3rt/lualine.nvim",
-    requires = { "kyazdani42/nvim-web-devicons", opt = true },
     config = function()
       require("plugins.statusline")
     end,
@@ -134,13 +132,6 @@ return require("packer").startup(function(use)
     "norcalli/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup()
-    end,
-  })
-
-  use({
-    "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("plugins.icons")
     end,
   })
 
