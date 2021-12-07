@@ -192,11 +192,7 @@ return require("packer").startup(function(use)
   use({
     "ThePrimeagen/harpoon",
     config = function()
-      require("harpoon").setup({
-        global_settings = {
-          -- enter_on_sendcmd = true,
-        },
-      })
+      require("harpoon").setup({})
     end,
   })
 
@@ -210,9 +206,6 @@ return require("packer").startup(function(use)
   use({
     "windwp/nvim-ts-autotag",
     after = "nvim-treesitter",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
   })
 
   use({ "andymass/vim-matchup", event = { "BufRead" } })
