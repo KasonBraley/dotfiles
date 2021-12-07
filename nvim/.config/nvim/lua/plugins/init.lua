@@ -9,7 +9,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     "https://github.com/wbthomason/packer.nvim",
     install_path,
   })
-  vim.cmd("packadd packer.nvim")
+  vim.api.nvim_command("packadd packer.nvim")
 end
 
 return require("packer").startup(function(use)
@@ -131,6 +131,7 @@ return require("packer").startup(function(use)
   -- color highlighter
   use({
     "norcalli/nvim-colorizer.lua",
+    event = "Bufread",
     config = function()
       require("colorizer").setup()
     end,
@@ -161,12 +162,7 @@ return require("packer").startup(function(use)
         require("octo").setup()
       end,
     },
-    {
-      "ThePrimeagen/git-worktree.nvim",
-      config = function()
-        require("git-worktree").setup()
-      end,
-    },
+    { "ThePrimeagen/git-worktree.nvim" },
   })
 
   -------------------------------- Fuzzy Finder
@@ -190,12 +186,7 @@ return require("packer").startup(function(use)
   -------------------------------- Utils
   use({ "nvim-lua/popup.nvim" })
 
-  use({
-    "ThePrimeagen/harpoon",
-    config = function()
-      require("harpoon").setup({})
-    end,
-  })
+  use({ "ThePrimeagen/harpoon" })
 
   use({
     "windwp/nvim-autopairs",
@@ -209,7 +200,7 @@ return require("packer").startup(function(use)
     after = "nvim-treesitter",
   })
 
-  use({ "andymass/vim-matchup", event = { "BufRead" } })
+  use({ "andymass/vim-matchup", event = "BufRead" })
 
   -- commenting
   use({
@@ -227,10 +218,7 @@ return require("packer").startup(function(use)
     },
   })
 
-  use({
-    "machakann/vim-sandwich",
-    event = { "BufRead" },
-  })
+  use({ "machakann/vim-sandwich", event = "BufRead" })
 
   -------------------------------- Misc
   -- Markdown previewer

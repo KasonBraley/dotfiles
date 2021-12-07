@@ -1,10 +1,8 @@
-require("nvim-treesitter-textobjects")
-local present, ts_config = pcall(require, "nvim-treesitter.configs")
-if not present then
+if not pcall(require, "nvim-treesitter") then
   return
 end
 
-ts_config.setup({
+require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "javascript",
     "html",
