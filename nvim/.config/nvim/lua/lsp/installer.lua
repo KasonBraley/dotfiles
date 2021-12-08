@@ -13,7 +13,6 @@ local servers = {
   "html",
   "cssls",
   "tailwindcss",
-  "clangd",
   "eslint",
   "dockerls",
   "gopls",
@@ -25,7 +24,7 @@ local function on_attach(_, bufnr)
 end
 
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = true,
   signs = true,
   underline = true,
   update_in_insert = true,

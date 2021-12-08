@@ -1,21 +1,18 @@
 # dotfiles
 
-The core component of this environment is the [neovim](https://neovim.io/) text editor and various open source plugins.
+The core component of this environment is the [Neovim](https://neovim.io/) text editor and various open source plugins.
 
 <hr>
 
 ### OS
-[manjaro](https://manjaro.org/)
+[Manjaro](https://manjaro.org/)
 
 ### Text Editor
-[neovim](./nvim/)
+[Neovim](./nvim/.config/nvim/)
 
 ### Terminal
 [Kitty](https://sw.kovidgoyal.net/kitty/)
 
 ### Shell
-[zsh](https://ohmyz.sh/)
-
-### Theme
-[TokyoNight](https://github.com/folke/tokyonight.nvim)
+[Zsh](https://ohmyz.sh/)
 
