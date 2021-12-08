@@ -8,3 +8,4 @@ bash
 zsh
 docker
 docker-compose
+go

@@ -15,6 +15,7 @@ require("nvim-treesitter.configs").setup({
     "python",
     "yaml",
     "dockerfile",
+    "go"
   },
   highlight = {
     enable = true,

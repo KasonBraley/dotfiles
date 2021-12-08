@@ -24,6 +24,15 @@ format.setup({
     jsonc = { prettier },
     yaml = { prettier },
     html = { prettier },
+    go = {
+      function()
+        return {
+          exe = "goimports",
+          args = { "-w", vim.api.nvim_buf_get_name(0) },
+          stdin = false,
+        }
+      end,
+    },
     lua = {
       -- stylua
       function()

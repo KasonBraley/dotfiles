@@ -18,6 +18,7 @@ local servers = {
   "clangd",
   "eslint",
   "dockerls",
+  "gopls",
 }
 
 local function on_attach(_, bufnr)
