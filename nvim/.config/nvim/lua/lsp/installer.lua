@@ -3,8 +3,6 @@ if not present then
   return
 end
 
-require("lspconfig").quick_lint_js.setup({})
-
 local servers = {
   "tsserver",
   "pyright",
@@ -19,6 +17,7 @@ local servers = {
   "eslint",
   "dockerls",
   "gopls",
+  "quick_lint_js",
 }
 
 local function on_attach(_, bufnr)

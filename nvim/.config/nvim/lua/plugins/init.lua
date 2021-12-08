@@ -65,13 +65,6 @@ return require("packer").startup(function(use)
     },
   })
 
-  use({
-    "quick-lint/quick-lint-js",
-    rtp = "plugin/vim/quick-lint-js.vim",
-    tag = "0.5.0",
-    opt = true,
-  })
-
   -- formatting
   use({
     "mhartington/formatter.nvim",
