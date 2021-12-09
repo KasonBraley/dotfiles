@@ -27,25 +27,33 @@ return require("packer").startup(function(use)
       require("lsp.installer")
     end,
   })
-  -------------------------------- IDE Like Plugins
-  use({
-    "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-    requires = {
-      { "nvim-treesitter/nvim-treesitter-refactor", after = "nvim-treesitter" },
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        module = "nvim-treesitter-textobjects",
-        after = "nvim-treesitter",
-      },
-    },
-    event = "BufRead",
-    config = function()
-      require("plugins.treesitter")
-    end,
-  })
 
-  use({ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" })
+  -- treesitter
+  use({
+    {
+      "nvim-treesitter/nvim-treesitter",
+      run = ":TSUpdate",
+      config = function()
+        require("plugins.treesitter")
+      end,
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-refactor",
+      after = "nvim-treesitter",
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      after = "nvim-treesitter",
+    },
+    {
+      "windwp/nvim-ts-autotag",
+      after = "nvim-treesitter",
+    },
+    {
+      "nvim-treesitter/playground",
+      cmd = "TSPlaygroundToggle",
+    },
+  })
 
   use({ "rafamadriz/friendly-snippets" })
 
@@ -180,11 +188,6 @@ return require("packer").startup(function(use)
   use({ "nvim-lua/popup.nvim" })
 
   use({ "ThePrimeagen/harpoon" })
-
-  use({
-    "windwp/nvim-ts-autotag",
-    after = "nvim-treesitter",
-  })
 
   use({ "andymass/vim-matchup", event = "BufRead" })
 
