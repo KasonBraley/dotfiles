@@ -182,13 +182,6 @@ return require("packer").startup(function(use)
   use({ "ThePrimeagen/harpoon" })
 
   use({
-    "windwp/nvim-autopairs",
-    config = function()
-      require("plugins.autopairs")
-    end,
-  })
-
-  use({
     "windwp/nvim-ts-autotag",
     after = "nvim-treesitter",
   })
