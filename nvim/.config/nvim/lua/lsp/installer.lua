@@ -17,6 +17,7 @@ local servers = {
   "dockerls",
   "gopls",
   "quick_lint_js",
+  "bashls"
 }
 
 local function on_attach(_, bufnr)
