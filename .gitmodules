@@ -1,3 +1,9 @@
 [submodule "awesome/.config/awesome/awesome-wm-widgets"]
 	path = awesome/.config/awesome/awesome-wm-widgets
 	url = https://github.com/streetturtle/awesome-wm-widgets.git
+[submodule "zsh/.config/zsh/zsh-autosuggestions"]
+	path = zsh/.config/zsh/zsh-autosuggestions
+	url = git@github.com:zsh-users/zsh-autosuggestions.git
+[submodule "zsh/.config/zsh/zsh-syntax-highlighting"]
+	path = zsh/.config/zsh/zsh-syntax-highlighting
+	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
