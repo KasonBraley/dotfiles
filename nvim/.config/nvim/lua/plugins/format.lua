@@ -38,21 +38,10 @@ format.setup({
       function()
         return {
           exe = "stylua",
-          args = { "--config-path", "~/.config/.stylua.toml", "-" },
+          args = { "--indent-type", "spaces", "--indent-width", "2", "-" },
           stdin = true,
         }
       end,
     },
   },
 })
-
--- format on save
--- vim.api.nvim_exec(
---   [[
--- augroup FormatAutogroup
---   autocmd!
---   autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.html,*css,*json,*lua FormatWrite
--- augroup END
--- ]],
---   true
--- )
