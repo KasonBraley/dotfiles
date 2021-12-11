@@ -1,0 +1,18 @@
+# directories
+awesome
+homebrew
+kitty
+macos
+skhd
+xkb
+yabai
+
+# files
+Dockerfile
+.git
+.gitmodules
+.gitignore
+install
+README.md
+
+/nvim/.config/nvim/plugin/packer_compiled.lua

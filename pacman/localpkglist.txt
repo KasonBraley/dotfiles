@@ -1,4 +1,5 @@
-aws-cli-v2-bin
+// use `yay` to install these from the aur
+
 postman-bin
 quick-lint-js
 slack-desktop
