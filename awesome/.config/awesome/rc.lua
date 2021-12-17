@@ -419,6 +419,16 @@ globalkeys = gears.table.join(
   end, {
     description = "show the menubar",
     group = "launcher",
+  }),
+
+  -- my custom keybindings
+  awful.key({ mods.alt, "Shift" }, "m", function()
+    awful.spawn.with_shell(
+      "amixer set Capture toggle && amixer get Capture | grep off && notify-send 'MIC switched OFF' || notify-send 'MIC switched ON'"
+    )
+  end, {
+    description = "toggle microphone mute",
+    group = "launcher",
   })
 )
 
@@ -478,14 +488,14 @@ clientkeys = gears.table.join(
   end, {
     description = "(un)maximize vertically",
     group = "client",
-  }),
-  awful.key({ mods.alt, "Shift" }, "m", function(c)
-    c.maximized_horizontal = not c.maximized_horizontal
-    c:raise()
-  end, {
-    description = "(un)maximize horizontally",
-    group = "client",
   })
+  -- awful.key({ mods.alt, "Shift" }, "m", function(c)
+  --   c.maximized_horizontal = not c.maximized_horizontal
+  --   c:raise()
+  -- end, {
+  --   description = "(un)maximize horizontally",
+  --   group = "client",
+  -- })
 )
 
 -- Bind all key numbers to tags.
