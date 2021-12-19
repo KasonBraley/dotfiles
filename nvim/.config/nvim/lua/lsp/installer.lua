@@ -17,11 +17,29 @@ local servers = {
   "dockerls",
   "gopls",
   "quick_lint_js",
-  "bashls"
+  "bashls",
 }
 
 local function on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  local function buf_set_keymap(...)
+    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  end
+
+  -- Mappings.
+  local opts = { noremap = true, silent = false }
+  buf_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>zz", opts)
+  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>zz", opts)
+  buf_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>zz", opts)
+  buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  buf_set_keymap("n", "S", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  buf_set_keymap("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  buf_set_keymap("n", "<space>ds", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+  buf_set_keymap("n", "<space>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+  buf_set_keymap("n", "<space>fa", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
 end
 
 vim.diagnostic.config({
@@ -38,7 +56,6 @@ local function make_config()
   capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
   return {
     capabilities = capabilities,
-    on_attach = on_attach(),
     root_dir = vim.loop.cwd,
   }
 end
@@ -48,7 +65,7 @@ end
 lsp_installer.on_server_ready(function(server)
   local config = make_config()
   local default_opts = {
-    on_attach = config.on_attach,
+    on_attach = on_attach,
     capabilities = config.capabilities,
   }
 
@@ -74,6 +91,23 @@ lsp_installer.on_server_ready(function(server)
       default_opts.settings = require("lsp.servers.yaml").settings
       return default_opts
     end,
+    -- ["gopls"] = function()
+    --   default_opts.on_attach = function(client, bufnr)
+    --     local function buf_set_keymap(...)
+    --       vim.api.nvim_buf_set_keymap(bufnr, ...)
+    --     end
+    --
+    --     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    --     local opts = { noremap = true, silent = false }
+    --
+    --     if client.resolved_capabilities.document_formatting then
+    --       buf_set_keymap("n", "fa", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    --     elseif client.resolved_capabilities.document_range_formatting then
+    --       buf_set_keymap("n", "fa", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    --       return default_opts.on_attach
+    --     end
+    --   end
+    -- end,
   }
 
   -- We check to see if any custom server_opts exist for the LSP server, if so, load them, if not, use our default_opts

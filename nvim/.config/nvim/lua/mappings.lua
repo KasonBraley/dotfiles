@@ -94,18 +94,6 @@ map("", "<leader>k", ":lprevious<cr>zz", opt)
 -- don't be nothered with the type of little window to close, just get rid of it
 map("", "cl", ":pclose | lclose | cclose<CR>", opt)
 
--- LSP
-map("n", "gd", ":lua vim.lsp.buf.definition()<CR>zz", opt)
-map("n", "gr", ":lua vim.lsp.buf.references()<CR>", opt)
-map("n", "gt", ":lua vim.lsp.buf.type_definition()<CR>zz", opt)
-map("n", "gi", ":lua vim.lsp.buf.implementation()<CR>zz", opt)
-map("n", "K", ":lua vim.lsp.buf.hover()<CR>", opt)
-map("n", "S", ":lua vim.lsp.buf.signature_help()<cr>", opt)
-map("n", "<Leader>rn", ":lua vim.lsp.buf.rename()<CR>", opt)
-map("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opt)
-map("n", "<leader>ds", ":lua vim.diagnostic.open_float()<CR>", opt)
-map("n", "<Leader>dn", ":lua vim.diagnostic.goto_next()<CR>", opt)
-
 -- DAP
 map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
 map("n", "<leader>do", ":lua require'dap'.step_over()<CR>", opt)
