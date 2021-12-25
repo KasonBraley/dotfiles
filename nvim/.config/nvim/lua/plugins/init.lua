@@ -17,18 +17,17 @@ return require("packer").startup(function(use)
   use({ "wbthomason/packer.nvim" })
 
   use("lewis6991/impatient.nvim")
-  -------------------------------- LSP
-
-  use({ "neovim/nvim-lspconfig" })
 
   use({
-    "williamboman/nvim-lsp-installer",
-    config = function()
-      require("lsp.installer")
-    end,
+    { "neovim/nvim-lspconfig" },
+    {
+      "williamboman/nvim-lsp-installer",
+      config = function()
+        require("lsp.installer")
+      end,
+    },
   })
 
-  -- treesitter
   use({
     {
       "nvim-treesitter/nvim-treesitter",
@@ -73,7 +72,6 @@ return require("packer").startup(function(use)
     },
   })
 
-  -- formatting
   use({
     "mhartington/formatter.nvim",
     cmd = "Format",
@@ -113,7 +111,6 @@ return require("packer").startup(function(use)
     },
   })
 
-  -------------------------------- UI
   -- statusline
   use({
     "hoob3rt/lualine.nvim",
@@ -129,7 +126,6 @@ return require("packer").startup(function(use)
   -- local theme development
   -- use({ "~/dev/lua/nvim-solarized-lua" })
 
-  -- color highlighter
   use({
     "norcalli/nvim-colorizer.lua",
     event = "Bufread",
@@ -138,7 +134,7 @@ return require("packer").startup(function(use)
     end,
   })
 
-  -- git stuff
+  -- git
   use({
     {
       "lewis6991/gitsigns.nvim",
@@ -166,7 +162,7 @@ return require("packer").startup(function(use)
     { "ThePrimeagen/git-worktree.nvim" },
   })
 
-  -------------------------------- Fuzzy Finder
+  -- Fuzzy Finder
   use({
     "nvim-telescope/telescope.nvim",
     requires = {
@@ -184,19 +180,16 @@ return require("packer").startup(function(use)
     end,
   })
 
-  -------------------------------- Utils
   use({ "nvim-lua/popup.nvim" })
 
   use({ "ThePrimeagen/harpoon" })
 
   use({ "andymass/vim-matchup", event = "BufRead" })
 
-  -- commenting
   use({
     {
       "numToStr/Comment.nvim",
       event = "BufRead",
-      -- module = "Comment",
       config = function()
         require("plugins.comment")
       end,
@@ -209,8 +202,6 @@ return require("packer").startup(function(use)
 
   use({ "machakann/vim-sandwich", event = "BufRead" })
 
-  -------------------------------- Misc
-  -- Markdown previewer
   use({
     "iamcco/markdown-preview.nvim",
     run = "cd app && npm install",
