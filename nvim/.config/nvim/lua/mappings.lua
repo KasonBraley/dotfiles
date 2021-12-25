@@ -138,7 +138,7 @@ map(
 map(
   "n",
   "<Leader>ce",
-  ":lua require('harpoon.term').sendCommand(2,2)<CR>:lua require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
+  ":lua require('harpoon.term').sendCommand(2,2); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 
 -- Refactoring
