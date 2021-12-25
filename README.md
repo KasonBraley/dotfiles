@@ -14,5 +14,5 @@ The core component of this environment is the [Neovim](https://neovim.io/) text 
 [Kitty](https://sw.kovidgoyal.net/kitty/)
 
 ### Shell
-[Zsh](https://ohmyz.sh/)
+Zsh
 
