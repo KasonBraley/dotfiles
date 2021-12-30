@@ -128,3 +128,50 @@ source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
+
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --no-ignore'
+export FZF_DEFAULT_OPTS='--info=hidden --no-mouse'
+
+deduplicate_history_lines() {
+    perl -e '
+        use 5.010;
+        use autodie;
+        use strict;
+        use warnings;
+
+        my %seen_commands;
+        while (<>) {
+            if (/^\s*\d+[ *](.*)\n?$/) {
+                if (!$seen_commands{$1}) {
+                    print $_;
+                    $seen_commands{$1} = 1;
+                }
+            } elsif (!/^\n?$/) {
+                say STDERR "warning: failed to parse history line: $_";
+            }
+        }
+    '
+}
+
+search_history() {
+    local selection_fields=($( \
+        fc -l -r 1 \
+        | deduplicate_history_lines \
+        | fzf \
+            ${=FZF_DEFAULT_OPTS} \
+            --delimiter='  ' \
+            "--query=${BUFFER}" \
+            --tiebreak=index \
+            --with-nth=2..
+    ))
+    if [ "${#selection_fields[@]:-}" -ne 0 ]; then
+        local history_index="${selection_fields[1]}"
+        zle vi-fetch-history -n "${history_index}"
+    fi
+}
+
+zle -N search_history
+bindkey '^R' search_history
