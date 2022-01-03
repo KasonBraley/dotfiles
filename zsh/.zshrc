@@ -1,3 +1,11 @@
+fpath=(~/.config/zsh/kason "${fpath[@]}")
+autoload -Uk ls
+autoload -Uk initialize_ls_colors
+autoload -Uk deduplicate_history_lines
+autoload -Uk search_history
+
+initialize_ls_colors
+
 #history
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
@@ -134,44 +142,6 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --no-ignore'
 export FZF_DEFAULT_OPTS='--info=hidden --no-mouse'
-
-deduplicate_history_lines() {
-    perl -e '
-        use 5.010;
-        use autodie;
-        use strict;
-        use warnings;
-
-        my %seen_commands;
-        while (<>) {
-            if (/^\s*\d+[ *](.*)\n?$/) {
-                if (!$seen_commands{$1}) {
-                    print $_;
-                    $seen_commands{$1} = 1;
-                }
-            } elsif (!/^\n?$/) {
-                say STDERR "warning: failed to parse history line: $_";
-            }
-        }
-    '
-}
-
-search_history() {
-    local selection_fields=($( \
-        fc -l -r 1 \
-        | deduplicate_history_lines \
-        | fzf \
-            ${=FZF_DEFAULT_OPTS} \
-            --delimiter='  ' \
-            "--query=${BUFFER}" \
-            --tiebreak=index \
-            --with-nth=2..
-    ))
-    if [ "${#selection_fields[@]:-}" -ne 0 ]; then
-        local history_index="${selection_fields[1]}"
-        zle vi-fetch-history -n "${history_index}"
-    fi
-}
 
 zle -N search_history
 bindkey '^R' search_history
