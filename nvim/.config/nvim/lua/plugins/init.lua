@@ -89,28 +89,6 @@ return require("packer").startup(function(use)
     end,
   })
 
-  -- Debugging
-  use({
-    {
-      "mfussenegger/nvim-dap",
-      module = "dap",
-    },
-    {
-
-      "rcarriga/nvim-dap-ui",
-      -- module = "dapui",
-      requires = "mfussenegger/nvim-dap",
-      after = "nvim-dap",
-      config = function()
-        require("dapui").setup()
-      end,
-    },
-    {
-      "theHamsta/nvim-dap-virtual-text",
-      requires = "mfussenegger/nvim-dap",
-    },
-  })
-
   -- statusline
   use({
     "hoob3rt/lualine.nvim",

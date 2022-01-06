@@ -1,29 +1,6 @@
 local M = {}
 
 -- custom telescope search functions
-M.search_dev = function()
-  require("telescope.builtin").find_files({
-    prompt_title = "~ dev ~ ",
-    shorten_path = false,
-    hidden = true,
-    cwd = "~/dev/",
-    layout_strategy = "bottom_pane",
-    layout_config = {
-      horizontal = {
-        prompt_position = "top",
-        preview_width = 0.55,
-        results_width = 0.8,
-      },
-      vertical = {
-        mirror = false,
-      },
-      width = 0.5,
-      height = 0.5,
-      preview_cutoff = 10,
-    },
-  })
-end
-
 M.search_dotfiles = function()
   require("telescope.builtin").git_files({
     prompt_title = "~ dotfiles ~",

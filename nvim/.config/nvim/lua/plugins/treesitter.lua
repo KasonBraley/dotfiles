@@ -12,7 +12,6 @@ require("nvim-treesitter.configs").setup({
     "json",
     "bash",
     "lua",
-    "python",
     "yaml",
     "dockerfile",
     "go"
@@ -47,8 +46,8 @@ require("nvim-treesitter.configs").setup({
       keymaps = {
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
+        ["ac"] = "@conditional.outer",
+        ["ic"] = "@conditional.inner",
         ["al"] = "@loop.outer",
         ["il"] = "@loop.inner",
       },

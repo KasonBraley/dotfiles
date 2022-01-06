@@ -69,8 +69,8 @@ local mods = {
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-  awful.layout.suit.floating,
   awful.layout.suit.tile,
+  awful.layout.suit.floating,
   -- awful.layout.suit.tile.left,
   -- awful.layout.suit.tile.bottom,
   -- awful.layout.suit.tile.top,
@@ -578,8 +578,8 @@ awful.rules.rules = {
   {
     rule = {},
     properties = {
-      border_width = beautiful.border_width,
-      border_color = beautiful.border_normal,
+      border_width = nil,
+      border_color = nil,
       focus = awful.client.focus.filter,
       raise = true,
       keys = clientkeys,
@@ -644,6 +644,7 @@ client.connect_signal("manage", function(c)
     -- Prevent clients from being unreachable after screen count changes.
     awful.placement.no_offscreen(c)
   end
+    awful.titlebar.hide(c)
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
@@ -675,10 +676,10 @@ client.connect_signal("request::titlebars", function(c)
       layout = wibox.layout.flex.horizontal,
     },
     { -- Right
-      awful.titlebar.widget.floatingbutton(c),
-      awful.titlebar.widget.maximizedbutton(c),
-      awful.titlebar.widget.stickybutton(c),
-      awful.titlebar.widget.ontopbutton(c),
+      -- awful.titlebar.widget.floatingbutton(c),
+      -- awful.titlebar.widget.maximizedbutton(c),
+      -- awful.titlebar.widget.stickybutton(c),
+      -- awful.titlebar.widget.ontopbutton(c),
       awful.titlebar.widget.closebutton(c),
       layout = wibox.layout.fixed.horizontal(),
     },

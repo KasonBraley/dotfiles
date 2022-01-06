@@ -83,15 +83,15 @@ bindkey '^K' pb-kill-line  # change the ctrl+k binding to use our new function
 bindkey '^U' pb-kill-whole-line  # change the ctrl+u binding to use our new function
 
 # git
-alias gs="git status -sb"
+alias gs="git status -sb "${@}" && { gql 2>/dev/null || : }"
 alias gl="git log --graph --oneline --decorate --all"
 alias gql="git log --color --pretty=format:'%Cgreen%h%Creset%C(yellow)%d%Creset %s%Creset' --abbrev-commit -n5"
-alias gc="git commit -v"
+alias gc="git commit -v "${@}""
 alias ga="git commit --amend --reuse-message=HEAD"
-alias gd="git diff"
-alias g.="git add -p"
+alias gd="git diff "${@}""
+alias g.="git add -p "${@}""
 alias gar="git add --all ."
-alias gr="git rebase"
+alias gr="git rebase "${@}""
 
 # Search through history of typed word
 # arrow keys
@@ -134,6 +134,7 @@ source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+source /usr/share/nvm/init-nvm.sh
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 
@@ -145,3 +146,17 @@ export FZF_DEFAULT_OPTS='--info=hidden --no-mouse'
 
 zle -N search_history
 bindkey '^R' search_history
+
+# colorized go test output
+set -o pipefail
+alias got='go test -v . | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'''
+
+alias rg="
+rg --colors line:fg:yellow      \
+   --colors line:style:bold     \
+   --colors path:fg:green       \
+   --colors path:style:bold     \
+   --colors match:fg:black      \
+   --colors match:bg:yellow     \
+   --colors match:style:nobold  \
+"

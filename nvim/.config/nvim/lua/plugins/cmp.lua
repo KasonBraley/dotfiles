@@ -63,9 +63,9 @@ cmp.setup({
   },
   sources = {
     { name = "path" },
-    { name = "nvim_lsp", max_item_count = 7 },
+    { name = "nvim_lsp", max_item_count = 10 },
     { name = "luasnip" },
-    { name = "buffer", keyword_length = 5 },
+    -- { name = "buffer", keyword_length = 5, max_item_count = 5 },
     { name = "spell" },
     { name = "cmp_git" },
   },

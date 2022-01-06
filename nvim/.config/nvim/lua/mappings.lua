@@ -44,26 +44,16 @@ map("n", "<Leader>tq", ":tabclose<CR>", opt)
 map("t", "<Esc>", "<C-\\><C-n>", opt)
 
 -- Telescope
-map("n", "<Leader>ff", ":Telescope find_files<CR>", opt)
+map("n", "<C-P>", ":Telescope find_files<CR>", opt)
 map("n", "<Leader>fg", ":Telescope git_files<CR>", opt)
-map("n", "<Leader>fi", ":Telescope current_buffer_fuzzy_find <CR>", opt)
-map("n", "<Leader>fb", ":Telescope buffers<CR>", opt)
-map("n", "<Leader>fh", ":Telescope help_tags<CR>", opt)
+map("n", "<Leader>b", ":Telescope buffers<CR>", opt)
 map("n", "<Leader>fo", ":Telescope oldfiles<CR>", opt)
 map("n", "<Leader>fw", ":Telescope live_grep<CR>", opt)
-map("n", "<Leader>ft", ":Telescope file_browser<CR>", opt)
-map("n", "<Leader>fd", ":lua require('plugins.others').search_dev()<CR>", opt)
 map("n", "<Leader>fc", ":lua require('plugins.others').search_dotfiles()<CR>", opt)
 map("n", "<leader>pw", ":lua require('telescope.builtin').grep_string {search = vim.fn.expand('<cword>')}<CR>", opt)
 map("n", "<leader>ps", ":lua require('telescope.builtin').grep_string {search = vim.fn.input('Grep For > ')}<CR>", opt)
-map("n", "<leader>fB", ":Telescope builtin<CR>", opt)
-map("n", "<leader>fs", ":Telescope treesitter<CR>", opt)
 
 -- Git
--- map("n", "<Leader>gs", ":Telescope git_status<CR>", opt)
--- map("n", "<Leader>gg", ":Telescope git_bcommits<Cr>", opt)
-map("n", "<Leader>gB", ":Telescope git_branches<CR>", opt)
-map("n", "<Leader>gl", ":Telescope git_commits<CR>", opt)
 map("n", "<leader>gw", ":Telescope git_worktree git_worktrees<CR>", opt)
 map("n", "<leader>gm", ":Telescope git_worktree create_git_worktree<CR>", opt)
 
@@ -77,7 +67,6 @@ map("", "<Leader>gp", ":Gitsigns preview_hunk<CR>", opt)
 map("n", "<Leader>gb", ":Gitsigns blame_line<CR>", opt)
 
 map("n", "<Leader>g", ":Neogit<CR>", opt)
-map("n", "<Leader>gc", ":Neogit commit<CR>", opt)
 
 -- Markdown
 map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
@@ -86,27 +75,6 @@ map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
 map("", "<C-q>", ":copen<cr>", opt)
 map("n", "<C-k>", ":cnext<cr>zz", opt)
 map("n", "<C-j>", ":cprevious<cr>zz", opt)
-
--- map("", "<leader>q", ":lopen<cr>", opt)
-map("", "<leader>j", ":lnext<cr>zz", opt)
-map("", "<leader>k", ":lprevious<cr>zz", opt)
-
--- don't be nothered with the type of little window to close, just get rid of it
-map("", "cl", ":pclose | lclose | cclose<CR>", opt)
-
--- DAP
-map("n", "<leader>dc", ":lua require'dap'.continue()<CR>", opt)
-map("n", "<leader>do", ":lua require'dap'.step_over()<CR>", opt)
-map("n", "<leader>di", ":lua require'dap'.step_into()<CR>", opt)
-map("n", "<leader>dx", ":lua require'dap'.step_out()<CR>", opt)
-map("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opt)
-map("n", "<leader>dB", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opt)
-map("n", "<leader>dp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opt)
-map("n", "<leader>dr", ":lua require'dap'.repl.toggle()<CR>", opt)
-map("n", "<leader>dl", ":lua require'dap'.run_last()<CR>", opt)
-map("n", "<leader>du", ":lua require'dapui'.toggle()<CR>")
-map("n", "<leader>de", ":lua require'dapui'.eval()<CR>")
-map("v", "<leader>de", ":lua require'dapui'.eval()<CR>")
 
 -- Arrowkeys
 map("", "<up>", "<nop>", opt)
@@ -141,16 +109,8 @@ map(
   ":lua require('harpoon.term').sendCommand(2,2); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 
--- Refactoring
-map("v", "<Leader>re", ":lua require('refactoring').refactor('Extract Function')<CR>", opt)
-map("v", "<Leader>rf", ":lua require('refactoring').refactor('Extract Function To File')<CR>", opt)
-map("n", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
-map("v", "<Leader>rr", ":lua require('plugins.others').refactors()<CR>", opt)
-
--- cmp
 -- toggle cmp completion
 map("n", "<Leader>tc", ":lua require('plugins.others').toggle_completion()<CR>", opt)
 
 -- misc
-map("n", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>", opt)
 map("n", "Q", "<nop>", opt) -- disable Ex mode

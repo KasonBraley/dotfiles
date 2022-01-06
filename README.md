@@ -1,6 +1,6 @@
 # dotfiles
 
-The core component of this environment is the [Neovim](https://neovim.io/) text editor and various open source plugins.
+The core component of my environment is the [Neovim](https://neovim.io/) text editor and various open source plugins.
 
 <hr>
 

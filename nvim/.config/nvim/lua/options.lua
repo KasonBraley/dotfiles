@@ -28,9 +28,9 @@ opt.number = true
 opt.numberwidth = 2
 opt.relativenumber = true
 
--- Indenline
-opt.tabstop = 2
-opt.shiftwidth = 2
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.softtabstop = 4
 opt.expandtab = true
 opt.smartindent = true
 
@@ -39,8 +39,6 @@ opt.smartindent = true
 opt.whichwrap:append("<>hl")
 
 g.mapleader = " "
-
--- g.dap_virtual_text = true
 
 -- colorscheme
 opt.termguicolors = true
