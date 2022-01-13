@@ -35,10 +35,10 @@ map("n", "<Leader>tx", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  
 map("n", "<C-b>", ":NvimTreeToggle<CR>", opt)
 
 -- Tabs
-map("n", "<Leader>tt", ":tabnew<CR>", opt)
-map("n", "<Leader>tn", ":tabnext<CR>", opt)
-map("n", "<Leader>tp", ":tabprevious<CR>", opt)
-map("n", "<Leader>tq", ":tabclose<CR>", opt)
+map("n", "tt", ":tabnew<CR>", opt)
+map("n", "tn", ":tabnext<CR>", opt)
+map("n", "tp", ":tabprevious<CR>", opt)
+map("n", "tq", ":tabclose<CR>", opt)
 
 -- return normal mode on esc in terminal
 map("t", "<Esc>", "<C-\\><C-n>", opt)
@@ -96,16 +96,16 @@ map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>zz")
 map("n", "<C-t>", ":lua require('harpoon.ui').nav_file(2)<CR>zz")
 map("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>zz")
 map("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>zz")
-map("n", "<Leader>tu", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
-map("n", "<Leader>te", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
+map("n", "tu", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
+map("n", "te", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
 map(
   "n",
-  "<Leader>cu",
+  "cu",
   ":lua require('harpoon.term').sendCommand(2,1); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 map(
   "n",
-  "<Leader>ce",
+  "ce",
   ":lua require('harpoon.term').sendCommand(2,2); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 
