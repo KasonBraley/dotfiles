@@ -149,7 +149,7 @@ bindkey '^R' search_history
 
 # colorized go test output
 set -o pipefail
-alias got='go test -v . | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'''
+alias got='go test -v -cover . | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'''
 
 alias rg="
 rg --colors line:fg:yellow      \
