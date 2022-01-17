@@ -48,10 +48,6 @@ return require("packer").startup(function(use)
       "windwp/nvim-ts-autotag",
       after = "nvim-treesitter",
     },
-    {
-      "nvim-treesitter/playground",
-      cmd = "TSPlaygroundToggle",
-    },
   })
 
   use({ "rafamadriz/friendly-snippets" })
@@ -130,32 +126,23 @@ return require("packer").startup(function(use)
         require("neogit").setup({})
       end,
     },
-    {
-      "pwntester/octo.nvim",
-      cmd = "Octo",
-      config = function()
-        require("octo").setup()
-      end,
-    },
     { "ThePrimeagen/git-worktree.nvim" },
   })
 
   -- Fuzzy Finder
   use({
-    "nvim-telescope/telescope.nvim",
-    requires = {
-      "nvim-lua/plenary.nvim",
-      { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+    {
+      "nvim-telescope/telescope.nvim",
+      requires = {
+        "nvim-lua/plenary.nvim",
+      },
+      cmd = "Telescope",
+      module = "telescope",
+      config = function()
+        require("plugins.telescope")
+      end,
     },
-    wants = {
-      "plenary.nvim",
-      "telescope-fzf-native.nvim",
-    },
-    cmd = "Telescope",
-    module = "telescope",
-    config = function()
-      require("plugins.telescope")
-    end,
+    { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
   })
 
   use({ "nvim-lua/popup.nvim" })
