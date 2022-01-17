@@ -5,7 +5,6 @@ fzf
 fd
 gcc
 git
-git-delta
 github-cli
 go
 go-tools
