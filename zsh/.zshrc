@@ -63,7 +63,6 @@ precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 RPROMPT=\$vcs_info_msg_0_
 zstyle ':vcs_info:git:*' formats '%F{green}%b%f'
-# zstyle ':vcs_info:git:*' formats '%F{240}%b%f'
 zstyle ':vcs_info:*' enable git
 
 pb-kill-line () {
@@ -79,8 +78,8 @@ pb-kill-whole-line () {
 zle -N pb-kill-line  # register our new function
 zle -N pb-kill-whole-line  # register our new function
 
-bindkey '^K' pb-kill-line  # change the ctrl+k binding to use our new function
-bindkey '^U' pb-kill-whole-line  # change the ctrl+u binding to use our new function
+bindkey '^K' pb-kill-line  # change the ctrl+k binding 
+bindkey '^U' pb-kill-whole-line  # change the ctrl+u binding 
 
 # git
 alias gs="git status -sb "${@}" && { gql 2>/dev/null || : }"
@@ -95,10 +94,10 @@ alias gr="git rebase "${@}""
 
 # Search through history of typed word
 # arrow keys
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
-bindkey "^P" history-beginning-search-backward
-bindkey "^N" history-beginning-search-forward
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+bindkey "^P" history-search-backward
+bindkey "^N" history-search-forward
 
 # ctrl + left/right arrow to move between words
 bindkey "^[[1;5C" forward-word
