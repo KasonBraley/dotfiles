@@ -20,6 +20,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- Load Debian menu entries
+local debian = require "debian.menu"
+local has_fdo, freedesktop = pcall(require, "freedesktop")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -90,7 +94,7 @@ awful.layout.layouts = {
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-myawesomemenu = {
+local my_awesome_menu = {
   {
     "hotkeys",
     function()
@@ -100,22 +104,28 @@ myawesomemenu = {
   { "manual", terminal .. " -e man awesome" },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "restart", awesome.restart },
-  {
-    "quit",
-    function()
-      awesome.quit()
-    end,
-  },
+  { "quit", function()
+    awesome.quit()
+  end },
 }
 
-mymainmenu = awful.menu({
-  items = {
-    { "awesome", myawesomemenu, beautiful.awesome_icon },
-    { "open terminal", terminal },
-  },
-})
+local menu_awesome = { "awesome", my_awesome_menu, beautiful.awesome_icon }
+local menu_terminal = { "open terminal", terminal }
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
+local my_main_menu
+if has_fdo then
+  my_main_menu = freedesktop.menu.build { before = { menu_awesome }, after = { menu_terminal } }
+else
+  my_main_menu = awful.menu {
+    items = {
+      menu_awesome,
+      { "Debian", debian.menu.Debian_menu.Debian },
+      menu_terminal,
+    },
+  }
+end
+
+mylauncher = awful.widget.launcher { image = beautiful.awesome_icon, menu = my_main_menu }
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -255,7 +265,7 @@ end)
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
   awful.button({}, 3, function()
-    mymainmenu:toggle()
+    my_main_menu:toggle()
   end),
   awful.button({}, 4, awful.tag.viewnext),
   awful.button({}, 5, awful.tag.viewprev)
@@ -282,7 +292,7 @@ globalkeys = gears.table.join(
     group = "client",
   }),
   awful.key({ mods.alt }, "w", function()
-    mymainmenu:show()
+    my_main_menu:show()
   end, {
     description = "show main menu",
     group = "awesome",
