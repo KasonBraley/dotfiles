@@ -1,5 +1,6 @@
 base-devel
 bat
+curl
 docker
 fzf
 fd
