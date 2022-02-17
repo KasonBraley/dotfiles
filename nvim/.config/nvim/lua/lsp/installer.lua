@@ -17,6 +17,7 @@ local servers = {
   "gopls",
   "quick_lint_js",
   "bashls",
+  "intelephense",
 }
 
 local function on_attach(_, bufnr)

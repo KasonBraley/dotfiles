@@ -20,7 +20,7 @@ For AwesomeWM:
     - uses iBus https://vas.neocities.org/custom_keyboard_layout_xkb_ibus.html
     - still need the variant in /usr/share/X11/xkb/rules/evdev.xml
     - still need the layout in /usr/share/X11/xkb/symbols/us
-    - sudo nivm /usr/share/ibus/component/simple.xml
+    - sudo nvim /usr/share/ibus/component/simple.xml
     - add this above programmer dvorak
         <engine>
             <name>xkb:us:real-prog-dvorak:eng</name>
