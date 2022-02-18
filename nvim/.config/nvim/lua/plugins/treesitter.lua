@@ -14,7 +14,10 @@ require("nvim-treesitter.configs").setup({
     "lua",
     "yaml",
     "dockerfile",
-    "go"
+    "go",
+    "php",
+    "python",
+    "java",
   },
   highlight = {
     enable = true,

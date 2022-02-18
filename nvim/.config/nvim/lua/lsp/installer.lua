@@ -18,6 +18,9 @@ local servers = {
   "quick_lint_js",
   "bashls",
   "intelephense",
+  "sqls",
+  "pyright",
+  "jdtls",
 }
 
 local function on_attach(_, bufnr)
