@@ -136,8 +136,6 @@ return require("packer").startup(function(use)
       requires = {
         "nvim-lua/plenary.nvim",
       },
-      cmd = "Telescope",
-      module = "telescope",
       config = function()
         require("plugins.telescope")
       end,
@@ -147,7 +145,14 @@ return require("packer").startup(function(use)
 
   use({ "nvim-lua/popup.nvim" })
 
-  use({ "ThePrimeagen/harpoon" })
+  use({
+    "ThePrimeagen/harpoon",
+    config = function()
+      require("harpoon").setup({
+          global_settings = { mark_branch = true }
+      })
+    end,
+  })
 
   use({ "andymass/vim-matchup", event = "BufRead" })
 

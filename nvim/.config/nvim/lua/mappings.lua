@@ -83,10 +83,10 @@ map("", "<left>", "<nop>", opt)
 map("", "<right>", "<nop>", opt)
 
 -- horizontal & vertical resize using arrow keys
-map("n", "<up>", ":resize +2<CR>", opt)
-map("n", "<down>", ":resize -2<CR>", opt)
-map("n", "<left>", ":vertical resize -2<CR>", opt)
-map("n", "<right>", ":vertical resize +2<CR>", opt)
+map("n", "<up>", ":resize +4<CR>", opt)
+map("n", "<down>", ":resize -4<CR>", opt)
+map("n", "<left>", ":vertical resize -4<CR>", opt)
+map("n", "<right>", ":vertical resize +4<CR>", opt)
 
 -- Harpoon
 map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opt)
