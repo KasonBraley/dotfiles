@@ -17,6 +17,7 @@ jq
 neovim
 net-tools
 nvm // or just node/npm
+pavucontrol // pulseaudio gui
 pgadmin -> https://www.pgadmin.org/download/pgadmin-4-apt/
 postgresql
 ripgrep
