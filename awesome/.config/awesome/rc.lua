@@ -21,7 +21,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- Load Debian menu entries
-local debian = require "debian.menu"
+local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- {{{ Error handling
@@ -104,9 +104,12 @@ local my_awesome_menu = {
   { "manual", terminal .. " -e man awesome" },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "restart", awesome.restart },
-  { "quit", function()
-    awesome.quit()
-  end },
+  {
+    "quit",
+    function()
+      awesome.quit()
+    end,
+  },
 }
 
 local menu_awesome = { "awesome", my_awesome_menu, beautiful.awesome_icon }
@@ -114,18 +117,18 @@ local menu_terminal = { "open terminal", terminal }
 
 local my_main_menu
 if has_fdo then
-  my_main_menu = freedesktop.menu.build { before = { menu_awesome }, after = { menu_terminal } }
+  my_main_menu = freedesktop.menu.build({ before = { menu_awesome }, after = { menu_terminal } })
 else
-  my_main_menu = awful.menu {
+  my_main_menu = awful.menu({
     items = {
       menu_awesome,
       { "Debian", debian.menu.Debian_menu.Debian },
       menu_terminal,
     },
-  }
+  })
 end
 
-mylauncher = awful.widget.launcher { image = beautiful.awesome_icon, menu = my_main_menu }
+mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = my_main_menu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -654,7 +657,7 @@ client.connect_signal("manage", function(c)
     -- Prevent clients from being unreachable after screen count changes.
     awful.placement.no_offscreen(c)
   end
-    awful.titlebar.hide(c)
+  awful.titlebar.hide(c)
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
@@ -709,3 +712,4 @@ client.connect_signal("unfocus", function(c)
   c.border_color = beautiful.border_normal
 end)
 -- }}}
+awful.spawn.with_shell("~/.config/awesome/autorun.sh")
