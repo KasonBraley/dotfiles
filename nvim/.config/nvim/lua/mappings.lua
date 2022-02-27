@@ -32,7 +32,7 @@ map("n", "<Leader>tv", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- te
 map("n", "<Leader>tx", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term bottom
 
 -- Nvimtree (rest are defaults)
-map("n", "<C-b>", ":NvimTreeToggle<CR>", opt)
+map("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", opt)
 
 -- Tabs
 map("n", "tt", ":tabnew<CR>", opt)
@@ -65,6 +65,7 @@ map("v", "<Leader>gr", '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."),
 map("n", "<Leader>gR", ":Gitsigns reset_buffer<CR>", opt)
 map("", "<Leader>gp", ":Gitsigns preview_hunk<CR>", opt)
 map("n", "<Leader>gb", ":Gitsigns blame_line<CR>", opt)
+map("n", "<Leader>gn", ":Gitsigns next_hunk<CR>", opt)
 
 map("n", "<Leader>g", ":Neogit<CR>", opt)
 

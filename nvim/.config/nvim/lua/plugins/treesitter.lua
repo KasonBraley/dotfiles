@@ -21,21 +21,12 @@ require("nvim-treesitter.configs").setup({
   },
   highlight = {
     enable = true,
-    use_languagetree = true,
-  },
-  query_linter = {
-    enable = true,
-    use_virtual_text = true,
-    lint_events = { "BufWrite", "CursorHold" },
   },
   matchup = {
     enable = true,
     disable = {},
   },
   autotag = {
-    enable = true,
-  },
-  autopairs = {
     enable = true,
   },
   context_commentstring = {
