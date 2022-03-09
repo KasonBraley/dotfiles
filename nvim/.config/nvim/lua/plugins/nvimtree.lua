@@ -3,7 +3,6 @@ local g = vim.g
 vim.o.termguicolors = true
 
 -- g.nvim_tree_auto_ignore_ft = {} -- don't open tree on specific fiypes.
-g.nvim_tree_quit_on_open = 0 -- closes tree when file's opened
 g.nvim_tree_indent_markers = 0
 g.nvim_tree_git_hl = 1
 g.nvim_tree_highlight_opened_files = 1
@@ -49,6 +48,7 @@ require("nvim-tree").setup({
   auto_close = true,
   open_on_tab = false,
   hijack_cursor = false,
+  quit_on_open = false,
   update_cwd = true,
   git = {
     ignore = true,

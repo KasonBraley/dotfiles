@@ -19,6 +19,9 @@
 [url "https://github.com/KasonBraley/"]
   insteadOf = me:
 
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+
 [color]
 	ui = auto
 [color "branch"]

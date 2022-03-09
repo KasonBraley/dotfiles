@@ -713,3 +713,4 @@ client.connect_signal("unfocus", function(c)
 end)
 -- }}}
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
+gears.timer.start_new(10, function() collectgarbage("step", 20000) return true end)
