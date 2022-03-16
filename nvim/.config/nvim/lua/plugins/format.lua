@@ -28,7 +28,7 @@ format.setup({
       function()
         return {
           exe = "goimports",
-          args = { "-w", vim.api.nvim_buf_get_name(0) },
+          args = { "-w", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)) },
           stdin = false,
         }
       end,
@@ -39,6 +39,16 @@ format.setup({
         return {
           exe = "stylua",
           args = { "--indent-type", "spaces", "--indent-width", "2", "-" },
+          stdin = true,
+        }
+      end,
+    },
+    sh = {
+      -- Shell Script Formatter
+      function()
+        return {
+          exe = "shfmt",
+          -- args = { "-i", 2 },
           stdin = true,
         }
       end,
