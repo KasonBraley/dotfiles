@@ -65,22 +65,6 @@ RPROMPT=\$vcs_info_msg_0_
 zstyle ':vcs_info:git:*' formats '%F{green}%b%f'
 zstyle ':vcs_info:*' enable git
 
-pb-kill-line () {
-  zle kill-line   # `kill-line` is the default ctrl+k binding
-  echo -n $CUTBUFFER | xsel -ib
-}
-
-pb-kill-whole-line () {
-  zle kill-whole-line
-  echo -n $CUTBUFFER | xsel -ib 
-}
-
-zle -N pb-kill-line  # register our new function
-zle -N pb-kill-whole-line  # register our new function
-
-bindkey '^K' pb-kill-line  # change the ctrl+k binding 
-bindkey '^U' pb-kill-whole-line  # change the ctrl+u binding 
-
 # git
 alias gs="git status -sb "${@}" && { gql 2>/dev/null || : }"
 alias gl="git log --graph --oneline --decorate --all"
