@@ -3,7 +3,6 @@ local g = vim.g
 vim.o.termguicolors = true
 
 -- g.nvim_tree_auto_ignore_ft = {} -- don't open tree on specific fiypes.
-g.nvim_tree_indent_markers = 0
 g.nvim_tree_git_hl = 1
 g.nvim_tree_highlight_opened_files = 1
 g.nvim_tree_root_folder_modifier = ":t"
@@ -45,7 +44,6 @@ require("nvim-tree").setup({
   hijack_netrw = true,
   open_on_setup = false,
   ignore_ft_on_setup = {},
-  auto_close = true,
   open_on_tab = false,
   hijack_cursor = false,
   quit_on_open = false,
@@ -69,7 +67,7 @@ require("nvim-tree").setup({
   filters = {
     dotfiles = false,
     custom = {
-      ".git",
+      ".git$",
       "node_modules",
       ".cache",
     },
