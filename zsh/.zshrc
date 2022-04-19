@@ -67,7 +67,7 @@ zstyle ':vcs_info:*' enable git
 
 # git
 alias gs="git status -sb "${@}" && { gql 2>/dev/null || : }"
-alias gl="git log --graph --oneline --decorate --all"
+alias gl="git log --graph --oneline --decorate"
 alias gql="git log --color --pretty=format:'%Cgreen%h%Creset%C(yellow)%d%Creset %s%Creset' --abbrev-commit -n5"
 alias gc="git commit -v "${@}""
 alias ga="git commit --amend --reuse-message=HEAD"
@@ -132,7 +132,7 @@ bindkey '^R' search_history
 
 # colorized go test output
 set -o pipefail
-alias got='go test -v -cover . | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'''
+alias got='go test -v -cover -race ./... | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'''
 
 alias rg="
 rg --colors line:fg:yellow      \
