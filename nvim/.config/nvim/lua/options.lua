@@ -17,6 +17,7 @@ opt.backup = false
 opt.foldlevelstart = 99 -- start unfolded
 opt.completeopt = "menu,noselect"
 opt.wrap = false
+opt.scrolloff = 8 -- Make it so there are always lines below my cursor
 
 opt.grepprg='rg'
 opt.grepprg='rg --color=never --no-heading --line-number --column'
