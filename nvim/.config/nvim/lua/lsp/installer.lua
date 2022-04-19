@@ -21,6 +21,7 @@ local servers = {
   "sqls",
   "pyright",
   "jdtls",
+  "terraformls",
 }
 
 local function on_attach(_, bufnr)

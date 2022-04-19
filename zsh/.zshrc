@@ -143,3 +143,6 @@ rg --colors line:fg:yellow      \
    --colors match:bg:yellow     \
    --colors match:style:nobold  \
 "
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
