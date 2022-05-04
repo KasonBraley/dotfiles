@@ -113,9 +113,8 @@ return require("packer").startup(function(use)
     {
       "lewis6991/gitsigns.nvim",
       event = "Bufread",
-      requires = "nvim-lua/plenary.nvim",
       config = function()
-        require("plugins.gitsigns")
+        require("gitsigns").setup()
       end,
     },
     {
