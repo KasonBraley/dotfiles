@@ -53,5 +53,14 @@ format.setup({
         }
       end,
     },
+    terraform = {
+      function()
+        return {
+          exe = "terraform",
+          args = { "fmt", "-" },
+          stdin = true,
+        }
+      end,
+    },
   },
 })
