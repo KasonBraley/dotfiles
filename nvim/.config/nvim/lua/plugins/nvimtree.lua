@@ -46,7 +46,6 @@ require("nvim-tree").setup({
   ignore_ft_on_setup = {},
   open_on_tab = false,
   hijack_cursor = false,
-  quit_on_open = false,
   update_cwd = true,
   git = {
     ignore = true,
@@ -76,7 +75,6 @@ require("nvim-tree").setup({
   view = {
     width = 30,
     side = "right",
-    auto_resize = false,
     mappings = {
       custom_only = false,
       list = {},
