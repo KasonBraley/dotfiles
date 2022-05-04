@@ -9,18 +9,8 @@ cmp.setup({
       require("luasnip").lsp_expand(args.body)
     end,
   },
-  completion = {
-    -- default to disabled completion, toggled on/off via a mapping
-    autocomplete = false,
-    get_trigger_characters = function(trigger_characters)
-      return vim.tbl_filter(function(char)
-        return char ~= " "
-      end, trigger_characters)
-    end,
-  },
   formatting = {
     format = function(entry, vim_item)
-      -- set a name for each source
       vim_item.menu = ({
         buffer = "[Buff]",
         nvim_lsp = "[LSP]",
@@ -38,28 +28,7 @@ cmp.setup({
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping({
-      i = function(fallback)
-        if cmp.visible() then
-          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-          require("plugins.others").toggle_completion()
-        else
-          fallback()
-        end
-      end,
-    }),
-    ["<C-k>"] = cmp.mapping({
-      require("plugins.others").toggle_completion(),
-      i = function()
-        if cmp.visible() then
-          cmp.abort()
-          require("plugins.others").toggle_completion()
-        else
-          cmp.complete()
-          require("plugins.others").toggle_completion()
-        end
-      end,
-    }),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   },
   sources = {
     { name = "path" },

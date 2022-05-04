@@ -110,8 +110,5 @@ map(
   ":lua require('harpoon.term').sendCommand(2,2); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 
--- toggle cmp completion
-map("n", "<Leader>tc", ":lua require('plugins.others').toggle_completion()<CR>", opt)
-
 -- misc
 map("n", "Q", "<nop>", opt) -- disable Ex mode
