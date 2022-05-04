@@ -19,11 +19,11 @@ return require("packer").startup(function(use)
   use("lewis6991/impatient.nvim")
 
   use({
-    { "neovim/nvim-lspconfig" },
+    "williamboman/nvim-lsp-installer",
     {
-      "williamboman/nvim-lsp-installer",
+      "neovim/nvim-lspconfig",
       config = function()
-        require("lsp.installer")
+        require("plugins.lsp")
       end,
     },
   })
