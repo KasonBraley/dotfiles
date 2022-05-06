@@ -72,6 +72,16 @@ for _, lsp in ipairs(servers) do
   })
 end
 
+lspconfig.gopls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    gopls = {
+      buildFlags = { "-tags=unit,integration,e2e" },
+    },
+  },
+})
+
 lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
   capabilities = capabilities,
