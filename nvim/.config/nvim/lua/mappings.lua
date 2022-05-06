@@ -1,114 +1,114 @@
-local function map(mode, lhs, rhs, opts)
-  local options = { noremap = true, silent = false }
-  if opts then
-    options = vim.tbl_extend("force", options, opts)
-  end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
+vim.keymap.set("n", "<Leader><Leader>", "<C-^>zz")
 
-local opt = {}
-
-map("n", "<Leader><Leader>", "<C-^>zz")
-
-map("n", "n", "nzz")
-map("n", "N", "Nzz")
-map("n", "<C-o>", "<C-o>zz")
-map("n", "<C-i>", "<C-i>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
+vim.keymap.set("n", "<C-o>", "<C-o>zz")
+vim.keymap.set("n", "<C-i>", "<C-i>zz")
 
 -- 'j' and 'k' moves up and down visible lines in editor not actual lines
 -- This is noticable when text wraps to next line
-map("n", "j", "gj")
-map("n", "k", "gk")
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
 
 -- Keep selection when indent/outdent
-map("x", ">", ">gv")
-map("x", "<", "<gv")
+vim.keymap.set("x", ">", ">gv")
+vim.keymap.set("x", "<", "<gv")
 
 -- format
-map("n", "<Leader>fm", ":Format<CR>", opt)
+vim.keymap.set("n", "<Leader>fm", ":Format<CR>")
 
 -- OPEN TERMINALS --
-map("n", "<Leader>tv", ":vnew +terminal | setlocal nobuflisted <CR>", opt) -- term over right
-map("n", "<Leader>tx", ":10new +terminal | setlocal nobuflisted <CR>", opt) --  term bottom
+vim.keymap.set("n", "<Leader>tv", ":vnew +terminal | setlocal nobuflisted <CR>") -- term over right
+vim.keymap.set("n", "<Leader>tx", ":10new +terminal | setlocal nobuflisted <CR>") --  term bottom
 
 -- Nvimtree (rest are defaults)
-map("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", opt)
+vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>")
 
 -- Tabs
-map("n", "tt", ":tabnew<CR>", opt)
-map("n", "tn", ":tabnext<CR>", opt)
-map("n", "tp", ":tabprevious<CR>", opt)
-map("n", "tq", ":tabclose<CR>", opt)
+vim.keymap.set("n", "tt", ":tabnew<CR>")
+vim.keymap.set("n", "tn", ":tabnext<CR>")
+vim.keymap.set("n", "tp", ":tabprevious<CR>")
+vim.keymap.set("n", "tq", ":tabclose<CR>")
 
 -- return normal mode on esc in terminal
-map("t", "<Esc>", "<C-\\><C-n>", opt)
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
 -- Telescope
-map("n", "<C-P>", ":Telescope find_files<CR>", opt)
-map("n", "<Leader>fg", ":Telescope git_files<CR>", opt)
-map("n", "<Leader>b", ":Telescope buffers<CR>", opt)
-map("n", "<Leader>fo", ":Telescope oldfiles<CR>", opt)
-map("n", "<Leader>fw", ":Telescope live_grep<CR>", opt)
-map("n", "<Leader>fc", ":lua require('plugins.others').search_dotfiles()<CR>", opt)
-map("n", "<leader>pw", ":lua require('telescope.builtin').grep_string {search = vim.fn.expand('<cword>')}<CR>", opt)
-map("n", "<leader>ps", ":lua require('telescope.builtin').grep_string {search = vim.fn.input('Grep For > ')}<CR>", opt)
+vim.keymap.set("n", "<C-P>", function()
+  require("telescope.builtin").find_files()
+end)
+vim.keymap.set("n", "<Leader>fg", ":Telescope git_files<CR>")
+vim.keymap.set("n", "<Leader>b", ":Telescope buffers<CR>")
+vim.keymap.set("n", "<Leader>fo", ":Telescope oldfiles<CR>")
+vim.keymap.set("n", "<Leader>fw", ":Telescope live_grep<CR>")
+vim.keymap.set("n", "<Leader>fc", ":lua require('plugins.others').search_dotfiles()<CR>")
+vim.keymap.set(
+  "n",
+  "<Leader>pw",
+  ":lua require('telescope.builtin').grep_string {search = vim.fn.expand('<cword>')}<CR>"
+)
+vim.keymap.set(
+  "n",
+  "<Leader>ps",
+  ":lua require('telescope.builtin').grep_string {search = vim.fn.input('Grep For > ')}<CR>"
+)
 
 -- Git
-map("n", "<leader>gw", ":Telescope git_worktree git_worktrees<CR>", opt)
-map("n", "<leader>gm", ":Telescope git_worktree create_git_worktree<CR>", opt)
+vim.keymap.set("n", "<Leader>gw", ":Telescope git_worktree git_worktrees<CR>")
+vim.keymap.set("n", "<Leader>gm", ":Telescope git_worktree create_git_worktree<CR>")
 
-map("n", "<Leader>gs", ":Gitsigns stage_hunk<CR>", opt)
-map("v", "<Leader>gs", '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
-map("n", "<Leader>gu", ":Gitsigns undo_stage_hunk<CR>", opt)
-map("n", "<Leader>gr", ":Gitsigns reset_hunk<CR>", opt)
-map("v", "<Leader>gr", '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>', opt)
-map("n", "<Leader>gR", ":Gitsigns reset_buffer<CR>", opt)
-map("", "<Leader>gp", ":Gitsigns preview_hunk<CR>", opt)
-map("n", "<Leader>gb", ":Gitsigns blame_line<CR>", opt)
-map("n", "<Leader>gn", ":Gitsigns next_hunk<CR>", opt)
+vim.keymap.set("n", "<Leader>gs", ":Gitsigns stage_hunk<CR>")
+vim.keymap.set("v", "<Leader>gs", '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>')
+vim.keymap.set("n", "<Leader>gu", ":Gitsigns undo_stage_hunk<CR>")
+vim.keymap.set("n", "<Leader>gr", ":Gitsigns reset_hunk<CR>")
+vim.keymap.set("v", "<Leader>gr", '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>')
+vim.keymap.set("n", "<Leader>gR", ":Gitsigns reset_buffer<CR>")
+vim.keymap.set("", "<Leader>gp", ":Gitsigns preview_hunk<CR>")
+vim.keymap.set("n", "<Leader>gb", ":Gitsigns blame_line<CR>")
+vim.keymap.set("n", "<Leader>gn", ":Gitsigns next_hunk<CR>")
 
-map("n", "<Leader>g", ":Neogit<CR>", opt)
+vim.keymap.set("n", "<Leader>g", ":Neogit<CR>")
 
 -- Markdown
-map("n", "<leader>p", ":MarkdownPreviewToggle <CR>")
+vim.keymap.set("n", "<Leader>p", ":MarkdownPreviewToggle <CR>")
 
 -- Quickfix
-map("", "<C-q>", ":copen<cr>", opt)
-map("n", "<C-k>", ":cnext<cr>zz", opt)
-map("n", "<C-j>", ":cprevious<cr>zz", opt)
+vim.keymap.set("", "<C-q>", ":copen<cr>")
+vim.keymap.set("n", "<C-k>", ":cnext<cr>zz")
+vim.keymap.set("n", "<C-j>", ":cprevious<cr>zz")
 
 -- Arrowkeys
-map("", "<up>", "<nop>", opt)
-map("", "<down>", "<nop>", opt)
-map("", "<left>", "<nop>", opt)
-map("", "<right>", "<nop>", opt)
+vim.keymap.set("", "<up>", "<nop>")
+vim.keymap.set("", "<down>", "<nop>")
+vim.keymap.set("", "<left>", "<nop>")
+vim.keymap.set("", "<right>", "<nop>")
 
 -- horizontal & vertical resize using arrow keys
-map("n", "<up>", ":resize +4<CR>", opt)
-map("n", "<down>", ":resize -4<CR>", opt)
-map("n", "<left>", ":vertical resize -4<CR>", opt)
-map("n", "<right>", ":vertical resize +4<CR>", opt)
+vim.keymap.set("n", "<up>", ":resize +4<CR>")
+vim.keymap.set("n", "<down>", ":resize -4<CR>")
+vim.keymap.set("n", "<left>", ":vertical resize -4<CR>")
+vim.keymap.set("n", "<right>", ":vertical resize +4<CR>")
 
 -- Harpoon
-map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opt)
-map("n", "<C-y>", ":lua require('harpoon.cmd-ui').toggle_quick_menu()<CR>", opt)
-map("n", "<Leader>a", ":lua require('harpoon.mark').add_file()<CR>")
-map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>zz")
-map("n", "<C-t>", ":lua require('harpoon.ui').nav_file(2)<CR>zz")
-map("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>zz")
-map("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>zz")
-map("n", "tu", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
-map("n", "te", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
-map(
+vim.keymap.set("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>")
+vim.keymap.set("n", "<C-y>", ":lua require('harpoon.cmd-ui').toggle_quick_menu()<CR>")
+vim.keymap.set("n", "<Leader>a", ":lua require('harpoon.mark').add_file()<CR>")
+vim.keymap.set("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>zz")
+vim.keymap.set("n", "<C-t>", ":lua require('harpoon.ui').nav_file(2)<CR>zz")
+vim.keymap.set("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>zz")
+vim.keymap.set("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>zz")
+vim.keymap.set("n", "tu", ":lua require('harpoon.term').gotoTerminal(1)<CR>")
+vim.keymap.set("n", "te", ":lua require('harpoon.term').gotoTerminal(2)<CR>")
+vim.keymap.set(
   "n",
   "cu",
   ":lua require('harpoon.term').sendCommand(2,1); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
-map(
+vim.keymap.set(
   "n",
   "ce",
   ":lua require('harpoon.term').sendCommand(2,2); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 
 -- misc
-map("n", "Q", "<nop>", opt) -- disable Ex mode
+vim.keymap.set("n", "Q", "<nop>") -- disable Ex mode
