@@ -1,5 +1,3 @@
-pcall(require, "impatient")
-
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -15,140 +13,37 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 require("packer").startup(function(use)
-  -- Plugin Manager
-  use({ "wbthomason/packer.nvim" })
-
+  use("wbthomason/packer.nvim") -- Plugin Manager
   use("lewis6991/impatient.nvim")
-
-  use({
-    "williamboman/nvim-lsp-installer",
-    {
-      "neovim/nvim-lspconfig",
-    },
-  })
-
-  use({
-    {
-      "nvim-treesitter/nvim-treesitter",
-      run = ":TSUpdate",
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-refactor",
-      after = "nvim-treesitter",
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      after = "nvim-treesitter",
-    },
-    {
-      "windwp/nvim-ts-autotag",
-      after = "nvim-treesitter",
-    },
-  })
-
-  use({ "rafamadriz/friendly-snippets" })
-
-  use({
-    "hrsh7th/nvim-cmp",
-    requires = {
-      "L3MON4D3/LuaSnip",
-      "hrsh7th/cmp-buffer",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-      "f3fora/cmp-spell",
-      "petertriho/cmp-git",
-    },
-  })
-
-  use({
-    "mhartington/formatter.nvim",
-    cmd = "Format",
-  })
-
-  -- File tree
-  use({
-    "kyazdani42/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFindFileToggle", "NvimTreeFocus" },
-  })
-
-  -- statusline
-  use({
-    "hoob3rt/lualine.nvim",
-  })
-
-  -- color/theme related stuff
-  use({ "KasonBraley/nvim-solarized-lua" })
-  -- local theme development
-  -- use({ "~/dev/lua/nvim-solarized-lua" })
-
-  use({
-    "norcalli/nvim-colorizer.lua",
-    event = "Bufread",
-    config = function()
-      require("colorizer").setup()
-    end,
-  })
-
-  -- git
-  use({
-    {
-      "lewis6991/gitsigns.nvim",
-      event = "Bufread",
-      config = function()
-        require("gitsigns").setup()
-      end,
-    },
-    {
-      "TimUntersberger/neogit",
-      cmd = "Neogit",
-      requires = "nvim-lua/plenary.nvim",
-      config = function()
-        require("neogit").setup()
-      end,
-    },
-    { "ThePrimeagen/git-worktree.nvim" },
-  })
-
-  -- Fuzzy Finder
-  use({
-    {
-      "nvim-telescope/telescope.nvim",
-      requires = {
-        "nvim-lua/plenary.nvim",
-      },
-    },
-    { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-  })
-
-  use({ "nvim-lua/popup.nvim" })
-
-  use({
-    "ThePrimeagen/harpoon",
-    commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2",
-  })
-
-  use({ "andymass/vim-matchup", event = "BufRead" })
-
-  use({
-    {
-      "numToStr/Comment.nvim",
-      event = "BufRead",
-    },
-    {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-      after = "nvim-treesitter",
-    },
-  })
-
-  use({ "machakann/vim-sandwich", event = "BufRead" })
-
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",
-    ft = "markdown",
-  })
-
+  use("williamboman/nvim-lsp-installer")
+  use("neovim/nvim-lspconfig")
+  use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+  use({ "nvim-treesitter/nvim-treesitter-refactor", after = "nvim-treesitter" })
+  use({ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" })
+  use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
+  use("rafamadriz/friendly-snippets")
+  use({ "hrsh7th/nvim-cmp", requires = { "hrsh7th/cmp-nvim-lsp" } })
+  use({ "L3MON4D3/LuaSnip", requires = { "saadparwaiz1/cmp_luasnip" } })
+  use("hrsh7th/cmp-path")
+  use("f3fora/cmp-spell")
+  use("mhartington/formatter.nvim")
+  use("kyazdani42/nvim-tree.lua")
+  use("hoob3rt/lualine.nvim")
+  use("KasonBraley/nvim-solarized-lua")
+  -- use({ "~/dev/lua/nvim-solarized-lua" }) -- local theme development
+  use({ "norcalli/nvim-colorizer.lua" })
+  use({ "lewis6991/gitsigns.nvim" })
+  use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
+  use({ "ThePrimeagen/git-worktree.nvim" })
+  use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
+  use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+  use("nvim-lua/popup.nvim")
+  use({ "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" })
+  use("andymass/vim-matchup")
+  use({ "numToStr/Comment.nvim" })
+  use({ "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" })
+  use("machakann/vim-sandwich")
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", ft = "markdown" })
   use({ "dstein64/vim-startuptime", cmd = "StartupTime" })
 
   if packer_bootstrap then
@@ -168,6 +63,8 @@ if packer_bootstrap then
   print("==================================")
   return
 end
+
+pcall(require, "impatient")
 
 local opt = vim.opt
 local g = vim.g
@@ -421,6 +318,10 @@ vim.keymap.set(
 -- misc
 vim.keymap.set("n", "Q", "<nop>") -- disable Ex mode
 
+require("colorizer").setup()
+require("gitsigns").setup()
+require("neogit").setup()
+
 local cmp = require("cmp")
 cmp.setup({
   snippet = {
@@ -431,7 +332,6 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       vim_item.menu = ({
-        buffer = "[Buff]",
         nvim_lsp = "[LSP]",
         luasnip = "[Snip]",
         spell = "[Spell]",
@@ -440,20 +340,19 @@ cmp.setup({
       return vim_item
     end,
   },
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  },
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+  }),
   sources = {
     { name = "path" },
     { name = "nvim_lsp", max_item_count = 10 },
     { name = "luasnip" },
-    -- { name = "buffer", keyword_length = 5, max_item_count = 5 },
     { name = "spell" },
     { name = "cmp_git" },
   },
@@ -630,11 +529,22 @@ lspconfig.gopls.setup({
   },
 })
 
+-- Make runtime files discoverable to the server
+local runtime_path = vim.split(package.path, ";")
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
 lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
     Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
+        version = "LuaJIT",
+        -- Setup your lua path
+        path = runtime_path,
+      },
       diagnostics = { globals = { "vim" } },
       workspace = {
         library = {
@@ -952,10 +862,16 @@ vim.api.nvim_exec(
    au BufRead,BufNewFile *.md setlocal spell
    au BufWrite * set fileformat=unix 
    au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "NvimTree" | set laststatus=0 | else | set laststatus=2 | endif
-   au BufWritePre *.go lua require('plugins.others').goimports(1000)
 ]],
   false
 )
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+    goimports(1000)
+  end,
+})
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
