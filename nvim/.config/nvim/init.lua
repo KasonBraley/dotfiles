@@ -323,37 +323,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Nvimtree
 vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>")
 
-vim.g.nvim_tree_git_hl = 1
-vim.g.nvim_tree_highlight_opened_files = 1
-vim.g.nvim_tree_root_folder_modifier = ":t"
-
-vim.g.nvim_tree_show_icons = {
-  git = 1,
-  folders = 1,
-  files = 1,
-}
-vim.g.nvim_tree_icons = {
-  default = "",
-  symlink = "",
-  git = {
-    unstaged = "✗",
-    staged = "✓",
-    unmerged = "",
-    renamed = "➜",
-    untracked = "★",
-    deleted = "",
-    ignored = "◌",
-  },
-  folder = {
-    default = "",
-    open = "",
-    empty = "",
-    empty_open = "",
-    symlink = "",
-    symlink_open = "",
-  },
-}
-
 require("nvim-tree").setup({
   update_cwd = true,
   diagnostics = { enable = true },
@@ -363,6 +332,39 @@ require("nvim-tree").setup({
       ".git$",
       "node_modules",
       ".cache",
+    },
+  },
+  renderer = {
+    highlight_git = true,
+    highlight_opened_files = "icon",
+    root_folder_modifier = ":t",
+    icons = {
+      show = {
+        file = true,
+        folder = true,
+        git = true,
+      },
+      glyphs = {
+        default = "",
+        symlink = "",
+        git = {
+          unstaged = "✗",
+          staged = "✓",
+          unmerged = "",
+          renamed = "➜",
+          untracked = "★",
+          deleted = "",
+          ignored = "◌",
+        },
+        folder = {
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = "",
+          symlink_open = "",
+        },
+      },
     },
   },
   view = { width = 30, side = "right" },
@@ -824,7 +826,7 @@ vim.api.nvim_exec(
    au FileType gitcommit setlocal spell
    au BufRead,BufNewFile *.md setlocal spell
    au BufWrite * set fileformat=unix 
-   au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "NvimTree" | set laststatus=0 | else | set laststatus=2 | endif
+   au BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 ]],
   false
 )
