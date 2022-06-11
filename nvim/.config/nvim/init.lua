@@ -47,7 +47,6 @@ require("packer").startup(function(use)
       vim.fn["mkdp#util#install"]()
     end,
   })
-  use({ "dstein64/vim-startuptime", cmd = "StartupTime" })
 
   if packer_bootstrap then
     require("packer").sync()
