@@ -340,8 +340,8 @@ require("nvim-tree").setup({
     root_folder_modifier = ":t",
     icons = {
       show = {
-        file = true,
-        folder = true,
+        file = false,
+        folder = false,
         git = true,
       },
       glyphs = {
@@ -355,14 +355,6 @@ require("nvim-tree").setup({
           untracked = "★",
           deleted = "",
           ignored = "◌",
-        },
-        folder = {
-          default = "",
-          open = "",
-          empty = "",
-          empty_open = "",
-          symlink = "",
-          symlink_open = "",
         },
       },
     },
