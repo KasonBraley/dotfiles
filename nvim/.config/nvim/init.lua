@@ -22,7 +22,6 @@ require("packer").startup(function(use)
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use("nvim-treesitter/nvim-treesitter-refactor")
   use("nvim-treesitter/nvim-treesitter-textobjects")
-  use("windwp/nvim-ts-autotag")
   use("rafamadriz/friendly-snippets")
   use({ "hrsh7th/nvim-cmp", requires = { "hrsh7th/cmp-nvim-lsp" } })
   use({ "L3MON4D3/LuaSnip", requires = { "saadparwaiz1/cmp_luasnip" } })
@@ -32,11 +31,8 @@ require("packer").startup(function(use)
   use("kyazdani42/nvim-tree.lua")
   use("hoob3rt/lualine.nvim")
   use("KasonBraley/nvim-solarized-lua")
-  -- use({ "~/dev/lua/nvim-solarized-lua" }) -- local theme development
-  use("norcalli/nvim-colorizer.lua")
   use("lewis6991/gitsigns.nvim")
   use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
-  use({ "ThePrimeagen/git-worktree.nvim" })
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use("nvim-lua/popup.nvim")
@@ -45,7 +41,12 @@ require("packer").startup(function(use)
   use("numToStr/Comment.nvim")
   use({ "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" })
   use("machakann/vim-sandwich")
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", ft = "markdown" })
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  })
   use({ "dstein64/vim-startuptime", cmd = "StartupTime" })
 
   if packer_bootstrap then
@@ -190,8 +191,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
-require("colorizer").setup()
-
 -- gitsigns
 require("gitsigns").setup()
 vim.keymap.set("n", "<Leader>gs", ":Gitsigns stage_hunk<CR>")
@@ -274,7 +273,6 @@ require("formatter").setup({
       end,
     },
     sh = {
-      -- Shell Script Formatter
       function()
         return {
           exe = "shfmt",
@@ -321,7 +319,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Nvimtree
-vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>")
+vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", { silent = true })
 
 require("nvim-tree").setup({
   update_cwd = true,
@@ -439,7 +437,6 @@ require("telescope").setup({
 })
 
 pcall(require("telescope").load_extension, "fzf") -- Enable telescope fzf native, if installed
-pcall(require("telescope").load_extension, "git_worktree")
 
 local search_dotfiles = function()
   require("telescope.builtin").git_files({
@@ -556,7 +553,6 @@ require("nvim-treesitter.configs").setup({
     enable = true,
     disable = {},
   },
-  autotag = { enable = true },
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
@@ -642,7 +638,6 @@ local servers = {
   "quick_lint_js",
   "bashls",
   "intelephense",
-  "sqls",
   "pyright",
   -- "jdtls",
   "terraformls",
