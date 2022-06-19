@@ -408,24 +408,24 @@ require("telescope").setup({
       preview_cutoff = 10,
     },
     file_ignore_patterns = {
-      ".git/objects/*",
-      ".git/refs/*",
-      ".git/hooks/*",
-      ".git/info/*",
-      ".git/logs/*",
-      ".git/worktrees/*",
+      "^./.git/",
       ".png",
       ".PNG",
       ".jpg",
       ".jpeg",
-      "node_modules/*",
-      "dist/*",
+      "^node_modules/",
+      "^dist/",
     },
     -- path_display = { "smart" },
     set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
     file_previewer = require("telescope.previewers").vim_buffer_cat.new,
     grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
     qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+  },
+  pickers = {
+    find_files = {
+      hidden = true,
+    },
   },
   extensions = {
     fzf = {
