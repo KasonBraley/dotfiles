@@ -808,7 +808,7 @@ cmp.setup({
 
 vim.api.nvim_exec(
   [[
-   au TermOpen term://* setlocal nonumber norelativenumber laststatus=0 
+   au TermOpen term://* setlocal nonumber norelativenumber
    au TermOpen term://* startinsert
    au TermClose term://* bd!
    au FileType gitcommit setlocal spell
