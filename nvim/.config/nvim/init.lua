@@ -125,7 +125,7 @@ opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- vim-matchup
--- g.matchup_matchparen_offscreen = {}
+vim.g.matchup_matchparen_offscreen = {}
 
 vim.keymap.set("n", "<Leader><Leader>", "<C-^>zz")
 
