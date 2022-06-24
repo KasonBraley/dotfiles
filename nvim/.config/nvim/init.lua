@@ -68,7 +68,6 @@ end
 
 local opt = vim.opt
 
-opt.ruler = false
 opt.ignorecase = true
 opt.splitbelow = true
 opt.splitright = true
@@ -81,21 +80,12 @@ opt.timeoutlen = 400
 opt.clipboard = "unnamedplus"
 opt.swapfile = false
 opt.backup = false
-opt.foldlevelstart = 99 -- start unfolded
 opt.completeopt = "menu,noselect"
 opt.wrap = false
 opt.scrolloff = 8 -- Make it so there are always lines below my cursor
---Set highlight on search
-vim.o.hlsearch = false --Set highlight on search
 
 opt.grepprg = "rg"
 opt.grepprg = "rg --color=never --no-heading --line-number --column"
-
--- disable nvim intro
-opt.shortmess:append("sI")
-
--- disable tilde on end of buffer: https://github.com/neovim/neovim/pull/8546#issuecomment-643643758
-vim.cmd("let &fcs='eob: '")
 
 -- Numbers
 vim.wo.number = true --Make line numbers default
@@ -108,10 +98,6 @@ opt.softtabstop = 4
 opt.expandtab = true
 opt.smartindent = true
 
--- go to previous/next line with h,l,left arrow and right arrow
--- when cursor reaches end/beginning of line
-opt.whichwrap:append("<>hl")
-
 --Remap space as leader key
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
@@ -120,9 +106,6 @@ vim.g.maplocalleader = " "
 -- colorscheme
 vim.o.termguicolors = true
 vim.cmd([[colorscheme solarized]])
-
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- vim-matchup
 vim.g.matchup_matchparen_offscreen = {}
@@ -133,11 +116,6 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
 vim.keymap.set("n", "<C-i>", "<C-i>zz")
-
--- 'j' and 'k' moves up and down visible lines in editor not actual lines
--- This is noticable when text wraps to next line
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
 
 -- Keep selection when indent/outdent
 vim.keymap.set("x", ">", ">gv")
@@ -183,11 +161,14 @@ vim.api.nvim_create_user_command("W", ":w", {}) --map :W to :w
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
   group = highlight_group,
   pattern = "*",
+  callback = function()
+    vim.highlight.on_yank({
+      higroup = "IncSearch",
+      timeout = 40,
+    })
+  end,
 })
 
 -- gitsigns
@@ -321,8 +302,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", { silent = true })
 
 require("nvim-tree").setup({
-  update_cwd = true,
-  diagnostics = { enable = true },
+  diagnostics = {
+    enable = true,
+    icons = {
+      hint = "H",
+      info = "I",
+      warning = "W",
+      error = "E",
+    },
+  },
   filters = {
     dotfiles = false,
     custom = {
@@ -416,8 +404,7 @@ require("telescope").setup({
       "^node_modules/",
       "^dist/",
     },
-    -- path_display = { "smart" },
-    set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+    set_env = { ["COLORTERM"] = "truecolor" },
     file_previewer = require("telescope.previewers").vim_buffer_cat.new,
     grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
     qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
@@ -617,25 +604,15 @@ local function on_attach(_, bufnr)
   vim.keymap.set("n", "<space>fa", vim.lsp.buf.formatting, opts)
 end
 
--- local handlers = {
---   ["textDocument/hover"] = function(...)
---     local bufnr, _ = vim.lsp.handlers.hover(...)
---     if bufnr then
---       vim.keymap.set("n", "K", "<Cmd>wincmd p<CR>", { silent = true, buffer = bufnr })
---     end
---   end,
--- }
-
 -- config that activates keymaps and enables snippet support
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local servers = {
   "html",
   "cssls",
-  -- "tailwindcss",
   "dockerls",
   "gopls",
-  "golangci_lint_ls",
+  -- "golangci_lint_ls",
   "quick_lint_js",
   "bashls",
   "intelephense",
