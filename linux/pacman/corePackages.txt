@@ -19,7 +19,6 @@ ripgrep
 stow
 strace
 sudo
-tldr
 unzip
 wget
 which

@@ -1,8 +1,4 @@
 // use `yay` to install these from the aur
 
 postman-bin
-quick-lint-js
-slack-desktop
 stylua
-visual-studio-code-bin
-zoom
