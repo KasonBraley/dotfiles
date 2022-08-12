@@ -35,6 +35,7 @@ require("packer").startup(function(use)
   use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+  use("nvim-telescope/telescope-ui-select.nvim")
   use("nvim-lua/popup.nvim")
   use({ "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" })
   use("andymass/vim-matchup")
@@ -421,10 +422,16 @@ require("telescope").setup({
       override_file_sorter = true,
       case_mode = "smart_case",
     },
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown({
+        -- even more opts
+      }),
+    },
   },
 })
 
 pcall(require("telescope").load_extension, "fzf") -- Enable telescope fzf native, if installed
+pcall(require("telescope").load_extension("ui-select"))
 
 local search_dotfiles = function()
   require("telescope.builtin").git_files({
