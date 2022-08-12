@@ -70,6 +70,7 @@ end
 local opt = vim.opt
 
 opt.ignorecase = true
+opt.colorcolumn = "100"
 opt.splitbelow = true
 opt.splitright = true
 opt.cul = true
