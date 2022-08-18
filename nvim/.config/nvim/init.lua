@@ -175,20 +175,35 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- gitsigns
-require("gitsigns").setup()
-vim.keymap.set("n", "<Leader>gs", ":Gitsigns stage_hunk<CR>")
-vim.keymap.set("v", "<Leader>gs", function()
-  require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-end)
-vim.keymap.set("n", "<Leader>gu", ":Gitsigns undo_stage_hunk<CR>")
-vim.keymap.set("n", "<Leader>gr", ":Gitsigns reset_hunk<CR>")
-vim.keymap.set("v", "<Leader>gr", function()
-  require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-end)
-vim.keymap.set("n", "<Leader>gR", ":Gitsigns reset_buffer<CR>")
-vim.keymap.set("", "<Leader>gp", ":Gitsigns preview_hunk<CR>")
-vim.keymap.set("n", "<Leader>gb", ":Gitsigns blame_line<CR>")
-vim.keymap.set("n", "<Leader>gn", ":Gitsigns next_hunk<CR>")
+require("gitsigns").setup({
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map("n", "<Leader>gn", function()
+      if vim.wo.diff then
+        return "<Leader>gn"
+      end
+      vim.schedule(function()
+        gs.next_hunk()
+      end)
+      return "<Ignore>"
+    end, { expr = true })
+
+    map({ "n", "v" }, "<Leader>gs", ":Gitsigns stage_hunk<CR>")
+    map({ "n", "v" }, "<Leader>gr", ":Gitsigns reset_hunk<CR>")
+    map("n", "<Leader>gu", gs.undo_stage_hunk)
+    map("n", "<Leader>gR", gs.reset_buffer)
+    map("", "<Leader>gp", gs.preview_hunk)
+    map("n", "<Leader>gb", function() gs.blame_line{full=true} end)
+  end,
+})
 
 -- neogit
 require("neogit").setup()
