@@ -17,7 +17,8 @@ end
 require("packer").startup(function(use)
   use("wbthomason/packer.nvim") -- Plugin Manager
   use("lewis6991/impatient.nvim")
-  use("williamboman/nvim-lsp-installer")
+  use("williamboman/mason.nvim")
+  use("williamboman/mason-lspconfig.nvim")
   use("neovim/nvim-lspconfig")
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use("nvim-treesitter/nvim-treesitter-refactor")
@@ -582,18 +583,20 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- lsp
-local lsp_installer = require("nvim-lsp-installer")
 local lspconfig = require("lspconfig")
 
-lsp_installer.setup({
-  automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+require("mason").setup({
   ui = {
     icons = {
-      server_installed = "✓",
-      server_pending = "➜",
-      server_uninstalled = "✗",
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗",
     },
   },
+})
+
+require("mason-lspconfig").setup({
+  automatic_installation = true,
 })
 
 local function on_attach(_, bufnr)
@@ -624,7 +627,6 @@ local servers = {
   "quick_lint_js",
   "bashls",
   "intelephense",
-  "pyright",
   -- "jdtls",
   "terraformls",
 }
