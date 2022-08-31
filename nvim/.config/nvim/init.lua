@@ -142,8 +142,8 @@ vim.keymap.set("n", "<Leader>p", ":MarkdownPreviewToggle <CR>")
 
 -- Quickfix
 vim.keymap.set("", "<C-q>", ":copen<cr>")
-vim.keymap.set("n", "<C-k>", ":cnext<cr>zz")
-vim.keymap.set("n", "<C-j>", ":cprevious<cr>zz")
+vim.keymap.set("n", "<C-j>", ":cnext<cr>zz")
+vim.keymap.set("n", "<C-k>", ":cprevious<cr>zz")
 
 -- Arrowkeys
 vim.keymap.set("", "<up>", "<nop>")
@@ -365,6 +365,7 @@ require("nvim-tree").setup({
   view = { width = 30, side = "right" },
 })
 
+-- statusline
 require("lualine").setup({
   options = {
     icons_enabled = false,
@@ -385,7 +386,6 @@ require("lualine").setup({
 })
 
 -- Telescope
-
 require("telescope").setup({
   defaults = {
     vimgrep_arguments = {
@@ -582,15 +582,6 @@ require("nvim-treesitter.configs").setup({
         ["il"] = "@loop.inner",
       },
     },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["<leader>s"] = "@parameter.inner",
-      },
-      swap_previous = {
-        ["<leader>S"] = "@parameter.inner",
-      },
-    },
   },
   refactor = {
     highlight_definitions = { enable = true },
@@ -641,8 +632,6 @@ local servers = {
   -- "golangci_lint_ls",
   "quick_lint_js",
   "bashls",
-  "intelephense",
-  -- "jdtls",
   "terraformls",
 }
 
@@ -757,7 +746,6 @@ lspconfig.eslint.setup({
     "typescript",
     "typescriptreact",
     "typescript.tsx",
-    "vue",
   },
 })
 
