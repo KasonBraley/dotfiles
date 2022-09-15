@@ -91,9 +91,9 @@ opt.grepprg = "rg"
 opt.grepprg = "rg --color=never --no-heading --line-number --column"
 
 -- Numbers
-vim.wo.number = true --Make line numbers default
-opt.numberwidth = 2
-opt.relativenumber = true
+vim.wo.number = false --Make line numbers default
+opt.numberwidth = 1
+opt.relativenumber = false
 
 opt.tabstop = 4
 opt.shiftwidth = 4
