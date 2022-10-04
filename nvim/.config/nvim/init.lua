@@ -68,6 +68,7 @@ if packer_bootstrap then
   return
 end
 
+-- options
 local opt = vim.opt
 
 opt.ignorecase = true
@@ -100,6 +101,11 @@ opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 opt.smartindent = true
+
+opt.inccommand = "split"
+opt.equalalways = false
+opt.incsearch = true
+opt.hlsearch = true
 
 --Remap space as leader key
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -382,7 +388,17 @@ require("nvim-tree").setup({
       },
     },
   },
-  view = { width = 30, side = "right" },
+  actions = {
+    open_file = {
+      resize_window = false,
+    },
+  },
+  view = {
+    adaptive_size = false,
+    preserve_window_proportions = false,
+    --[[ width = 30, ]]
+    --[[ side = "left", ]]
+  },
 })
 
 -- statusline
@@ -441,6 +457,12 @@ require("telescope").setup({
       ".jpeg",
       "^node_modules/",
       "^dist/",
+    },
+    mappings = {
+      i = {
+        ["<C-k>"] = require("telescope.actions").cycle_history_next,
+        ["<C-j>"] = require("telescope.actions").cycle_history_prev,
+      },
     },
     set_env = { ["COLORTERM"] = "truecolor" },
     file_previewer = require("telescope.previewers").vim_buffer_cat.new,
@@ -649,7 +671,7 @@ local servers = {
   "cssls",
   "dockerls",
   "gopls",
-  -- "golangci_lint_ls",
+  "tsserver",
   "quick_lint_js",
   "bashls",
   "terraformls",
