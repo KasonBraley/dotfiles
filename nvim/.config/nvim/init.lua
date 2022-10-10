@@ -49,6 +49,7 @@ require("packer").startup(function(use)
       vim.fn["mkdp#util#install"]()
     end,
   })
+  use("folke/lua-dev.nvim")
 
   if packer_bootstrap then
     require("packer").sync()
@@ -666,6 +667,22 @@ end
 -- config that activates keymaps and enables snippet support
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+local luadev = require("lua-dev").setup({
+  library = {
+    vimruntime = true, -- runtime path
+    types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+    plugins = true, -- installed opt or start plugins in packpath
+    -- you can also specify the list of plugins to make available as a workspace library
+    -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
+  },
+  runtime_path = false, -- enable this to get completion in require strings. Slow!
+  -- pass any additional options that will be merged in the final lsp config
+  lspconfig = {
+    cmd = { "lua-language-server" },
+    on_attach = on_attach,
+  },
+})
+
 local servers = {
   "html",
   "cssls",
@@ -705,28 +722,7 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-lspconfig.sumneko_lua.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        version = "LuaJIT",
-        path = runtime_path,
-      },
-      diagnostics = { globals = { "vim" } },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        maxPreload = 2000,
-        preloadFileSize = 1000,
-        checkThirdParty = false,
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
+lspconfig.sumneko_lua.setup(luadev)
 
 lspconfig.tsserver.setup({
   on_attach = on_attach,
