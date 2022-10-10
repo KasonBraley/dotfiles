@@ -690,6 +690,12 @@ lspconfig.gopls.setup({
   settings = {
     gopls = {
       buildFlags = { "-tags=unit,integration,e2e" },
+      staticcheck = true,
+      analyses = {
+        unusedparams = true,
+        nillness = true,
+        unusedwrite = true,
+      },
     },
   },
 })
