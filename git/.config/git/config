@@ -1,13 +1,15 @@
 [user]
 	name = kason
 	email = kbraley9@gmail.com
+	signingKey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiQdV0xerPHfxbLUcVUpfAq4y9ayzJ4G39Guo7apJqa kbraley9@gmail.com
 [core]
 	editor = nvim
 	autocrlf = input
 [init]
 	defaultBranch = main
 [commit]
-  template = ~/.config/git/template
+    template = ~/.config/git/template
+    gpgsign = true
 [branch]
 	autosetupmerge = true
 	autosetuprebase = always
@@ -43,3 +45,5 @@
 	noprefix = 1
 [merge]
 	conflictstyle = diff3
+[gpg]
+	format = ssh
