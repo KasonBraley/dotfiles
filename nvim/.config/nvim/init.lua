@@ -336,6 +336,8 @@ local go_org_imports = function(wait_ms)
             end
         end
     end
+
+    vim.lsp.buf.format()
 end
 
 -- format Go with goimports
