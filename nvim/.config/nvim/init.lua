@@ -49,7 +49,7 @@ require("packer").startup(function(use)
             vim.fn["mkdp#util#install"]()
         end,
     })
-    use("folke/lua-dev.nvim")
+    use("folke/neodev.nvim")
     use("j-hui/fidget.nvim")
 
     if packer_bootstrap then
@@ -627,9 +627,12 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- lsp
+-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+require("neodev").setup({})
+
 local lspconfig = require("lspconfig")
 
-require("mason").setup()
+require("mason").setup({})
 
 require("mason-lspconfig").setup({
     automatic_installation = true,
@@ -654,22 +657,6 @@ end
 
 -- config that activates keymaps and enables snippet support
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-local luadev = require("lua-dev").setup({
-    library = {
-        vimruntime = true, -- runtime path
-        types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-        plugins = true, -- installed opt or start plugins in packpath
-        -- you can also specify the list of plugins to make available as a workspace library
-        -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
-    },
-    runtime_path = false, -- enable this to get completion in require strings. Slow!
-    -- pass any additional options that will be merged in the final lsp config
-    lspconfig = {
-        cmd = { "lua-language-server" },
-        on_attach = on_attach,
-    },
-})
 
 local servers = {
     "html",
@@ -705,7 +692,12 @@ lspconfig.gopls.setup({
     },
 })
 
-lspconfig.sumneko_lua.setup(luadev)
+-- Make runtime files discoverable to the server
+local runtime_path = vim.split(package.path, ";")
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+lspconfig.sumneko_lua.setup({})
 
 lspconfig.tsserver.setup({
     on_attach = on_attach,
