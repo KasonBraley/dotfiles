@@ -1,10 +1,9 @@
 fpath=(~/.config/zsh/kason "${fpath[@]}")
 autoload -Uk ls
-autoload -Uk initialize_ls_colors
 autoload -Uk deduplicate_history_lines
 autoload -Uk search_history
 
-initialize_ls_colors
+alias ls='ls --color=auto'
 
 #history
 HISTFILE=~/.zsh_history
@@ -91,7 +90,7 @@ bindkey "^[[1;5D" backward-word
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
 typeset -A ZSH_HIGHLIGHT_STYLES
 
-_command_style='fg=26'
+_command_style='fg=green'
 _argument_style='fg=39'
 _error_style='fg=red'
 ZSH_HIGHLIGHT_STYLES[alias]="${_command_style}"
@@ -112,7 +111,7 @@ ZSH_HIGHLIGHT_STYLES[single-hyphen-option]="${_argument_style}"
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]="${_error_style}"
 
 # auto completion
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=238'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

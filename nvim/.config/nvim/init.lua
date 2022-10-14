@@ -52,6 +52,10 @@ require("packer").startup(function(use)
     use("folke/neodev.nvim")
     use("j-hui/fidget.nvim")
 
+    --[[ use("KasonBraley/nvim-solarized-lua") ]]
+    use("tjdevries/colorbuddy.vim")
+    use("tjdevries/gruvbuddy.nvim")
+
     if packer_bootstrap then
         require("packer").sync()
     end
@@ -118,7 +122,7 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme solarized]])
+require("colorbuddy").colorscheme("gruvbuddy")
 
 -- vim-matchup
 vim.g.matchup_matchparen_offscreen = {}
