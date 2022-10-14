@@ -3,8 +3,6 @@ autoload -Uk ls
 autoload -Uk deduplicate_history_lines
 autoload -Uk search_history
 
-alias ls='ls --color=auto'
-
 #history
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
