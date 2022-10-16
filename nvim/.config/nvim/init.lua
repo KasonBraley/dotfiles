@@ -31,7 +31,6 @@ require("packer").startup(function(use)
     use("mhartington/formatter.nvim")
     use("kyazdani42/nvim-tree.lua")
     use("hoob3rt/lualine.nvim")
-    use("KasonBraley/nvim-solarized-lua")
     use("lewis6991/gitsigns.nvim")
     use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
     use({ "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } })
@@ -582,9 +581,10 @@ vim.diagnostic.config({
     severity_sort = true,
 })
 
-vim.keymap.set("n", "<space>ds", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+local opts = { noremap = true, silent = true }
+vim.keymap.set("n", "<space>ds", vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 
 require("nvim-treesitter.configs").setup({
     ensure_installed = {
@@ -648,9 +648,8 @@ local function on_attach(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
     -- Mappings.
-    local opts = { silent = false, buffer = bufnr }
+    local opts = { noremap = true, silent = false, buffer = bufnr }
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-
     vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
     vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
@@ -658,11 +657,13 @@ local function on_attach(_, bufnr)
     vim.keymap.set("n", "S", vim.lsp.buf.signature_help, opts)
     vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
     vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "<space>fa", vim.lsp.buf.formatting, opts)
+    vim.keymap.set("n", "<space>f", function()
+        vim.lsp.buf.format({ async = true })
+    end, opts)
 end
 
 -- config that activates keymaps and enables snippet support
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local servers = {
     "html",
@@ -698,12 +699,17 @@ lspconfig.gopls.setup({
     },
 })
 
--- Make runtime files discoverable to the server
-local runtime_path = vim.split(package.path, ";")
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
-
-lspconfig.sumneko_lua.setup({})
+lspconfig.sumneko_lua.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        Lua = {
+            workspace = {
+                checkThirdParty = false,
+            },
+        },
+    },
+})
 
 lspconfig.tsserver.setup({
     on_attach = on_attach,
@@ -786,7 +792,10 @@ cmp.setup({
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = false,
+        }),
     }),
     sources = {
         { name = "path" },
