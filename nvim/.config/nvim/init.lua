@@ -29,7 +29,7 @@ require("packer").startup(function(use)
     use("hrsh7th/cmp-path")
     use("f3fora/cmp-spell")
     use("mhartington/formatter.nvim")
-    use("kyazdani42/nvim-tree.lua")
+    use("nvim-tree/nvim-tree.lua")
     use("hoob3rt/lualine.nvim")
     use("lewis6991/gitsigns.nvim")
     use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
@@ -74,43 +74,42 @@ if packer_bootstrap then
 end
 
 -- options
-local opt = vim.opt
+vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
+vim.opt.smartcase = true
 
--- Case insensitive searching UNLESS /C or capital in search
-opt.ignorecase = true
-opt.smartcase = true
-
-opt.colorcolumn = "100"
-opt.splitbelow = true
-opt.splitright = true
-opt.cul = true
-opt.mouse = "a"
-opt.signcolumn = "yes"
-opt.cmdheight = 1
-opt.updatetime = 200 -- update interval for gitsigns
-opt.timeoutlen = 400
-opt.clipboard = "unnamedplus"
-opt.swapfile = false
-opt.backup = false
-opt.completeopt = "menuone,noselect"
-opt.wrap = false
-opt.scrolloff = 8 -- Make it so there are always lines below my cursor
+vim.opt.colorcolumn = "100"
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.cul = true
+vim.opt.mouse = "a"
+vim.opt.signcolumn = "yes"
+vim.opt.cmdheight = 1
+vim.opt.updatetime = 200 -- update interval for gitsigns
+vim.opt.timeoutlen = 400
+vim.opt.clipboard = "unnamedplus"
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.completeopt = "menuone,noselect"
+vim.opt.wrap = false
+vim.opt.scrolloff = 8 -- Make it so there are always lines below my cursor
 
 -- Numbers
-vim.wo.number = false --Make line numbers default
-opt.numberwidth = 1
-opt.relativenumber = false
+vim.wo.number = true -- Make line numbers default
+vim.opt.numberwidth = 1
+vim.opt.relativenumber = true
 
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.softtabstop = 4
-opt.expandtab = true
-opt.smartindent = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+vim.opt.smartindent = true
 
-opt.inccommand = "split"
-opt.equalalways = false
-opt.incsearch = true
-opt.hlsearch = true
+vim.opt.inccommand = "split"
+vim.opt.equalalways = false
+vim.opt.incsearch = true
+vim.opt.hlsearch = true
+
+vim.opt.showmode = false
 
 --Remap space as leader key
 vim.g.mapleader = " "
@@ -122,6 +121,10 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 -- colorscheme
 vim.o.termguicolors = true
 require("colorbuddy").colorscheme("gruvbuddy")
+
+local Color, colors, Group = require("colorbuddy").setup()
+Color.new("colorCol", "#282a2e")
+Group.new("ColorColumn", nil, colors.colorCol)
 
 -- vim-matchup
 vim.g.matchup_matchparen_offscreen = {}
@@ -243,21 +246,7 @@ require("neogit").setup()
 vim.keymap.set("n", "<Leader>g", ":Neogit<CR>")
 
 require("Comment").setup({
-    pre_hook = function(ctx)
-        local U = require("Comment.utils")
-
-        local location = nil
-        if ctx.ctype == U.ctype.block then
-            location = require("ts_context_commentstring.utils").get_cursor_location()
-        elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-            location = require("ts_context_commentstring.utils").get_visual_start_location()
-        end
-
-        return require("ts_context_commentstring.internal").calculate_commentstring({
-            key = ctx.ctype == U.ctype.line and "__default" or "__multiline",
-            location = location,
-        })
-    end,
+    pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 })
 
 -- Formatter
@@ -406,19 +395,32 @@ require("nvim-tree").setup({
     },
 })
 
+local statusLineTheme = {
+    normal = {
+        a = { bg = "#282c34", fg = "#f8fe7a" },
+        c = { bg = "#81a2be", fg = "#373b41" },
+        z = { bg = "#81a2be", fg = "#373b41" },
+    },
+    insert = {
+        a = { bg = "#81a2be", fg = "#373b41" },
+        c = { bg = "#81a2be", fg = "#373b41" },
+        z = { bg = "#81a2be", fg = "#373b41" },
+    },
+}
+
 -- statusline
 require("lualine").setup({
     options = {
         icons_enabled = false,
-        theme = "solarized",
+        theme = statusLineTheme,
         component_separators = { "", "" },
         section_separators = { "", "" },
         globalstatus = true,
     },
     sections = {
         lualine_a = { "mode" },
-        lualine_b = { "branch" },
-        lualine_c = { { "filename", path = 1 }, "diagnostics", "diff" },
+        lualine_b = {},
+        lualine_c = { "branch", "%=", { "filename", path = 1 }, "diagnostics", "diff" },
         lualine_x = { "encoding", "filetype" },
         lualine_y = {},
         lualine_z = { "location" },
@@ -526,18 +528,19 @@ local search_dotfiles = function()
     })
 end
 
+local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<C-P>", function()
-    require("telescope.builtin").find_files()
+    builtin.find_files()
 end)
-vim.keymap.set("n", "<Leader>fg", require("telescope.builtin").git_files)
-vim.keymap.set("n", "<Leader>b", require("telescope.builtin").buffers)
-vim.keymap.set("n", "<Leader>fo", require("telescope.builtin").oldfiles)
+vim.keymap.set("n", "<Leader>fg", builtin.git_files)
+vim.keymap.set("n", "<Leader>b", builtin.buffers)
+vim.keymap.set("n", "<Leader>fo", builtin.oldfiles)
 vim.keymap.set("n", "<Leader>fc", search_dotfiles)
 
-vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
-vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
+vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
+vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 
 -- Harpoon
 vim.keymap.set("n", "<C-e>", require("harpoon.ui").toggle_quick_menu)
@@ -599,10 +602,8 @@ require("nvim-treesitter.configs").setup({
         "yaml",
         "dockerfile",
         "go",
-        "php",
-        "python",
-        "java",
         "hcl",
+        "markdown",
     },
     highlight = { enable = true },
     matchup = {
@@ -648,7 +649,7 @@ local function on_attach(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
     -- Mappings.
-    local opts = { noremap = true, silent = false, buffer = bufnr }
+    opts = { noremap = true, silent = false, buffer = bufnr }
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
     vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
@@ -669,9 +670,6 @@ local servers = {
     "html",
     "cssls",
     "dockerls",
-    "gopls",
-    "tsserver",
-    "quick_lint_js",
     "bashls",
     "terraformls",
 }
@@ -802,7 +800,6 @@ cmp.setup({
         { name = "nvim_lsp", max_item_count = 10 },
         { name = "luasnip" },
         { name = "spell" },
-        { name = "cmp_git" },
     },
     enabled = function()
         -- disable completion in comments
@@ -825,8 +822,6 @@ vim.api.nvim_exec(
    au TermClose term://* bd!
    au FileType gitcommit setlocal spell
    au BufRead,BufNewFile *.md setlocal spell
-   au BufWrite * set fileformat=unix 
-   au BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 ]],
     false
 )
