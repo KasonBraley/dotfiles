@@ -126,6 +126,9 @@ local Color, colors, Group = require("colorbuddy").setup()
 Color.new("colorCol", "#282a2e")
 Group.new("ColorColumn", nil, colors.colorCol)
 
+Color.new("neogitRed", "#cc6666")
+Group.new("NeogitDiffDelete", nil, colors.neogitRed)
+
 -- vim-matchup
 vim.g.matchup_matchparen_offscreen = {}
 
