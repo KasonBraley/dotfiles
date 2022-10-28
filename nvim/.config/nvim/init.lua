@@ -716,6 +716,11 @@ lspconfig.tsserver.setup({
     on_attach = on_attach,
     capabilities = capabilities,
     single_file_support = true,
+    init_options = {
+        preferences = {
+            importModuleSpecifierPreference = "relative",
+        },
+    },
     handlers = {
         -- disable tsserver diagnostics
         -- ["textDocument/publishDiagnostics"] = function() end,
