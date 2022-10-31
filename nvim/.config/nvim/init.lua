@@ -398,16 +398,20 @@ require("nvim-tree").setup({
     },
 })
 
+-- #373b41 greyish text fg
+-- #81a2be light blue - default statusline color
 local statusLineTheme = {
     normal = {
         a = { bg = "#282c34", fg = "#f8fe7a" },
-        c = { bg = "#81a2be", fg = "#373b41" },
-        z = { bg = "#81a2be", fg = "#373b41" },
+        b = { bg = "#282a2e", fg = "#81a2be" },
+        c = { bg = "#282a2e", fg = "#81a2be" },
+        z = { bg = "#282a2e", fg = "#81a2be" },
     },
     insert = {
-        a = { bg = "#81a2be", fg = "#373b41" },
-        c = { bg = "#81a2be", fg = "#373b41" },
-        z = { bg = "#81a2be", fg = "#373b41" },
+        a = { bg = "#282a2e", fg = "#81a2be" },
+        b = { bg = "#282a2e", fg = "#81a2be" },
+        c = { bg = "#282a2e", fg = "#81a2be" },
+        z = { bg = "#282a2e", fg = "#81a2be" },
     },
 }
 
