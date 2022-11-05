@@ -41,7 +41,13 @@ require("packer").startup(function(use)
     use("andymass/vim-matchup")
     use("numToStr/Comment.nvim")
     use({ "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" })
-    use("machakann/vim-sandwich")
+    use({
+        "kylechui/nvim-surround",
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require("nvim-surround").setup({})
+        end,
+    })
     use({
         "iamcco/markdown-preview.nvim",
         run = function()
