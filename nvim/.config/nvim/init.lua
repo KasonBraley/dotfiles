@@ -350,7 +350,7 @@ vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", { silent = true })
 
 require("nvim-tree").setup({
     diagnostics = {
-        enable = true,
+        enable = false,
         icons = {
             hint = "H",
             info = "I",
