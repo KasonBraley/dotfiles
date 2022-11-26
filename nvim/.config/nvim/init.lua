@@ -723,7 +723,9 @@ lspconfig.sumneko_lua.setup({
     },
 })
 
+local util = require 'lspconfig.util'
 lspconfig.tsserver.setup({
+    root_dir = util.root_pattern('.git'),
     on_attach = on_attach,
     capabilities = capabilities,
     single_file_support = true,
