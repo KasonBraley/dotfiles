@@ -23,10 +23,12 @@ require("packer").startup(function(use)
     use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
     use("nvim-treesitter/nvim-treesitter-refactor")
     use("nvim-treesitter/nvim-treesitter-textobjects")
+    use({
+        "hrsh7th/nvim-cmp",
+        requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lsp-signature-help", "hrsh7th/cmp-path" },
+    })
     use("rafamadriz/friendly-snippets")
-    use({ "hrsh7th/nvim-cmp", requires = { "hrsh7th/cmp-nvim-lsp" } })
     use({ "L3MON4D3/LuaSnip", requires = { "saadparwaiz1/cmp_luasnip" } })
-    use("hrsh7th/cmp-path")
     use("f3fora/cmp-spell")
     use("mhartington/formatter.nvim")
     use("nvim-tree/nvim-tree.lua")
@@ -723,9 +725,9 @@ lspconfig.sumneko_lua.setup({
     },
 })
 
-local util = require 'lspconfig.util'
+local util = require("lspconfig.util")
 lspconfig.tsserver.setup({
-    root_dir = util.root_pattern('.git'),
+    root_dir = util.root_pattern(".git"),
     on_attach = on_attach,
     capabilities = capabilities,
     single_file_support = true,
@@ -819,6 +821,7 @@ cmp.setup({
     sources = {
         { name = "path" },
         { name = "nvim_lsp", max_item_count = 10 },
+        { name = "nvim_lsp_signature_help" },
         { name = "luasnip" },
         { name = "spell" },
     },
