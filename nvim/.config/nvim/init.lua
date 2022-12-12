@@ -22,7 +22,6 @@ require("packer").startup(function(use)
     use("neovim/nvim-lspconfig")
     use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
     use("nvim-treesitter/nvim-treesitter-refactor")
-    use("nvim-treesitter/nvim-treesitter-textobjects")
     use({
         "hrsh7th/nvim-cmp",
         requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lsp-signature-help", "hrsh7th/cmp-path" },
@@ -249,19 +248,13 @@ require("gitsigns").setup({
         -- Actions
         map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
         map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
-        map("n", "<leader>hS", gs.stage_buffer)
         map("n", "<leader>hu", gs.undo_stage_hunk)
-        map("n", "<leader>hR", gs.reset_buffer)
         map("n", "<leader>hp", gs.preview_hunk)
         map("n", "<leader>hb", function()
             gs.blame_line({ full = true })
         end)
         map("n", "<leader>tb", gs.toggle_current_line_blame)
         map("n", "<leader>hd", gs.diffthis)
-        map("n", "<leader>hD", function()
-            gs.diffthis("~")
-        end)
-        map("n", "<leader>td", gs.toggle_deleted)
     end,
 })
 
@@ -294,7 +287,6 @@ require("formatter").setup({
         markdown = { prettier },
         css = { prettier },
         json = { prettier },
-        jsonc = { prettier },
         yaml = { prettier },
         html = { prettier },
         go = {
@@ -306,29 +298,10 @@ require("formatter").setup({
                 }
             end,
         },
-        lua = {
-            -- stylua
-            function()
-                return {
-                    exe = "stylua",
-                    args = { "--indent-type", "spaces", "--indent-width", "4", "-" },
-                    stdin = true,
-                }
-            end,
-        },
         sh = {
             function()
                 return {
                     exe = "shfmt",
-                    stdin = true,
-                }
-            end,
-        },
-        terraform = {
-            function()
-                return {
-                    exe = "terraform",
-                    args = { "fmt", "-" },
                     stdin = true,
                 }
             end,
@@ -382,7 +355,7 @@ require("nvim-tree").setup({
         },
     },
     renderer = {
-        highlight_git = true,
+        highlight_git = false,
         highlight_opened_files = "icon",
         root_folder_modifier = ":t",
         icons = {
@@ -390,7 +363,7 @@ require("nvim-tree").setup({
                 file = false,
                 folder = false,
                 folder_arrow = false,
-                git = true,
+                git = false,
             },
             glyphs = {
                 default = "",
@@ -534,26 +507,6 @@ local search_dotfiles = function()
         shorten_path = false,
         hidden = true,
         cwd = "~/dotfiles",
-        file_ignore_patterns = {
-            "*.png",
-            "*.jpg",
-            "node_modules/*",
-            "dist/*",
-        },
-        layout_strategy = "bottom_pane",
-        layout_config = {
-            horizontal = {
-                prompt_position = "top",
-                preview_width = 0.55,
-                results_width = 0.8,
-            },
-            vertical = {
-                mirror = false,
-            },
-            width = 0.5,
-            height = 0.5,
-            preview_cutoff = 10,
-        },
     })
 end
 
@@ -642,20 +595,6 @@ require("nvim-treesitter.configs").setup({
     context_commentstring = {
         enable = true,
         enable_autocmd = false,
-    },
-    textobjects = {
-        select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
-                ["ac"] = "@conditional.outer",
-                ["ic"] = "@conditional.inner",
-                ["al"] = "@loop.outer",
-                ["il"] = "@loop.inner",
-            },
-        },
     },
     refactor = {
         highlight_definitions = { enable = true },
