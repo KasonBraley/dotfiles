@@ -120,6 +120,18 @@ vim.opt.hlsearch = true
 
 vim.opt.showmode = false
 
+if vim.fn.executable("rg") == 1 then
+    vim.o.grepprg = "rg --vimgrep --smart-case --hidden"
+    vim.o.grepformat = "%f:%l:%c:%m"
+else
+    local g = "grep --line-number --recursive -I $*"
+    vim.o.grepprg = g
+    vim.o.grepformat = "%f:%l:%m"
+    if vim.fn.has("mac") then
+        vim.o.grepprg = g .. " /dev/null"
+    end
+end
+
 --Remap space as leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
