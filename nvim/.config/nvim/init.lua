@@ -62,6 +62,7 @@ require("packer").startup(function(use)
     --[[ use("KasonBraley/nvim-solarized-lua") ]]
     use("tjdevries/colorbuddy.vim")
     use("tjdevries/gruvbuddy.nvim")
+    use("gpanders/editorconfig.nvim")
 
     if packer_bootstrap then
         require("packer").sync()
