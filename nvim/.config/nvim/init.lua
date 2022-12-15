@@ -349,7 +349,7 @@ require("nvim-tree").setup({
     filters = {
         dotfiles = false,
         custom = {
-            ".git$",
+            "^.git",
             "node_modules",
             ".cache",
         },
@@ -459,7 +459,7 @@ require("telescope").setup({
             preview_cutoff = 10,
         },
         file_ignore_patterns = {
-            ".git/",
+            "^.git/",
             ".png",
             ".PNG",
             ".jpg",
@@ -511,9 +511,7 @@ local search_dotfiles = function()
 end
 
 local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<C-P>", function()
-    builtin.find_files()
-end)
+vim.keymap.set("n", "<C-P>", builtin.find_files)
 vim.keymap.set("n", "<Leader>fg", builtin.git_files)
 vim.keymap.set("n", "<Leader>b", builtin.buffers)
 vim.keymap.set("n", "<Leader>fo", builtin.oldfiles)
