@@ -528,20 +528,20 @@ end)
 vim.keymap.set("n", "<Leader>;", function()
     require("harpoon.ui").nav_file(4)
 end)
-vim.keymap.set("n", "tu", function()
+vim.keymap.set("n", "tj", function()
     require("harpoon.term").gotoTerminal(1)
 end)
-vim.keymap.set("n", "te", function()
+vim.keymap.set("n", "tk", function()
     require("harpoon.term").gotoTerminal(2)
 end)
 vim.keymap.set(
     "n",
-    "cu",
+    "cj",
     ":lua require('harpoon.term').sendCommand(2,1); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 vim.keymap.set(
     "n",
-    "ce",
+    "ck",
     ":lua require('harpoon.term').sendCommand(2,2); require('harpoon.term').gotoTerminal(2)<CR>a<CR>"
 )
 
