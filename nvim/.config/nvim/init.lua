@@ -39,7 +39,6 @@ require("packer").startup(function(use)
     use("nvim-telescope/telescope-ui-select.nvim")
     use("nvim-lua/popup.nvim")
     use({ "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" })
-    use("andymass/vim-matchup")
     use("numToStr/Comment.nvim")
     use({ "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" })
     use({
@@ -148,9 +147,6 @@ Group.new("ColorColumn", nil, colors.colorCol)
 
 Color.new("neogitRed", "#cc6666")
 Group.new("NeogitDiffDelete", nil, colors.neogitRed)
-
--- vim-matchup
-vim.g.matchup_matchparen_offscreen = {}
 
 vim.keymap.set("n", "<Leader><Leader>", "<C-^>zz")
 
@@ -576,10 +572,6 @@ require("nvim-treesitter.configs").setup({
         "markdown",
     },
     highlight = { enable = true },
-    matchup = {
-        enable = true,
-        disable = {},
-    },
     context_commentstring = {
         enable = true,
         enable_autocmd = false,
