@@ -1,5 +1,4 @@
 apt-transport-https
-awesome
 bat // installed as batcat?? fix this with alias or sym link
 build-essential
 curl
@@ -16,15 +15,9 @@ htop
 jq
 neovim
 net-tools
-nvm // or just node/npm
 pavucontrol // pulseaudio gui
-pgadmin -> https://www.pgadmin.org/download/pgadmin-4-apt/
-postgresql
+rofi // better dmenu
 ripgrep
 stow
 strace
 zsh
-
-yarn -> corepack enable
-lua?
-virtual box -> download from site
