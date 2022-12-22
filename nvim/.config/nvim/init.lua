@@ -570,6 +570,7 @@ require("nvim-treesitter.configs").setup({
         "go",
         "hcl",
         "markdown",
+        "rust",
     },
     highlight = { enable = true },
     context_commentstring = {
@@ -620,6 +621,7 @@ local servers = {
     "dockerls",
     "bashls",
     "terraformls",
+    "rust_analyzer",
 }
 
 for _, lsp in ipairs(servers) do
