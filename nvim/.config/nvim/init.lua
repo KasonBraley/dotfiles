@@ -702,6 +702,10 @@ lspconfig.jsonls.setup({
                     fileMatch = { ".babelrc", ".babelrc.json", "babel.config.json" },
                     url = "https://json.schemastore.org/babelrc.json",
                 },
+                {
+                    fileMatch = { "composer.json" },
+                    url = "https://raw.githubusercontent.com/composer/composer/main/res/composer-schema.json",
+                },
             },
         },
     },
