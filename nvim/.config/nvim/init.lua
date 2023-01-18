@@ -497,6 +497,69 @@ local search_dotfiles = function()
 end
 
 local builtin = require("telescope.builtin")
+local conf = require("telescope.config").values
+local finders = require "telescope.finders"
+local make_entry = require "telescope.make_entry"
+local pickers = require "telescope.pickers"
+
+local flatten = vim.tbl_flatten
+
+local multi_rg = function(opts)
+    opts = opts or {}
+    opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+    opts.shortcuts = opts.shortcuts
+        or {
+            ["l"] = "*.lua",
+            ["j"] = "*.js",
+            ["p"] = "*.php",
+        }
+    opts.pattern = opts.pattern or "%s"
+
+    local custom_grep = finders.new_async_job {
+        command_generator = function(prompt)
+            if not prompt or prompt == "" then
+                return nil
+            end
+
+            local prompt_split = vim.split(prompt, "  ")
+
+            local args = { "rg" }
+            if prompt_split[1] then
+                table.insert(args, "-e")
+                table.insert(args, prompt_split[1])
+            end
+
+            if prompt_split[2] then
+                table.insert(args, "-g")
+
+                local pattern
+                if opts.shortcuts[prompt_split[2]] then
+                    pattern = opts.shortcuts[prompt_split[2]]
+                else
+                    pattern = prompt_split[2]
+                end
+
+                table.insert(args, string.format(opts.pattern, pattern))
+            end
+
+            return flatten {
+                args,
+                { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case" },
+            }
+        end,
+        entry_maker = make_entry.gen_from_vimgrep(opts),
+        cwd = opts.cwd,
+    }
+
+    pickers.new(opts, {
+        debounce = 100,
+        prompt_title = "Live Grep (with shortcuts)",
+        finder = custom_grep,
+        previewer = conf.grep_previewer(opts),
+        sorter = require("telescope.sorters").empty(),
+    }):find()
+end
+
 vim.keymap.set("n", "<C-P>", builtin.find_files)
 vim.keymap.set("n", "<Leader>fg", builtin.git_files)
 vim.keymap.set("n", "<Leader>b", builtin.buffers)
@@ -504,7 +567,7 @@ vim.keymap.set("n", "<Leader>fo", builtin.oldfiles)
 vim.keymap.set("n", "<Leader>fc", search_dotfiles)
 
 vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+vim.keymap.set("n", "<leader>/", multi_rg, { desc = "[S]earch by [G]rep (with shortcuts)" })
 vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 
