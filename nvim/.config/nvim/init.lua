@@ -618,7 +618,9 @@ require("nvim-treesitter.configs").setup({
         "go",
         "hcl",
         "markdown",
+        "terraform",
         "rust",
+        "php",
     },
     highlight = { enable = true },
     context_commentstring = {
@@ -670,6 +672,7 @@ local servers = {
     "bashls",
     "terraformls",
     "rust_analyzer",
+    "intelephense",
 }
 
 for _, lsp in ipairs(servers) do
