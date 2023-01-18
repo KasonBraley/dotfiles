@@ -16,8 +16,11 @@ jq
 neovim
 net-tools
 pavucontrol // pulseaudio gui
-rofi // better dmenu
 ripgrep
 stow
 strace
 zsh
+
+// i3
+light // laptop brightness control
+rofi // better dmenu
