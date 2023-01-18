@@ -345,7 +345,7 @@ require("nvim-tree").setup({
     filters = {
         dotfiles = false,
         custom = {
-            "^.git",
+            "^.git$",
             "node_modules",
             ".cache",
         },
@@ -438,21 +438,6 @@ require("telescope").setup({
             "--column",
             "--smart-case",
             "--hidden",
-        },
-        selection_strategy = "reset",
-        layout_strategy = "bottom_pane",
-        layout_config = {
-            horizontal = {
-                prompt_position = "top",
-                preview_width = 0.55,
-                results_width = 0.8,
-            },
-            vertical = {
-                mirror = false,
-            },
-            width = 0.5,
-            height = 0.5,
-            preview_cutoff = 10,
         },
         file_ignore_patterns = {
             "^.git/",
