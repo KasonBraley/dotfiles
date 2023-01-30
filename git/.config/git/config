@@ -1,7 +1,7 @@
 [user]
 	name = kason
 	email = kbraley9@gmail.com
-	signingKey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiQdV0xerPHfxbLUcVUpfAq4y9ayzJ4G39Guo7apJqa kbraley9@gmail.com
+	signingKey = ~/.ssh/id_ed25519.pub
 [core]
 	editor = nvim
 	autocrlf = input
