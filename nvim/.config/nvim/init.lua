@@ -62,6 +62,8 @@ require("packer").startup(function(use)
     use("tjdevries/gruvbuddy.nvim")
     use("gpanders/editorconfig.nvim")
 
+    use("sindrets/diffview.nvim")
+
     if packer_bootstrap then
         require("packer").sync()
     end
@@ -254,8 +256,26 @@ require("gitsigns").setup({
     end,
 })
 
+require("diffview").setup({
+    use_icons = false,
+    icons = { -- Only applies when use_icons is true.
+        folder_closed = "",
+        folder_open = "",
+    },
+    signs = {
+        fold_closed = "",
+        fold_open = "",
+        done = "✓",
+    },
+})
+
 -- neogit
-require("neogit").setup()
+require("neogit").setup({
+    integrations = {
+        diffview = true
+    },
+})
+
 vim.keymap.set("n", "<Leader>g", ":Neogit<CR>")
 
 require("Comment").setup({
