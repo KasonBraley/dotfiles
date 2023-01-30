@@ -426,6 +426,9 @@ require("lualine").setup({
     extensions = { "quickfix" },
 })
 
+local actions = require("telescope.actions")
+local action_layout = require "telescope.actions.layout"
+
 -- Telescope
 require("telescope").setup({
     defaults = {
@@ -450,8 +453,10 @@ require("telescope").setup({
         },
         mappings = {
             i = {
-                ["<C-k>"] = require("telescope.actions").cycle_history_next,
-                ["<C-j>"] = require("telescope.actions").cycle_history_prev,
+                ["<M-p>"] = action_layout.toggle_preview,
+                ["<M-m>"] = action_layout.toggle_mirror,
+                ["<C-k>"] = actions.cycle_history_next,
+                ["<C-j>"] = actions.cycle_history_prev,
             },
         },
     },
