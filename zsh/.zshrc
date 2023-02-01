@@ -1,5 +1,4 @@
 fpath=(~/.config/zsh/kason "${fpath[@]}")
-autoload -Uk ls
 
 #history
 HISTFILE=~/.zsh_history
@@ -68,6 +67,8 @@ alias gd="git diff "${@}""
 alias g.="git add -p "${@}""
 alias gar="git add --all ."
 alias gr="git rebase "${@}""
+
+alias ls='ls -F --color=auto --group-directories-first --sort=version'
 
 # Search through history of typed word
 # arrow keys
