@@ -1,7 +1,5 @@
 fpath=(~/.config/zsh/kason "${fpath[@]}")
 autoload -Uk ls
-autoload -Uk deduplicate_history_lines
-autoload -Uk search_history
 
 #history
 HISTFILE=~/.zsh_history
@@ -24,8 +22,6 @@ compinit
 unsetopt auto_remove_slash
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Environment
 export TERM="xterm-256color"
@@ -123,9 +119,8 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --no-ignore'
 export FZF_DEFAULT_OPTS='--info=hidden --no-mouse'
-
-zle -N search_history
-bindkey '^R' search_history
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
 
 # colorized go test output
 set -o pipefail
