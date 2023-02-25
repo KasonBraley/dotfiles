@@ -14,7 +14,8 @@ sudo apt-get install -y \
     ripgrep pavucontrol fzf zsh \
     net-tools stow jq htop fd-find \
     flameshot bat apt-transport-https \
-    i3 rofi light
+    i3 rofi light \
+    graphviz
 
 
 # need to handle if already exists
@@ -58,6 +59,9 @@ curl -sSL https://github.com/Slackadays/Clipboard/raw/main/src/install.sh | bash
 
 # goimports
 go install golang.org/x/tools/cmd/goimports@latest
+
+# Go benchmark tools
+go install golang.org/x/perf/cmd/...@latest
 
 # nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
