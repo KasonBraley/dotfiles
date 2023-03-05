@@ -1,86 +1,79 @@
 pcall(require, "impatient")
 
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({
-        "git",
-        "clone",
-        "--depth",
-        "1",
-        "https://github.com/wbthomason/packer.nvim",
-        install_path,
-    })
-    vim.api.nvim_command("packadd packer.nvim")
+--Remap space as leader key
+vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.maplocalleader = " "
+
+local install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(install_path) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		install_path,
+	})
 end
+vim.opt.rtp:prepend(install_path)
 
-require("packer").startup(function(use)
-    use("wbthomason/packer.nvim") -- Plugin Manager
-    use("lewis6991/impatient.nvim")
-    use("williamboman/mason.nvim")
-    use("williamboman/mason-lspconfig.nvim")
-    use("neovim/nvim-lspconfig")
-    use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-    use("nvim-treesitter/nvim-treesitter-refactor")
-    use({
-        "hrsh7th/nvim-cmp",
-        requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lsp-signature-help", "hrsh7th/cmp-path" },
-    })
-    use("rafamadriz/friendly-snippets")
-    use({ "L3MON4D3/LuaSnip", requires = { "saadparwaiz1/cmp_luasnip" } })
-    use("f3fora/cmp-spell")
-    use("mhartington/formatter.nvim")
-    use("nvim-tree/nvim-tree.lua")
-    use("hoob3rt/lualine.nvim")
-    use("lewis6991/gitsigns.nvim")
-    use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
-    use({ "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } })
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-    use("nvim-telescope/telescope-ui-select.nvim")
-    use("nvim-lua/popup.nvim")
-    use({ "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" })
-    use("numToStr/Comment.nvim")
-    use({ "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" })
-    use({
-        "kylechui/nvim-surround",
-        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-        config = function()
-            require("nvim-surround").setup({})
-        end,
-    })
-    use({
-        "iamcco/markdown-preview.nvim",
-        run = function()
-            vim.fn["mkdp#util#install"]()
-        end,
-    })
-    use("folke/neodev.nvim")
-    use("j-hui/fidget.nvim")
+require("lazy").setup({
+	"lewis6991/impatient.nvim",
+	"williamboman/mason.nvim",
+	"williamboman/mason-lspconfig.nvim",
+	"neovim/nvim-lspconfig",
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-refactor",
+			"JoosepAlviste/nvim-ts-context-commentstring",
+		},
+	},
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"hrsh7th/cmp-path",
+			"f3fora/cmp-spell",
+		},
+	},
+	"rafamadriz/friendly-snippets",
+	{ "L3MON4D3/LuaSnip", dependencies = { "saadparwaiz1/cmp_luasnip" } },
+	"mhartington/formatter.nvim",
+	"nvim-tree/nvim-tree.lua",
+	"hoob3rt/lualine.nvim",
+	"lewis6991/gitsigns.nvim",
+	{ "TimUntersberger/neogit", dependencies = "nvim-lua/plenary.nvim" },
+	{ "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+	"nvim-telescope/telescope-ui-select.nvim",
+	"nvim-lua/popup.nvim",
+	{ "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" },
+	"numToStr/Comment.nvim",
+	{
+		"kylechui/nvim-surround",
+		version = "*", --  for stability; omit to use `main` branch for the latest features
+		config = function()
+			require("nvim-surround").setup({})
+		end,
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	},
+	"folke/neodev.nvim",
+	"j-hui/fidget.nvim",
 
-    --[[ use("KasonBraley/nvim-solarized-lua") ]]
-    use("tjdevries/colorbuddy.vim")
-    use("tjdevries/gruvbuddy.nvim")
-    use("gpanders/editorconfig.nvim")
+	"tjdevries/colorbuddy.vim",
+	"tjdevries/gruvbuddy.nvim",
+	"gpanders/editorconfig.nvim",
 
-    use("sindrets/diffview.nvim")
-
-    if packer_bootstrap then
-        require("packer").sync()
-    end
-end)
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if packer_bootstrap then
-    print("==================================")
-    print("    Plugins are being installed")
-    print("    Wait until Packer completes,")
-    print("       then restart nvim")
-    print("==================================")
-    return
-end
+	"sindrets/diffview.nvim",
+})
 
 -- options
 vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
@@ -132,10 +125,6 @@ else
         vim.o.grepprg = g .. " /dev/null"
     end
 end
-
---Remap space as leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
 -- Keymaps for better default experience
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
