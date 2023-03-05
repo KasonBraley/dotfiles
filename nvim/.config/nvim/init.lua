@@ -852,13 +852,25 @@ cmp.setup({
 
 require("fidget").setup({})
 
-vim.api.nvim_exec(
-    [[
-   au TermOpen term://* setlocal nonumber norelativenumber
-   au TermOpen term://* startinsert
-   au TermClose term://* bd!
-   au FileType gitcommit setlocal spell
-   au BufRead,BufNewFile *.md setlocal spell
-]],
-    false
-)
+-- terminal: disable line numbers and start in insert mode
+vim.api.nvim_create_autocmd("TermOpen", {
+    callback = function()
+        vim.cmd.setlocal("nonumber norelativenumber")
+        vim.cmd.startinsert()
+    end,
+})
+
+-- remove buffer on terminal close
+vim.api.nvim_create_autocmd("TermClose", {
+    callback = function()
+        vim.cmd.bd()
+    end,
+})
+
+-- spell check in markdown, and gitcommit file types
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "markdown", "gitcommit" },
+    callback = function()
+        vim.cmd.setlocal("spell")
+    end,
+})
