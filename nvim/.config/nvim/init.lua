@@ -140,8 +140,6 @@ Group.new("ColorColumn", nil, colors.colorCol)
 Color.new("neogitRed", "#cc6666")
 Group.new("NeogitDiffDelete", nil, colors.neogitRed)
 
-vim.keymap.set("n", "<Leader><Leader>", "<C-^>zz")
-
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
