@@ -852,6 +852,7 @@ require("fidget").setup({})
 
 -- terminal: disable line numbers and start in insert mode
 vim.api.nvim_create_autocmd("TermOpen", {
+    pattern = "term://*",
     callback = function()
         vim.cmd.setlocal("nonumber norelativenumber")
         vim.cmd.startinsert()
