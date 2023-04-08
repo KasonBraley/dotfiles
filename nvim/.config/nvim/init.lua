@@ -42,7 +42,8 @@ require("lazy").setup({
 	"rafamadriz/friendly-snippets",
 	{ "L3MON4D3/LuaSnip", dependencies = { "saadparwaiz1/cmp_luasnip" } },
 	"mhartington/formatter.nvim",
-	"nvim-tree/nvim-tree.lua",
+	-- "nvim-tree/nvim-tree.lua",
+    "tpope/vim-vinegar",
 	"hoob3rt/lualine.nvim",
 	"lewis6991/gitsigns.nvim",
 	{ "TimUntersberger/neogit", dependencies = "nvim-lua/plenary.nvim" },
@@ -70,7 +71,6 @@ require("lazy").setup({
 
 	"tjdevries/colorbuddy.vim",
 	"tjdevries/gruvbuddy.nvim",
-	"gpanders/editorconfig.nvim",
 
 	"sindrets/diffview.nvim",
 })
@@ -293,15 +293,15 @@ require("formatter").setup({
         json = { prettier },
         yaml = { prettier },
         html = { prettier },
-        go = {
-            function()
-                return {
-                    exe = "goimports",
-                    args = { "-w", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)) },
-                    stdin = false,
-                }
-            end,
-        },
+        -- go = {
+        --     function()
+        --         return {
+        --             exe = "goimports",
+        --             args = { "-w", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)) },
+        --             stdin = false,
+        --         }
+        --     end,
+        -- },
         sh = {
             function()
                 return {
@@ -313,89 +313,92 @@ require("formatter").setup({
     },
 })
 
-local go_org_imports = function(wait_ms)
-    local params = vim.lsp.util.make_range_params()
-    params.context = { only = { "source.organizeImports" } }
-    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
-    for cid, res in pairs(result or {}) do
-        for _, r in pairs(res.result or {}) do
-            if r.edit then
-                local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
-                vim.lsp.util.apply_workspace_edit(r.edit, enc)
-            end
-        end
-    end
-
-    vim.lsp.buf.format()
-end
+-- local go_org_imports = function(wait_ms)
+--     local params = vim.lsp.util.make_range_params()
+--     params.context = { only = { "source.organizeImports" } }
+--     local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+--     for cid, res in pairs(result or {}) do
+--         for _, r in pairs(res.result or {}) do
+--             if r.edit then
+--                 local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+--                 vim.lsp.util.apply_workspace_edit(r.edit, enc)
+--             end
+--         end
+--     end
+--
+--     vim.lsp.buf.format()
+-- end
 
 -- format Go with goimports
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.go",
-    callback = function()
-        go_org_imports(1000)
-    end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--     pattern = "*.go",
+--     callback = function()
+--         go_org_imports(1000)
+--     end,
+-- })
 
 -- Nvimtree
-vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", { silent = true })
+-- vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", { silent = true })
 
-require("nvim-tree").setup({
-    diagnostics = {
-        enable = false,
-        icons = {
-            hint = "H",
-            info = "I",
-            warning = "W",
-            error = "E",
-        },
-    },
-    filters = {
-        dotfiles = false,
-        custom = {
-            "^.git$",
-            "node_modules",
-            ".cache",
-        },
-    },
-    renderer = {
-        highlight_git = false,
-        highlight_opened_files = "icon",
-        root_folder_modifier = ":t",
-        icons = {
-            show = {
-                file = false,
-                folder = false,
-                folder_arrow = false,
-                git = false,
-            },
-            glyphs = {
-                default = "",
-                symlink = "",
-                git = {
-                    unstaged = "✗",
-                    staged = "✓",
-                    unmerged = "",
-                    renamed = "➜",
-                    untracked = "★",
-                    deleted = "",
-                    ignored = "◌",
-                },
-            },
-        },
-    },
-    actions = {
-        open_file = {
-            resize_window = false,
-        },
-    },
-    view = {
-        adaptive_size = false,
-        preserve_window_proportions = false,
-        --[[ width = 30, ]]
-        --[[ side = "left", ]]
-    },
-})
+-- require("nvim-tree").setup({
+--     diagnostics = {
+--         enable = false,
+--         icons = {
+--             hint = "H",
+--             info = "I",
+--             warning = "W",
+--             error = "E",
+--         },
+--     },
+--     filters = {
+--         dotfiles = false,
+--         custom = {
+--             "^.git$",
+--             "node_modules",
+--             ".cache",
+--         },
+--     },
+--     renderer = {
+--         highlight_git = false,
+--         highlight_opened_files = "icon",
+--         root_folder_modifier = ":t",
+--         icons = {
+--             show = {
+--                 file = false,
+--                 folder = false,
+--                 folder_arrow = false,
+--                 git = false,
+--             },
+--             glyphs = {
+--                 default = "",
+--                 symlink = "",
+--                 git = {
+--                     unstaged = "✗",
+--                     staged = "✓",
+--                     unmerged = "",
+--                     renamed = "➜",
+--                     untracked = "★",
+--                     deleted = "",
+--                     ignored = "◌",
+--                 },
+--             },
+--         },
+--     },
+--     actions = {
+--         open_file = {
+--             resize_window = false,
+--         },
+--     },
+--     view = {
+--         adaptive_size = false,
+--         preserve_window_proportions = false,
+--             mappings = {
+--               list = {
+--                 { key = "<CR>", action = "edit_in_place" }
+--               }
+--         }
+--     },
+-- })
 
 -- #373b41 greyish text fg
 -- #81a2be light blue - default statusline color
@@ -475,9 +478,7 @@ require("telescope").setup({
     },
     extensions = {
         ["ui-select"] = {
-            require("telescope.themes").get_dropdown({
-                -- even more opts
-            }),
+            require("telescope.themes").get_dropdown(),
         },
     },
 })
@@ -571,7 +572,7 @@ vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" 
 
 -- Harpoon
 vim.keymap.set("n", "<C-e>", require("harpoon.ui").toggle_quick_menu)
-vim.keymap.set("n", "<C-y>", require("harpoon.cmd-ui").toggle_quick_menu)
+-- vim.keymap.set("n", "<C-y>", require("harpoon.cmd-ui").toggle_quick_menu)
 vim.keymap.set("n", "<Leader>a", require("harpoon.mark").add_file)
 vim.keymap.set("n", "<Leader>j", function()
     require("harpoon.ui").nav_file(1)
@@ -673,7 +674,7 @@ local function on_attach(_, bufnr)
     vim.keymap.set("n", "S", vim.lsp.buf.signature_help, opts)
     vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
     vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "<space>f", function()
+    vim.keymap.set({ "n", "v" }, "<space>f", function()
         vim.lsp.buf.format({ async = true })
     end, opts)
 end
@@ -824,9 +825,9 @@ cmp.setup({
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm({
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = false,
+        ["<C-y>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
         }),
     }),
     sources = {
