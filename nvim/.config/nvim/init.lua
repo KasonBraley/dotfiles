@@ -67,7 +67,10 @@ require("lazy").setup({
 		end,
 	},
 	"folke/neodev.nvim",
-	"j-hui/fidget.nvim",
+    {
+        "j-hui/fidget.nvim",
+        tag = "legacy",
+    },
 
 	"tjdevries/colorbuddy.vim",
 	"tjdevries/gruvbuddy.nvim",
