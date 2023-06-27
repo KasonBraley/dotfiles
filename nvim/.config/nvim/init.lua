@@ -76,6 +76,12 @@ require("lazy").setup({
 	"tjdevries/gruvbuddy.nvim",
 
 	"sindrets/diffview.nvim",
+    {
+        "ruifm/gitlinker.nvim",
+		config = function()
+			require("gitlinker").setup()
+		end,
+    },
 })
 
 -- options
