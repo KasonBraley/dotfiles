@@ -1,5 +1,3 @@
-pcall(require, "impatient")
-
 --Remap space as leader key
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.g.maplocalleader = " "
@@ -18,7 +16,6 @@ end
 vim.opt.rtp:prepend(install_path)
 
 require("lazy").setup({
-	"lewis6991/impatient.nvim",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
