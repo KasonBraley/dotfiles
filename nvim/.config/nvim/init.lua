@@ -46,7 +46,7 @@ require("lazy").setup({
     "tpope/vim-vinegar",
 	"hoob3rt/lualine.nvim",
 	"lewis6991/gitsigns.nvim",
-	{ "TimUntersberger/neogit", dependencies = "nvim-lua/plenary.nvim" },
+	{ "NeogitOrg/neogit", dependencies = "nvim-lua/plenary.nvim" },
 	{ "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	"nvim-telescope/telescope-ui-select.nvim",
