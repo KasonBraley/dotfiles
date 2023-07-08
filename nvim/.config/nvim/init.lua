@@ -39,7 +39,6 @@ require("lazy").setup({
 	"rafamadriz/friendly-snippets",
 	{ "L3MON4D3/LuaSnip", dependencies = { "saadparwaiz1/cmp_luasnip" } },
 	"mhartington/formatter.nvim",
-	-- "nvim-tree/nvim-tree.lua",
     "tpope/vim-vinegar",
 	"hoob3rt/lualine.nvim",
 	"lewis6991/gitsigns.nvim",
@@ -341,69 +340,6 @@ require("formatter").setup({
 --     callback = function()
 --         go_org_imports(1000)
 --     end,
--- })
-
--- Nvimtree
--- vim.keymap.set("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", { silent = true })
-
--- require("nvim-tree").setup({
---     diagnostics = {
---         enable = false,
---         icons = {
---             hint = "H",
---             info = "I",
---             warning = "W",
---             error = "E",
---         },
---     },
---     filters = {
---         dotfiles = false,
---         custom = {
---             "^.git$",
---             "node_modules",
---             ".cache",
---         },
---     },
---     renderer = {
---         highlight_git = false,
---         highlight_opened_files = "icon",
---         root_folder_modifier = ":t",
---         icons = {
---             show = {
---                 file = false,
---                 folder = false,
---                 folder_arrow = false,
---                 git = false,
---             },
---             glyphs = {
---                 default = "",
---                 symlink = "",
---                 git = {
---                     unstaged = "✗",
---                     staged = "✓",
---                     unmerged = "",
---                     renamed = "➜",
---                     untracked = "★",
---                     deleted = "",
---                     ignored = "◌",
---                 },
---             },
---         },
---     },
---     actions = {
---         open_file = {
---             resize_window = false,
---         },
---     },
---     view = {
---         adaptive_size = false,
---         preserve_window_proportions = false,
---             mappings = {
---               list = {
---                 { key = "<CR>", action = "edit_in_place" }
---               }
---         }
---     },
 -- })
 
 -- #373b41 greyish text fg
