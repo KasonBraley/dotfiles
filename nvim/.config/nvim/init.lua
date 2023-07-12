@@ -16,9 +16,14 @@ end
 vim.opt.rtp:prepend(install_path)
 
 require("lazy").setup({
-	"williamboman/mason.nvim",
-	"williamboman/mason-lspconfig.nvim",
-	"neovim/nvim-lspconfig",
+    -- LSP
+    "neovim/nvim-lspconfig",
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "folke/neodev.nvim",
+    { "j-hui/fidget.nvim", tag = "legacy" },
+
+    -- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -27,6 +32,8 @@ require("lazy").setup({
 			"JoosepAlviste/nvim-ts-context-commentstring",
 		},
 	},
+
+    -- Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -34,21 +41,38 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"hrsh7th/cmp-path",
 			"f3fora/cmp-spell",
+            "rafamadriz/friendly-snippets",
+            "L3MON4D3/LuaSnip",
+            "saadparwaiz1/cmp_luasnip",
 		},
 	},
-	"rafamadriz/friendly-snippets",
-	{ "L3MON4D3/LuaSnip", dependencies = { "saadparwaiz1/cmp_luasnip" } },
-	"mhartington/formatter.nvim",
-    "tpope/vim-vinegar",
-	"hoob3rt/lualine.nvim",
-	"lewis6991/gitsigns.nvim",
-	{ "NeogitOrg/neogit", dependencies = "nvim-lua/plenary.nvim" },
-	{ "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+
+    -- Git related
+    "lewis6991/gitsigns.nvim",
+    { "NeogitOrg/neogit", dependencies = "nvim-lua/plenary.nvim" },
+    "sindrets/diffview.nvim",
+
+    -- Fuzzy Finder
+    { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	"nvim-telescope/telescope-ui-select.nvim",
+
+    -- File Explorer
+    "tpope/vim-vinegar",
+
+    -- Status Line
+	"hoob3rt/lualine.nvim",
+
+    -- Color Scheme
+    "tjdevries/colorbuddy.vim",
+    "tjdevries/gruvbuddy.nvim",
+
+    -- Misc.
 	"nvim-lua/popup.nvim",
 	{ "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" },
 	"numToStr/Comment.nvim",
+	"mhartington/formatter.nvim",
+
 	{
 		"kylechui/nvim-surround",
 		version = "*", --  for stability; omit to use `main` branch for the latest features
@@ -62,16 +86,7 @@ require("lazy").setup({
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
-	"folke/neodev.nvim",
-    {
-        "j-hui/fidget.nvim",
-        tag = "legacy",
-    },
 
-	"tjdevries/colorbuddy.vim",
-	"tjdevries/gruvbuddy.nvim",
-
-	"sindrets/diffview.nvim",
     {
         "ruifm/gitlinker.nvim",
 		config = function()
@@ -564,7 +579,7 @@ require("nvim-treesitter.configs").setup({
         "c",
         "lua",
         "vim",
-        "help",
+        "vimdoc",
         "javascript",
         "html",
         "css",
@@ -577,7 +592,6 @@ require("nvim-treesitter.configs").setup({
         "go",
         "hcl",
         "markdown",
-        "terraform",
         "rust",
         "php",
     },
@@ -591,18 +605,8 @@ require("nvim-treesitter.configs").setup({
     },
 })
 
--- lsp
--- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require("neodev").setup({})
-
-local lspconfig = require("lspconfig")
-
-require("mason").setup({})
-
-require("mason-lspconfig").setup({
-    automatic_installation = true,
-})
-
+-- [[ Configure LSP ]]
+--  This function gets run when an LSP connects to a particular buffer.
 local function on_attach(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -621,81 +625,20 @@ local function on_attach(_, bufnr)
     end, opts)
 end
 
--- config that activates keymaps and enables snippet support
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
+--  Add any additional override configuration in the following tables. They will be passed to
+--  the `settings` field of the server config.
 local servers = {
-    "html",
-    "cssls",
-    "dockerls",
-    "bashls",
-    "terraformls",
-    "rust_analyzer",
-    "intelephense",
-}
+    html = {},
+    cssls = {},
+    tsserver = {},
+    golangci_lint_ls = {},
+    dockerls = {},
+    bashls = {},
+    terraformls = {},
+    rust_analyzer = {},
+    intelephense = {},
 
-for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-    })
-end
-
-lspconfig.gopls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-        gopls = {
-            buildFlags = { "-tags=unit,integration,e2e" },
-            staticcheck = true,
-            analyses = {
-                unusedparams = true,
-                nillness = true,
-                unusedwrite = true,
-            },
-        },
-    },
-})
-
-lspconfig.lua_ls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            workspace = {
-                checkThirdParty = false,
-            },
-            telemetry = {
-                enable = false,
-            },
-            format = {
-                enable = false,
-            },
-        },
-    },
-})
-
-local util = require("lspconfig.util")
-lspconfig.tsserver.setup({
-    root_dir = util.root_pattern(".git"),
-    on_attach = on_attach,
-    capabilities = capabilities,
-    single_file_support = true,
-    init_options = {
-        preferences = {
-            importModuleSpecifierPreference = "relative",
-        },
-    },
-    handlers = {
-        -- disable tsserver diagnostics
-        -- ["textDocument/publishDiagnostics"] = function() end,
-    },
-})
-
-lspconfig.jsonls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
+    jsonls = {
         json = {
             schemas = {
                 {
@@ -725,12 +668,8 @@ lspconfig.jsonls.setup({
             },
         },
     },
-})
 
-lspconfig.yamlls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
+    yamlls = {
         yaml = {
             -- Schemas https://www.schemastore.org
             schemas = {
@@ -739,7 +678,57 @@ lspconfig.yamlls.setup({
             },
         },
     },
+
+    gopls = {
+        gopls = {
+            buildFlags = { "-tags=unit,integration,e2e" },
+            staticcheck = true,
+            analyses = {
+                unusedparams = true,
+                nillness = true,
+                unusedwrite = true,
+                unusedvariable = true,
+            },
+            codelenses = {
+                test = true,
+                tidy = true,
+            },
+        },
+    },
+
+    lua_ls = {
+        Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+            format = { enable = false },
+        },
+    },
+}
+
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- config that activates keymaps and enables snippet support
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+require("neodev").setup()
+
+require("mason").setup()
+
+local mason_lspconfig = require("mason-lspconfig")
+
+mason_lspconfig.setup({
+    ensure_installed = vim.tbl_keys(servers),
 })
+
+mason_lspconfig.setup_handlers {
+    function(server_name)
+        require('lspconfig')[server_name].setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = servers[server_name],
+        }
+    end,
+}
 
 -- nvim-cmp
 local cmp = require("cmp")
