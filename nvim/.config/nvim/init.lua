@@ -591,6 +591,7 @@ require("nvim-treesitter.configs").setup({
         "dockerfile",
         "go",
         "hcl",
+	"terraform",
         "markdown",
         "rust",
         "php",
