@@ -28,7 +28,6 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		dependencies = {
-			"nvim-treesitter/nvim-treesitter-refactor",
 			"JoosepAlviste/nvim-ts-context-commentstring",
 		},
 	},
@@ -600,9 +599,6 @@ require("nvim-treesitter.configs").setup({
     context_commentstring = {
         enable = true,
         enable_autocmd = false,
-    },
-    refactor = {
-        highlight_definitions = { enable = true },
     },
 })
 
