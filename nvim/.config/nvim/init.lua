@@ -52,7 +52,6 @@ require("lazy").setup({
     "NeogitOrg/neogit",
     dependencies = "nvim-lua/plenary.nvim"
   },
-  "sindrets/diffview.nvim",
 
   -- Fuzzy Finder
   {
@@ -114,6 +113,9 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cul = true
 vim.opt.mouse = "a"
+-- Disable horizontal scrolling.
+vim.o.mousescroll = 'ver:3,hor:0'
+
 vim.opt.signcolumn = "yes"
 vim.opt.cmdheight = 1
 vim.opt.updatetime = 200 -- update interval for gitsigns
@@ -195,10 +197,23 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 -- Markdown
 vim.keymap.set("n", "<Leader>p", ":MarkdownPreviewToggle <CR>")
 
--- Quickfix
-vim.keymap.set("", "<C-q>", ":copen<cr>")
+-- Quickfix list.
 vim.keymap.set("n", "<C-j>", ":cnext<cr>zz")
 vim.keymap.set("n", "<C-k>", ":cprevious<cr>zz")
+-- When toggling, ignore error messages and restore the cursor
+-- to the original window when opening the list.
+local silent_mods = { mods = { silent = true, emsg_silent = true } }
+vim.keymap.set("n", "<C-q>", function()
+  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+    vim.cmd.cclose(silent_mods)
+  elseif #vim.fn.getqflist() > 0 then
+    local win = vim.api.nvim_get_current_win()
+    vim.cmd.copen(silent_mods)
+    if win ~= vim.api.nvim_get_current_win() then
+      vim.cmd.wincmd "p"
+    end
+  end
+end, { desc = "Open quickfix list" })
 
 -- Arrowkeys
 vim.keymap.set("", "<up>", "<nop>")
@@ -274,25 +289,8 @@ require("gitsigns").setup({
   end,
 })
 
-require("diffview").setup({
-  use_icons = false,
-  icons = { -- Only applies when use_icons is true.
-    folder_closed = "",
-    folder_open = "",
-  },
-  signs = {
-    fold_closed = "",
-    fold_open = "",
-    done = "✓",
-  },
-})
-
 -- neogit
-require("neogit").setup({
-  integrations = {
-    diffview = true
-  },
-})
+require("neogit").setup({})
 
 vim.keymap.set("n", "<Leader>g", ":Neogit<CR>")
 
@@ -323,15 +321,6 @@ require("formatter").setup({
     json = { prettier },
     yaml = { prettier },
     html = { prettier },
-    -- go = {
-    --     function()
-    --         return {
-    --             exe = "goimports",
-    --             args = { "-w", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)) },
-    --             stdin = false,
-    --         }
-    --     end,
-    -- },
     sh = {
       function()
         return {
@@ -342,30 +331,6 @@ require("formatter").setup({
     },
   },
 })
-
--- local go_org_imports = function(wait_ms)
---     local params = vim.lsp.util.make_range_params()
---     params.context = { only = { "source.organizeImports" } }
---     local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
---     for cid, res in pairs(result or {}) do
---         for _, r in pairs(res.result or {}) do
---             if r.edit then
---                 local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
---                 vim.lsp.util.apply_workspace_edit(r.edit, enc)
---             end
---         end
---     end
---
---     vim.lsp.buf.format()
--- end
-
--- format Go with goimports
--- vim.api.nvim_create_autocmd("BufWritePre", {
---     pattern = "*.go",
---     callback = function()
---         go_org_imports(1000)
---     end,
--- })
 
 -- #373b41 greyish text fg
 -- #81a2be light blue - default statusline color
@@ -707,9 +672,15 @@ local servers = {
 
   lua_ls = {
     Lua = {
-      workspace = { checkThirdParty = false },
+      runtime = {
+        version = 'LuaJIT',
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = { vim.env.VIMRUNTIME }
+      },
       telemetry = { enable = false },
-      format = { enable = true, },
+      format = { enable = true },
     },
   },
 }
