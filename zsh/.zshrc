@@ -48,6 +48,9 @@ PROMPT="${PROMPT}%(0?;; %F{red}%?%f)"
 # Terminator.
 PROMPT="${PROMPT}> "
 
+# When deleting with <C-w>, delete file names one at a time.
+WORDCHARS=${WORDCHARS/\/}
+
 # git branch display
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
