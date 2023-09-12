@@ -711,6 +711,8 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
+local lsp_types = require("cmp.types")
+
 -- nvim-cmp
 local cmp = require("cmp")
 cmp.setup({
@@ -744,7 +746,20 @@ cmp.setup({
   }),
   sources = {
     { name = "path" },
-    { name = "nvim_lsp", max_item_count = 10 },
+    {
+      name = "nvim_lsp",
+      max_item_count = 10,
+      entry_filter = function(entry, ctx)
+        local kind = lsp_types.lsp.CompletionItemKind[entry:get_kind()]
+
+        -- remove Modules from completion options
+        if kind == "Module" then
+          return false
+        end
+        return true
+      end
+
+    },
     { name = "nvim_lsp_signature_help" },
     { name = "luasnip" },
     { name = "spell" },
