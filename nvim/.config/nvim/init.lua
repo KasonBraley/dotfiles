@@ -186,10 +186,10 @@ vim.keymap.set("n", "<Leader>tv", ":vnew +terminal | setlocal nobuflisted <CR>")
 vim.keymap.set("n", "<Leader>tx", ":10new +terminal | setlocal nobuflisted <CR>") --  term bottom
 
 -- Tabs
-vim.keymap.set("n", "tt", ":tabnew<CR>")
-vim.keymap.set("n", "tn", ":tabnext<CR>")
-vim.keymap.set("n", "tp", ":tabprevious<CR>")
-vim.keymap.set("n", "tq", ":tabclose<CR>")
+vim.keymap.set("n", "tt", "<cmd>tabnew<CR>", { desc = "New tab" })
+vim.keymap.set("n", "[t", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
+vim.keymap.set("n", "]t", "<cmd>tabnext<CR>", { desc = "Next tab" })
+vim.keymap.set("n", "tq", "<cmd>tabclose<CR>", { desc = "Close tab" })
 
 -- return normal mode on esc in terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
