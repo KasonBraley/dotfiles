@@ -571,6 +571,7 @@ require("nvim-treesitter.configs").setup({
     "markdown",
     "rust",
     "php",
+    "proto",
   },
   highlight = { enable = true },
   context_commentstring = {
