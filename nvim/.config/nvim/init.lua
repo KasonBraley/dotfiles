@@ -572,6 +572,7 @@ require("nvim-treesitter.configs").setup({
     "rust",
     "php",
     "proto",
+    "templ",
   },
   highlight = { enable = true },
   context_commentstring = {
@@ -579,6 +580,17 @@ require("nvim-treesitter.configs").setup({
     enable_autocmd = false,
   },
 })
+
+local treesitter_parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+treesitter_parser_config.templ = {
+  install_info = {
+    url = "https://github.com/vrischmann/tree-sitter-templ.git",
+    files = { "src/parser.c", "src/scanner.c" },
+    branch = "master",
+  },
+}
+
+vim.treesitter.language.register('templ', 'templ')
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -612,6 +624,7 @@ local servers = {
   terraformls = {},
   rust_analyzer = {},
   intelephense = {},
+  templ = {},
 
   jsonls = {
     json = {
@@ -800,4 +813,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.cmd.setlocal("spell")
   end,
+})
+vim.filetype.add({
+  extension = {
+    templ = "templ",
+  },
 })
