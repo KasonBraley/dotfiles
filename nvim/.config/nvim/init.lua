@@ -198,8 +198,11 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 vim.keymap.set("n", "<Leader>p", ":MarkdownPreviewToggle <CR>")
 
 -- Quickfix list.
-vim.keymap.set("n", "<C-j>", ":cnext<cr>zz")
-vim.keymap.set("n", "<C-k>", ":cprevious<cr>zz")
+vim.keymap.set("n", "<C-j>", "<cmd>cnext<cr>zz")
+vim.keymap.set("n", "<C-k>", "<cmd>cprevious<cr>zz")
+vim.keymap.set("n", "[q", "<cmd>cprevious<cr>zz", { desc = "Previous quickfix item" })
+vim.keymap.set("n", "]q", "<cmd>cnext<cr>zz", { desc = "Next quickfix item" })
+
 -- When toggling, ignore error messages and restore the cursor
 -- to the original window when opening the list.
 local silent_mods = { mods = { silent = true, emsg_silent = true } }
