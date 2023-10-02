@@ -631,7 +631,13 @@ local servers = {
   bashls = {},
   terraformls = {},
   rust_analyzer = {},
-  intelephense = {},
+  intelephense = {
+    intelephense = {
+      format = {
+        braces = "k&r",
+      }
+    },
+  },
   templ = {},
 
   jsonls = {
