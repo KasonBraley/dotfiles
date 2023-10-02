@@ -577,7 +577,12 @@ require("nvim-treesitter.configs").setup({
     "proto",
     "templ",
   },
-  highlight = { enable = true },
+  highlight = {
+    enable = true,
+    disable = function(lang, bufnr)
+      return vim.api.nvim_buf_line_count(bufnr) > 10000
+    end,
+  },
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
