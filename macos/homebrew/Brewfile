@@ -1,30 +1,31 @@
 # 'brew tap'
-tap "homebrew/cask"
-tap "homebrew/cask-drivers"
-tap "homebrew/core"
-tap "homebrew/services"
+# tap "homebrew/core"
 
 # 'brew install'
 brew "bat"
+brew "coreutils"
 brew "fd"
 brew "fzf"
 brew "gh"
 brew "git"
 brew "git-extras"
+brew "gnu-sed"
 brew "go"
+brew "golangci-lint"
 brew "grep"
 brew "htop"
 brew "jq"
 brew "neovim"
 brew "node"
-brew "procs"
-brew "python@3.9"
+brew "python"
 brew "ripgrep"
-brew "skhd"
 brew "stow"
-brew "stylua"
-brew "yabai"
 
+# 'brew install --cask'
 cask "google-chrome"
 cask "kitty"
+# better docker desktop
+cask "orbstack"
 cask "postman"
+# video player
+cask "iina"

@@ -4,6 +4,8 @@
 echo "Installing homebrew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+brew analytics off
+
 # update homebrew recipes
 echo "Updating Homebrew recipes..."
 brew update
