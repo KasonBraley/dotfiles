@@ -144,6 +144,9 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/terraform terraform
 
 if [[ $(uname) == "Darwin" ]]; then
-    # use GNU core utils by default on macos
+    # use GNU utils by default on macos
     export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
 fi

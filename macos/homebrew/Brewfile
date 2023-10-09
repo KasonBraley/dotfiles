@@ -1,17 +1,19 @@
-# 'brew tap'
-# tap "homebrew/core"
-
 # 'brew install'
 brew "bat"
+# GNU utils
 brew "coreutils"
 brew "fd"
+# GNU find utils
+brew "findutils"
 brew "fzf"
 brew "gh"
 brew "git"
 brew "git-extras"
+# GNU sed
 brew "gnu-sed"
 brew "go"
 brew "golangci-lint"
+# GNU grep
 brew "grep"
 brew "htop"
 brew "jq"
@@ -19,6 +21,7 @@ brew "neovim"
 brew "node"
 brew "python"
 brew "ripgrep"
+brew "ssh-copy-id"
 brew "stow"
 
 # 'brew install --cask'

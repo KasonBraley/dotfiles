@@ -1,8 +1,4 @@
-#!/bin/sh
-
-# install
-echo "Installing homebrew..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#!/usr/bin/env bash
 
 brew analytics off
 
