@@ -124,8 +124,12 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --no-ignore'
 export FZF_DEFAULT_OPTS='--info=hidden --no-mouse'
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+
+# https://nixos.wiki/wiki/Fzf
+if [ -n "${commands[fzf-share]}" ]; then
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
 
 # colorized go test output
 set -o pipefail
