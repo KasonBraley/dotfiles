@@ -13,6 +13,9 @@ setopt autocd
 setopt chase_dots
 setopt interactive_comments
 
+# disable CTRL-D closing terminal session
+setopt ignoreeof
+
 bindkey -e
 
 # Completion
