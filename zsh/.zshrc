@@ -158,3 +158,9 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
 fi
+
+# k8s completion
+source <(kubectl completion zsh)
+export PATH=$HOME/bin:$PATH
+
+alias git_fetch_all='find . -type d -name .git -exec git --git-dir={} --work-tree=$PWD/{}/.. fetch \;'

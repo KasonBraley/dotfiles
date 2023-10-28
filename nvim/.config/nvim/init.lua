@@ -69,8 +69,18 @@ require("lazy").setup({
   "hoob3rt/lualine.nvim",
 
   -- Color Scheme
-  "tjdevries/colorbuddy.vim",
-  "tjdevries/gruvbuddy.nvim",
+  -- "tjdevries/colorbuddy.vim",
+  -- "tjdevries/gruvbuddy.nvim",
+
+-- { 'projekt0n/github-nvim-theme' },
+-- {
+--   "folke/tokyonight.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   opts = {},
+-- },
+
+ "navarasu/onedark.nvim",
 
   -- Misc.
   -- "nvim-lua/popup.nvim",
@@ -79,7 +89,7 @@ require("lazy").setup({
   "mhartington/formatter.nvim",
 
   -- Detect tabstop and shiftwidth automatically
-  "tpope/vim-sleuth",
+  -- "tpope/vim-sleuth",
 
   {
     "kylechui/nvim-surround",
@@ -102,6 +112,12 @@ require("lazy").setup({
     end,
   },
 
+  {
+    "johmsalas/text-case.nvim",
+    config = function()
+      require('textcase').setup({})
+    end
+  },
 })
 
 -- options
@@ -123,7 +139,15 @@ vim.opt.timeoutlen = 400
 vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.completeopt = "menuone,noselect"
+-- vim.opt.completeopt = "menuone,noselect"
+
+vim.opt.shortmess:append('c')
+vim.opt.completeopt:append {
+  'noinsert',
+  'menuone',
+  'noselect',
+  'preview'
+}
 vim.opt.wrap = false
 vim.opt.scrolloff = 8 -- Make it so there are always lines below my cursor
 
@@ -146,6 +170,13 @@ vim.opt.hlsearch = true
 
 vim.opt.showmode = false
 
+vim.opt.diffopt:append {
+  'linematch:50',
+  'vertical',
+  'foldcolumn:0',
+  'indent-heuristic',
+}
+
 if vim.fn.executable("rg") == 1 then
   vim.o.grepprg = "rg --vimgrep --smart-case --hidden"
   vim.o.grepformat = "%f:%l:%c:%m"
@@ -163,14 +194,15 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- colorscheme
 vim.o.termguicolors = true
-require("colorbuddy").colorscheme("gruvbuddy")
-
-local Color, colors, Group = require("colorbuddy").setup()
-Color.new("colorCol", "#282a2e")
-Group.new("ColorColumn", nil, colors.colorCol)
-
-Color.new("neogitRed", "#cc6666")
-Group.new("NeogitDiffDelete", nil, colors.neogitRed)
+vim.cmd("colorscheme onedark")
+-- require("colorbuddy").colorscheme("gruvbuddy")
+--
+-- local Color, colors, Group = require("colorbuddy").setup()
+-- Color.new("colorCol", "#282a2e")
+-- Group.new("ColorColumn", nil, colors.colorCol)
+--
+-- Color.new("neogitRed", "#cc6666")
+-- Group.new("NeogitDiffDelete", nil, colors.neogitRed)
 
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
@@ -510,24 +542,12 @@ vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" 
 vim.keymap.set("n", "<C-e>", require("harpoon.ui").toggle_quick_menu)
 -- vim.keymap.set("n", "<C-y>", require("harpoon.cmd-ui").toggle_quick_menu)
 vim.keymap.set("n", "<Leader>a", require("harpoon.mark").add_file)
-vim.keymap.set("n", "<Leader>j", function()
-  require("harpoon.ui").nav_file(1)
-end)
-vim.keymap.set("n", "<Leader>k", function()
-  require("harpoon.ui").nav_file(2)
-end)
-vim.keymap.set("n", "<Leader>l", function()
-  require("harpoon.ui").nav_file(3)
-end)
-vim.keymap.set("n", "<Leader>;", function()
-  require("harpoon.ui").nav_file(4)
-end)
-vim.keymap.set("n", "tj", function()
-  require("harpoon.term").gotoTerminal(1)
-end)
-vim.keymap.set("n", "tk", function()
-  require("harpoon.term").gotoTerminal(2)
-end)
+vim.keymap.set("n", "<Leader>j", function() require("harpoon.ui").nav_file(1) end)
+vim.keymap.set("n", "<Leader>k", function() require("harpoon.ui").nav_file(2) end)
+vim.keymap.set("n", "<Leader>l", function() require("harpoon.ui").nav_file(3) end)
+vim.keymap.set("n", "<Leader>;", function() require("harpoon.ui").nav_file(4) end)
+vim.keymap.set("n", "tj", function() require("harpoon.term").gotoTerminal(1) end)
+vim.keymap.set("n", "tk", function() require("harpoon.term").gotoTerminal(2) end)
 vim.keymap.set(
   "n",
   "cj",
@@ -626,7 +646,7 @@ local servers = {
   html = {},
   cssls = {},
   tsserver = {},
-  golangci_lint_ls = {},
+  -- golangci_lint_ls = {},
   dockerls = {},
   bashls = {},
   terraformls = {},
@@ -743,6 +763,11 @@ local lsp_types = require("cmp.types")
 -- nvim-cmp
 local cmp = require("cmp")
 cmp.setup({
+  -- view = {
+  --   docs = {
+  --     auto_open = false,
+  --   }
+  -- },
   snippet = {
     expand = function(args)
       require("luasnip").lsp_expand(args.body)
@@ -770,6 +795,13 @@ cmp.setup({
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     }),
+    -- ['<C-g>'] = function()
+    --   if cmp.visible_docs() then
+    --     cmp.close_docs()
+    --   else
+    --     cmp.open_docs()
+    --   end
+    -- end
   }),
   sources = {
     { name = "path" },
@@ -828,6 +860,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.cmd.setlocal("spell")
   end,
 })
+
+vim.keymap.set("n", "<Leader>l", ":lua require('textcase').current_word('to_pascal_case')<CR> <CR>")
+
 vim.filetype.add({
   extension = {
     templ = "templ",
