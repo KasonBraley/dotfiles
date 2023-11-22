@@ -27,10 +27,8 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-    },
   },
+  "JoosepAlviste/nvim-ts-context-commentstring",
 
   -- Autocompletion
   {
@@ -602,11 +600,7 @@ require("nvim-treesitter.configs").setup({
     disable = function(lang, bufnr)
       return vim.api.nvim_buf_line_count(bufnr) > 10000
     end,
-  },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-  },
+  }
 })
 
 local treesitter_parser_config = require "nvim-treesitter.parsers".get_parser_configs()
