@@ -28,6 +28,7 @@ with import <nixpkgs> {}; [
   ripgrep
   ssh-copy-id
   stow
+  NIXPKGS_ALLOW_UNFREE=1 terraform
   tree
 # benchstat
 # govulncheck install with just go install?
