@@ -118,12 +118,17 @@ source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-source ~/.nvm/nvm.sh
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
+# source ~/.nvm/nvm.sh
+# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+# https://github.com/NixOS/nix/issues/3616#issuecomment-1655785404
+# placing this at the end of the file seems to undo the fzf file sourcing below
+# so putting this here and it works
+[[ ! $(command -v nix) && -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]] && source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
 
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --no-ignore'
 export FZF_DEFAULT_OPTS='--info=hidden --no-mouse'
@@ -160,7 +165,9 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 # k8s completion
-source <(kubectl completion zsh)
-export PATH=$HOME/bin:$PATH
+if [ -n "${commands[kubectl]}" ]; then
+    source <(kubectl completion zsh)
+    export PATH=$HOME/bin:$PATH
+fi
 
 alias git_fetch_all='find . -type d -name .git -exec git --git-dir={} --work-tree=$PWD/{}/.. fetch \;'
