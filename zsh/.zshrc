@@ -74,6 +74,7 @@ alias gd="git diff "${@}""
 alias g.="git add -p "${@}""
 alias gar="git add --all ."
 alias gr="git rebase "${@}""
+alias gw="git worktree "${@}""
 
 alias ls='ls -F --color=auto --group-directories-first --sort=version'
 
