@@ -116,6 +116,10 @@ require("lazy").setup({
       require('textcase').setup({})
     end
   },
+
+  {
+    "icholy/lsplinks.nvim",
+  }
 })
 
 -- options
@@ -851,3 +855,9 @@ vim.filetype.add({
     templ = "templ",
   },
 })
+
+local lsplinks = require("lsplinks")
+lsplinks.setup({
+  highlight = false
+})
+vim.keymap.set("n", "gx", lsplinks.gx)
