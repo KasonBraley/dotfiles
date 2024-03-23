@@ -70,15 +70,7 @@ require("lazy").setup({
   -- "tjdevries/colorbuddy.vim",
   -- "tjdevries/gruvbuddy.nvim",
 
--- { 'projekt0n/github-nvim-theme' },
--- {
---   "folke/tokyonight.nvim",
---   lazy = false,
---   priority = 1000,
---   opts = {},
--- },
-
- "navarasu/onedark.nvim",
+  "navarasu/onedark.nvim",
 
   -- Misc.
   -- "nvim-lua/popup.nvim",
