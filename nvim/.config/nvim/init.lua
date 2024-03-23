@@ -598,6 +598,7 @@ require("nvim-treesitter.configs").setup({
     "php",
     "proto",
     "templ",
+    "zig",
   },
   highlight = {
     enable = true,
@@ -633,6 +634,7 @@ local servers = {
   html = {},
   cssls = {},
   tsserver = {},
+  zls = {}, -- zig
   -- golangci_lint_ls = {},
   dockerls = {},
   bashls = {},
