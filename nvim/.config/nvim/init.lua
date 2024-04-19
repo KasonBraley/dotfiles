@@ -39,8 +39,8 @@ require("lazy").setup({
       "hrsh7th/cmp-path",
       "f3fora/cmp-spell",
       "rafamadriz/friendly-snippets",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
+      "dcampos/nvim-snippy",
+      "dcampos/cmp-snippy",
     },
   },
 
@@ -767,14 +767,14 @@ cmp.setup({
   -- },
   snippet = {
     expand = function(args)
-      require("luasnip").lsp_expand(args.body)
+      require('snippy').expand_snippet(args.body) -- For `snippy` users.
     end,
   },
   formatting = {
     format = function(entry, vim_item)
       vim_item.menu = ({
         nvim_lsp = "[LSP]",
-        luasnip = "[Snip]",
+        snippy = "[Snip]",
         spell = "[Spell]",
         path = "[Path]",
       })[entry.source.name]
@@ -817,7 +817,7 @@ cmp.setup({
 
     },
     { name = "nvim_lsp_signature_help" },
-    { name = "luasnip" },
+    { name = "snippy" }, -- For snippy users.
     { name = "spell" },
   },
   enabled = function()
