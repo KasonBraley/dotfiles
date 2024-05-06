@@ -92,7 +92,11 @@ require("lazy").setup({
   -- "nvim-lua/popup.nvim",
   { "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" },
   "numToStr/Comment.nvim",
-  "mhartington/formatter.nvim",
+
+  {
+    'stevearc/conform.nvim',
+    opts = {},
+  },
 
   -- Detect tabstop and shiftwidth automatically
   -- "tpope/vim-sleuth",
@@ -343,39 +347,23 @@ require("Comment").setup({
   pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 })
 
--- Formatter
-vim.keymap.set("n", "<Leader>fm", ":Format<CR>")
 
-local prettier = function()
-  return {
-    exe = "prettier",
-    args = { "--stdin", "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
-    stdin = true,
-  }
-end
-
-require("formatter").setup({
-  logging = false,
-  filetype = {
-    javascript = { prettier },
-    javascriptreact = { prettier },
-    typescript = { prettier },
-    typescriptreact = { prettier },
-    markdown = { prettier },
-    css = { prettier },
-    json = { prettier },
-    yaml = { prettier },
-    html = { prettier },
-    sh = {
-      function()
-        return {
-          exe = "shfmt",
-          stdin = true,
-        }
-      end,
-    },
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    -- Use a sub-list to run only the first available formatter
+    javascript = { { "prettierd", "prettier" } },
+    php = { "pint" }
   },
 })
+
+-- Formatter
+vim.keymap.set({ "n", "v" }, "<Leader>fm", function()
+  require("conform").format({
+    async = true,
+    lsp_fallback = true,
+  })
+end)
 
 -- #373b41 greyish text fg
 -- #81a2be light blue - default statusline color
