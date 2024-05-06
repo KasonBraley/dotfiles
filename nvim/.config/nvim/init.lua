@@ -82,10 +82,6 @@ require("lazy").setup({
   -- Status Line
   "hoob3rt/lualine.nvim",
 
-  -- Color Scheme
-  -- "tjdevries/colorbuddy.vim",
-  -- "tjdevries/gruvbuddy.nvim",
-
   "navarasu/onedark.nvim",
 
   -- Misc.
@@ -209,14 +205,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 -- colorscheme
 vim.o.termguicolors = true
 vim.cmd("colorscheme onedark")
--- require("colorbuddy").colorscheme("gruvbuddy")
---
--- local Color, colors, Group = require("colorbuddy").setup()
--- Color.new("colorCol", "#282a2e")
--- Group.new("ColorColumn", nil, colors.colorCol)
---
--- Color.new("neogitRed", "#cc6666")
--- Group.new("NeogitDiffDelete", nil, colors.neogitRed)
 
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
