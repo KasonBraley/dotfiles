@@ -38,9 +38,6 @@ require("lazy").setup({
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-path",
       "f3fora/cmp-spell",
-      "rafamadriz/friendly-snippets",
-      "dcampos/nvim-snippy",
-      "dcampos/cmp-snippy",
     },
   },
 
@@ -749,25 +746,9 @@ local lsp_types = require("cmp.types")
 -- nvim-cmp
 local cmp = require("cmp")
 cmp.setup({
-  -- view = {
-  --   docs = {
-  --     auto_open = false,
-  --   }
-  -- },
   snippet = {
     expand = function(args)
-      require('snippy').expand_snippet(args.body) -- For `snippy` users.
-    end,
-  },
-  formatting = {
-    format = function(entry, vim_item)
-      vim_item.menu = ({
-        nvim_lsp = "[LSP]",
-        snippy = "[Snip]",
-        spell = "[Spell]",
-        path = "[Path]",
-      })[entry.source.name]
-      return vim_item
+      vim.snippet.expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -803,10 +784,8 @@ cmp.setup({
         end
         return true
       end
-
     },
     { name = "nvim_lsp_signature_help" },
-    { name = "snippy" }, -- For snippy users.
     { name = "spell" },
   },
   enabled = function()
