@@ -612,6 +612,13 @@ local function on_attach(_, bufnr)
   vim.keymap.set({ "n", "v" }, "<space>f", function()
     vim.lsp.buf.format({ async = true })
   end, opts)
+
+  -- Fuzzy find all the symbols in your current document.
+  --  Symbols are things like variables, functions, types, etc.
+  vim.keymap.set("n", "<space>ds", require("telescope.builtin").lsp_document_symbols, opts)
+  -- Fuzzy find all the symbols in your current workspace.
+  --  Similar to document symbols, except searches over your entire project.
+  vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, opts)
 end
 
 --  Add any additional override configuration in the following tables. They will be passed to
