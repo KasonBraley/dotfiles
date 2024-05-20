@@ -28,7 +28,6 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
   },
-  "JoosepAlviste/nvim-ts-context-commentstring",
 
   -- Autocompletion
   {
@@ -95,9 +94,7 @@ require("lazy").setup({
   "navarasu/onedark.nvim",
 
   -- Misc.
-  -- "nvim-lua/popup.nvim",
   { "ThePrimeagen/harpoon", commit = "7cf2e20a411ea106d7367fab4f10bf0243e4f2c2" },
-  "numToStr/Comment.nvim",
 
   {
     'stevearc/conform.nvim',
@@ -340,11 +337,6 @@ require("gitsigns").setup({
 require("neogit").setup({})
 
 vim.keymap.set("n", "<Leader>g", ":Neogit<CR>")
-
-require("Comment").setup({
-  pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-})
-
 
 require("conform").setup({
   formatters_by_ft = {
