@@ -2,6 +2,8 @@
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.g.maplocalleader = " "
 
+vim.g.loaded_matchparen = 0
+
 local install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(install_path) then
   vim.fn.system({
