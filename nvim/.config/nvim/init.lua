@@ -26,7 +26,6 @@ require("lazy").setup({
       "williamboman/mason-lspconfig.nvim",
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { "j-hui/fidget.nvim", opts = {} },
-      { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
       --  This function gets run when an LSP attaches to a particular buffer.
@@ -193,10 +192,17 @@ require("lazy").setup({
     end
   },
 
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {},
+  },
+
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       local configs = require("nvim-treesitter.configs")
       configs.setup({
@@ -240,7 +246,7 @@ require("lazy").setup({
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
-    event = 'InsertEnter',
+    event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lsp-signature-help",
@@ -270,19 +276,18 @@ require("lazy").setup({
         }),
         sources = {
           { name = "path" },
-          { name = "nvim_lsp" },
-          -- {
-          --   name = "nvim_lsp",
-          --   max_item_count = 10,
-          --   entry_filter = function(entry, _)
-          --     local kind = lsp_types.lsp.CompletionItemKind[entry:get_kind()]
-          --     -- remove Modules from completion options
-          --     if kind == "Module" then
-          --       return false
-          --     end
-          --     return true
-          --   end
-          -- },
+          {
+            name = "nvim_lsp",
+            max_item_count = 10,
+            -- entry_filter = function(entry, _)
+            --   local kind = lsp_types.lsp.CompletionItemKind[entry:get_kind()]
+            --   -- remove Modules from completion options
+            --   if kind == "Module" then
+            --     return false
+            --   end
+            --   return true
+            -- end
+          },
           { name = "nvim_lsp_signature_help" },
           { name = "spell" },
         },
@@ -304,6 +309,7 @@ require("lazy").setup({
   -- Git related
   {
     "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
@@ -560,6 +566,7 @@ require("lazy").setup({
         html = { { "prettierd", "prettier" } },
         markdown = { { "prettierd", "prettier" } },
         php = { "pint" },
+        yaml = { { "prettierd", "prettier" } },
       },
     },
   },
@@ -573,6 +580,8 @@ require("lazy").setup({
   },
   {
     "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
@@ -592,7 +601,17 @@ require("lazy").setup({
     end
   },
 
-  { "icholy/lsplinks.nvim" },
+  {
+    "icholy/lsplinks.nvim",
+    event = { "LspAttach" },
+    config = function()
+      local lsplinks = require("lsplinks")
+      lsplinks.setup({
+        highlight = false
+      })
+      vim.keymap.set("n", "gx", lsplinks.gx)
+    end
+  },
 })
 
 -- options
@@ -843,12 +862,6 @@ vim.filetype.add({
     templ = "templ",
   },
 })
-
-local lsplinks = require("lsplinks")
-lsplinks.setup({
-  highlight = false
-})
-vim.keymap.set("n", "gx", lsplinks.gx)
 
 -- Open a terminal at the bottom of the screen with a fixed height.
 vim.keymap.set("n", "<Leader>st", function()

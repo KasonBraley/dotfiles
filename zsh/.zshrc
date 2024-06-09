@@ -174,3 +174,6 @@ if [ -n "${commands[kubectl]}" ]; then
 fi
 
 alias git_fetch_all='find . -type d -name .git -exec git --git-dir={} --work-tree=$PWD/{}/.. fetch \;'
+
+export PATH=$PATH:/opt/nvim-macos-arm64/bin
+export PATH=$PATH:/opt/nvim-macos/bin
