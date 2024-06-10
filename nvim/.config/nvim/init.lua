@@ -70,7 +70,6 @@ require("lazy").setup({
         cssls = {},
         tsserver = {},
         zls = {}, -- zig
-        -- golangci_lint_ls = {},
         dockerls = {},
         bashls = {},
         terraformls = {},
@@ -254,13 +253,31 @@ require("lazy").setup({
       "f3fora/cmp-spell",
     },
     config = function()
-      local lsp_types = require("cmp.types")
-      local cmp = require("cmp")
+      local cmp = require('cmp')
+
+      local function toggle_autocomplete()
+        local current_setting = cmp.get_config().completion.autocomplete
+        if current_setting and #current_setting > 0 then
+          cmp.setup({ completion = { autocomplete = false } })
+          vim.notify('Autocomplete disabled')
+        else
+          cmp.setup({ completion = { autocomplete = { cmp.TriggerEvent.TextChanged } } })
+          vim.notify('Autocomplete enabled')
+        end
+      end
+
+      vim.api.nvim_create_user_command('NvimCmpToggle', toggle_autocomplete, {})
+      vim.keymap.set("n", "<Leader>tc", ":NvimCmpToggle<CR>", { noremap = true, silent = true })
+
+      -- local lsp_types = require("cmp.types")
       cmp.setup({
         snippet = {
           expand = function(args)
             vim.snippet.expand(args.body)
           end,
+        },
+        completion = {
+          autocomplete = false,
         },
         mapping = cmp.mapping.preset.insert({
           ["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -294,13 +311,8 @@ require("lazy").setup({
         enabled = function()
           -- disable completion in comments
           local context = require("cmp.config.context")
-          -- keep command mode completion enabled when cursor is in a comment
-          if vim.api.nvim_get_mode().mode == "c" then
-            return true
-          else
-            return not context.in_treesitter_capture("comment") and
-                not context.in_syntax_group("Comment")
-          end
+          return not context.in_treesitter_capture("comment") and
+              not context.in_syntax_group("Comment")
         end,
       })
     end
@@ -312,7 +324,7 @@ require("lazy").setup({
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       on_attach = function(bufnr)
-        local gs = package.loaded.gitsigns
+        local gitsigns = require('gitsigns')
 
         local function map(mode, l, r, opts)
           opts = opts or {}
@@ -321,40 +333,39 @@ require("lazy").setup({
         end
 
         -- Navigation
-        map("n", "]c", function()
+        map('n', ']c', function()
           if vim.wo.diff then
-            return "]c"
+            vim.cmd.normal({ ']c', bang = true })
+          else
+            gitsigns.nav_hunk('next')
           end
-          vim.schedule(function()
-            gs.next_hunk()
-          end)
-          return "<Ignore>"
-        end, { expr = true })
+        end)
 
-        map("n", "[c", function()
+        map('n', '[c', function()
           if vim.wo.diff then
-            return "[c"
+            vim.cmd.normal({ '[c', bang = true })
+          else
+            gitsigns.nav_hunk('prev')
           end
-          vim.schedule(function()
-            gs.prev_hunk()
-          end)
-          return "<Ignore>"
-        end, { expr = true })
+        end)
 
         -- Actions
-        map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
-        map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
-        map("n", "<leader>hu", gs.undo_stage_hunk)
-        map("n", "<leader>hp", gs.preview_hunk)
+        map('n', '<leader>hs', gitsigns.stage_hunk)
+        map('n', '<leader>hr', gitsigns.reset_hunk)
+        map('v', '<leader>hs',
+          function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+        map('v', '<leader>hr',
+          function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+        map("n", "<leader>hu", gitsigns.undo_stage_hunk)
+        map("n", "<leader>hp", gitsigns.preview_hunk)
         map("n", "<leader>hb", function()
-          gs.blame_line({ full = true })
+          gitsigns.blame_line({ full = true })
         end)
-        map("n", "<leader>tb", gs.toggle_current_line_blame)
-        map("n", "<leader>hd", gs.diffthis)
+        map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
+        map("n", "<leader>hd", gitsigns.diffthis)
       end,
     }
   },
-
 
   -- Fuzzy Finder
   {
@@ -714,9 +725,6 @@ vim.keymap.set("n", "tq", "<cmd>tabclose<CR>", { desc = "Close tab" })
 -- return normal mode on esc in terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
--- Markdown
-vim.keymap.set("n", "<Leader>p", ":MarkdownPreviewToggle <CR>")
-
 -- Quickfix list.
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<cr>zz")
 vim.keymap.set("n", "<C-k>", "<cmd>cprevious<cr>zz")
@@ -856,12 +864,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 vim.keymap.set("n", "<Leader>l", ":lua require('textcase').current_word('to_pascal_case')<CR> <CR>")
-
-vim.filetype.add({
-  extension = {
-    templ = "templ",
-  },
-})
 
 -- Open a terminal at the bottom of the screen with a fixed height.
 vim.keymap.set("n", "<Leader>st", function()
