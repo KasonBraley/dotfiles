@@ -3,6 +3,7 @@ vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappin
 vim.g.maplocalleader = " "
 
 vim.g.loaded_matchparen = 0
+vim.g.zig_fmt_autosave = 0
 
 local install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(install_path) then
@@ -51,10 +52,10 @@ require("lazy").setup({
 
           -- Fuzzy find all the symbols in your current document.
           -- Symbols are things like variables, functions, types, etc.
-          vim.keymap.set("n", "<space>ds", require("telescope.builtin").lsp_document_symbols, opts)
+          vim.keymap.set("n", "gs", require("telescope.builtin").lsp_document_symbols, opts)
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          vim.keymap.set("n", "<leader>ws",
+          vim.keymap.set("n", "gS",
             require("telescope.builtin").lsp_dynamic_workspace_symbols,
             opts)
 
@@ -137,10 +138,10 @@ require("lazy").setup({
               unusedwrite = true,
               unusedvariable = true,
             },
-            codelenses = {
-              test = true,
-              tidy = true,
-            },
+            -- codelenses = {
+            --   test = true,
+            --   tidy = true,
+            -- },
           },
         },
 
@@ -155,6 +156,11 @@ require("lazy").setup({
             },
             telemetry = { enable = false },
             format = { enable = true },
+            diagnostics = {
+              disable = {
+                'missing-fields',
+              },
+            },
           },
         },
       }
@@ -187,6 +193,35 @@ require("lazy").setup({
 
       mason_lspconfig.setup({
         ensure_installed = vim.tbl_keys(servers),
+      })
+
+      -- Markdown popup
+      do
+        local default = vim.lsp.util.open_floating_preview
+
+        vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+          -- This makes the separator between the definition and description look a
+          -- bit better, instead of it looking like a distracting black line.
+          local buf, win = default(contents, syntax, opts)
+          local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+
+          for i, line in ipairs(lines) do
+            if vim.startswith(line, '─') and vim.endswith(line, '─') then
+              vim.api.nvim_buf_add_highlight(buf, -1, 'TelescopeBorder', i - 1, 0, -1)
+            end
+          end
+
+          return buf, win
+        end
+      end
+
+      local float_width = 120
+      local float_height = 20
+
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
+        max_width = float_width,
+        max_heigh = float_height,
       })
     end
   },
@@ -231,6 +266,10 @@ require("lazy").setup({
           "proto",
           "templ",
           "zig",
+        },
+        indent = {
+          enable = false,
+          disable = { "yaml" },
         },
         highlight = {
           enable = true,
@@ -381,9 +420,36 @@ require("lazy").setup({
       local actions = require("telescope.actions")
       local action_layout = require "telescope.actions.layout"
 
+      local picker_defaults = {
+        previewer = true,
+        show_line = true,
+        results_title = false,
+        preview_title = false,
+      }
+
       -- Telescope
       require("telescope").setup({
         defaults = {
+          -- These three settings are optional, but recommended.
+          prompt_prefix = '',
+          entry_prefix = ' ',
+          selection_caret = ' ',
+
+          -- This is the important part: without this, Telescope windows will look a
+          -- bit odd due to how borders are highlighted.
+          layout_strategy = 'grey',
+          layout_config = {
+            -- The extension supports both "top" and "bottom" for the prompt.
+            prompt_position = 'top',
+
+            -- You can adjust these settings to your liking.
+            width = { 0.6, max = 135 },
+            height = 0.5,
+            preview_width = 0.6,
+          },
+          -- preview = {
+          --   hide_on_startup = true,
+          -- },
           vimgrep_arguments = {
             "rg",
             "--color=never",
@@ -413,9 +479,26 @@ require("lazy").setup({
           },
         },
         pickers = {
+          file_browser = picker_defaults,
           find_files = {
+            picker_defaults,
             hidden = true,
           },
+          git_files = picker_defaults,
+          buffers = picker_defaults,
+          tags = picker_defaults,
+          current_buffer_tags = picker_defaults,
+          lsp_references = picker_defaults,
+          lsp_document_symbols = picker_defaults,
+          lsp_workspace_symbols = picker_defaults,
+          lsp_implementations = picker_defaults,
+          lsp_definitions = picker_defaults,
+          git_commits = picker_defaults,
+          git_bcommits = picker_defaults,
+          git_branches = picker_defaults,
+          treesitter = picker_defaults,
+          reloader = picker_defaults,
+          help_tags = picker_defaults,
         },
         extensions = {
           ["ui-select"] = {
@@ -426,6 +509,7 @@ require("lazy").setup({
 
       pcall(require("telescope").load_extension("fzf")) -- Enable telescope fzf native, if installed
       pcall(require("telescope").load_extension("ui-select"))
+      pcall(require("telescope").load_extension("grey"))
 
       local search_dotfiles = function()
         require("telescope.builtin").git_files({
@@ -529,6 +613,24 @@ require("lazy").setup({
         view_options = {
           show_hidden = true,
         },
+        keymaps = {
+          ["g?"] = "actions.show_help",
+          ["<CR>"] = "actions.select",
+          ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+          ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
+          ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
+          ["<C-p>"] = false,
+          ["<C-c>"] = "actions.close",
+          ["<C-l>"] = "actions.refresh",
+          ["-"] = "actions.parent",
+          ["_"] = "actions.open_cwd",
+          ["`"] = "actions.cd",
+          ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
+          ["gs"] = "actions.change_sort",
+          ["gx"] = "actions.open_external",
+          ["g."] = "actions.toggle_hidden",
+          ["g\\"] = "actions.toggle_trash",
+        },
       }
 
       -- Open parent directory in current window
@@ -538,8 +640,6 @@ require("lazy").setup({
 
   -- Status Line
   "hoob3rt/lualine.nvim",
-
-  "navarasu/onedark.nvim",
 
   {
     "ThePrimeagen/harpoon",
@@ -573,11 +673,12 @@ require("lazy").setup({
       formatters_by_ft = {
         lua = { "stylua" },
         -- Use a sub-list to run only the first available formatter
-        javascript = { { "prettierd", "prettier" } },
-        html = { { "prettierd", "prettier" } },
-        markdown = { { "prettierd", "prettier" } },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        html = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { "prettierd", "prettier", stop_after_first = true },
         php = { "pint" },
-        yaml = { { "prettierd", "prettier" } },
+        yaml = { "prettierd", "prettier", stop_after_first = true },
+        java = { "google-java-format" },
       },
     },
   },
@@ -623,6 +724,8 @@ require("lazy").setup({
       vim.keymap.set("n", "gx", lsplinks.gx)
     end
   },
+
+  'yorickpeterse/nvim-grey'
 })
 
 -- options
@@ -645,7 +748,8 @@ vim.opt.timeoutlen = 400
 vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
 vim.opt.backup = false
--- vim.opt.completeopt = "menuone,noselect"
+vim.opt.pumheight = 30
+vim.opt.completeopt = "menuone,noselect"
 
 vim.opt.shortmess:append('c')
 vim.opt.completeopt:append {
@@ -660,7 +764,7 @@ vim.opt.scrolloff = 8 -- Make it so there are always lines below my cursor
 -- Numbers
 vim.wo.number = true -- Make line numbers default
 vim.opt.numberwidth = 1
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = false
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -700,8 +804,7 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- colorscheme
 vim.o.termguicolors = true
-vim.api.nvim_set_hl(0, "Normal", { bg = "#282c34" })
-vim.cmd("colorscheme onedark")
+vim.cmd("colorscheme grey")
 
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
