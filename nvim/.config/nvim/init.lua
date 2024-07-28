@@ -445,7 +445,9 @@ require("lazy").setup({
             -- You can adjust these settings to your liking.
             width = { 0.6, max = 135 },
             height = 0.5,
-            preview_width = 0.6,
+            horizontal = {
+              preview_width = 0.6,
+            },
           },
           -- preview = {
           --   hide_on_startup = true,
