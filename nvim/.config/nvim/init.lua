@@ -727,7 +727,7 @@ require("lazy").setup({
     end
   },
 
-  'yorickpeterse/nvim-grey'
+  "yorickpeterse/nvim-grey",
 })
 
 -- options
@@ -894,16 +894,16 @@ end)
 -- #81a2be light blue - default statusline color
 local statusLineTheme = {
   normal = {
-    a = { bg = "#282c34", fg = "#f8fe7a" },
-    b = { bg = "#282a2e", fg = "#81a2be" },
-    c = { bg = "#282a2e", fg = "#81a2be" },
-    z = { bg = "#282a2e", fg = "#81a2be" },
+    a = { bg = "#f2f2f2", fg = "#000000" },
+    b = { bg = "#f2f2f2", fg = "#000000" },
+    c = { bg = "#f2f2f2", fg = "#000000" },
+    z = { bg = "#f2f2f2", fg = "#000000" },
   },
   insert = {
-    a = { bg = "#282a2e", fg = "#81a2be" },
-    b = { bg = "#282a2e", fg = "#81a2be" },
-    c = { bg = "#282a2e", fg = "#81a2be" },
-    z = { bg = "#282a2e", fg = "#81a2be" },
+    a = { bg = "#f2f2f2", fg = "#000000" },
+    b = { bg = "#f2f2f2", fg = "#000000" },
+    c = { bg = "#f2f2f2", fg = "#000000" },
+    z = { bg = "#f2f2f2", fg = "#000000" },
   },
 }
 
@@ -917,7 +917,7 @@ require("lualine").setup({
     globalstatus = true,
   },
   sections = {
-    lualine_a = { "mode" },
+    lualine_a = {},
     lualine_b = { "branch", "diff" },
     lualine_c = { "%=", { "filename", path = 1 } },
     lualine_x = { "diagnostics" },
@@ -980,3 +980,5 @@ vim.keymap.set("n", "<Leader>st", function()
 
   vim.bo.filetype = "terminal"
 end)
+
+vim.api.nvim_set_hl(0, "String", { fg = '#1C7E08' })
