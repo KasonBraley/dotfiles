@@ -70,6 +70,9 @@ require("lazy").setup({
         html = {},
         cssls = {},
         ts_ls = {},
+        clangd = {
+          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto"
+        },
         zls = {}, -- zig
         dockerls = {},
         bashls = {},
