@@ -1,0 +1,57 @@
+# Mouse
+mouse-hide-while-typing = true
+
+# Font
+font-family = "Berkeley Mono"
+font-family-bold = "Berkeley Mono Bold"
+font-family-italic = "Berkeley Mono Italic"
+font-family-bold-italic = "Berkeley Mono Bold Italic"
+font-size = 16
+
+cursor-color = 000000
+cursor-text = ffffff
+
+# Theme
+background = f2f2f2
+foreground = 000000
+
+selection-background = e3e3e3
+selection-foreground = 000000
+
+# black
+palette = 0=#000000
+palette = 8=#000000
+
+# red
+palette = 1=#c4331d
+palette = 9=#c4331d
+
+# green
+palette = 2=#1C7E08
+palette = 10=#1C7E08
+
+# yellow
+palette = 3=#b37f02
+palette = 11=#b37f02
+
+# blue
+palette = 4=#1561b8
+palette = 12=#1561b8
+
+# purple
+palette = 5=#5c21a5
+palette = 13=#5c21a5
+
+# aqua
+palette = 6=#007872
+palette = 14=#007872
+
+# white
+palette = 7=#ffffff
+palette = 15=#ffffff
+
+# Keybindings
+keybind = super+z=toggle_quick_terminal
+
+# Other
+shell-integration-features = "sudo"
