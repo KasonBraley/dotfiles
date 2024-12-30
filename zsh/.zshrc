@@ -26,7 +26,6 @@ zstyle ':completion:*' menu select
 zmodload zsh/complist
 
 # Environment
-export TERM="xterm-256color"
 export EDITOR='nvim'
 
 # Prompt
