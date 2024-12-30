@@ -155,21 +155,12 @@ rg --colors line:fg:yellow      \
    --colors match:style:nobold  \
 "
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/terraform terraform
-
 if [[ $(uname) == "Darwin" ]]; then
     # use GNU utils by default on macos
     export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
-fi
-
-# k8s completion
-if [ -n "${commands[kubectl]}" ]; then
-    source <(kubectl completion zsh)
-    export PATH=$HOME/bin:$PATH
 fi
 
 alias git_fetch_all='find . -type d -name .git -exec git --git-dir={} --work-tree=$PWD/{}/.. fetch \;'
