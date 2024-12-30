@@ -683,6 +683,7 @@ require("lazy").setup({
         markdown = { "prettierd", "prettier", stop_after_first = true },
         php = { "pint" },
         yaml = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
         java = { "google-java-format" },
       },
     },
