@@ -42,10 +42,35 @@ require("lazy").setup({
           vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
           vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
           vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+          -- vim.lsp.buf.hover, opts)
+          vim.keymap.set("n", "K", function()
+            -- vim.lsp.buf.hover({ border = "rounded", max_width = 120, max_height = 20 })
+            vim.lsp.buf.hover({ border = "rounded" })
+          end)
           vim.keymap.set("n", "S", vim.lsp.buf.signature_help, opts)
           vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
-          vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
+          local code_action_fn = function()
+            -- TODO: detect if we are in a Go buffer, otherwise don't do this.
+            -- https://github.com/laurazard/dot-nvim/blob/a0905267f9b60b305a1c0f96ef46f4c9da0da4bc/lua/lib/lsp_utils.lua#L4
+            opts = {
+              context = {
+                only = {
+                  -- https://github.com/golang/tools/blob/master/gopls/doc/features/transformation.md#code-actions
+                  "source.doc",
+                  -- "gopls.doc.feature", -- this one is responsible for the "browse gopls documentation" action
+                  "source.fixAll",
+                  "source.freesymbols",
+                  "source.organizeImports",
+                  "source.toggleCompilerOptDetails",
+                  "source.addTest",
+                  "quickfix",
+                  "refactor",
+                }
+              }
+            }
+            vim.lsp.buf.code_action(opts)
+          end
+          vim.keymap.set({ "n", "v" }, "<space>ca", code_action_fn, opts)
           vim.keymap.set({ "n", "v" }, "<space>f", function()
             vim.lsp.buf.format({ async = true })
           end, opts)
@@ -141,10 +166,6 @@ require("lazy").setup({
               unusedwrite = true,
               unusedvariable = true,
             },
-            -- codelenses = {
-            --   test = true,
-            --   tidy = true,
-            -- },
           },
         },
 
