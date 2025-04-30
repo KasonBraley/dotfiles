@@ -6,7 +6,7 @@ vim.g.loaded_matchparen = 0
 vim.g.zig_fmt_autosave = 0
 
 local install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(install_path) then
+if not vim.uv.fs_stat(install_path) then
   vim.fn.system({
     "git",
     "clone",
@@ -20,6 +20,8 @@ vim.opt.rtp:prepend(install_path)
 
 require("lazy").setup({
   -- LSP
+  { "mfussenegger/nvim-jdtls" },
+
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -39,16 +41,17 @@ require("lazy").setup({
           -- Mappings.
           local opts = { noremap = true, silent = false, buffer = event.buf }
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          vim.keymap.set("n", "grd", vim.lsp.buf.definition, opts)
           vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+          vim.keymap.set("n", "grr", require("telescope.builtin").lsp_references, opts)
           vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+          vim.keymap.set("n", "gri", vim.lsp.buf.implementation, opts)
           vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-          -- vim.lsp.buf.hover, opts)
-          vim.keymap.set("n", "K", function()
-            -- vim.lsp.buf.hover({ border = "rounded", max_width = 120, max_height = 20 })
-            vim.lsp.buf.hover({ border = "rounded" })
-          end)
+          vim.keymap.set("n", "grt", vim.lsp.buf.type_definition, opts)
+          vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end)
           vim.keymap.set("n", "S", vim.lsp.buf.signature_help, opts)
           vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "grn", vim.lsp.buf.rename, opts)
           local code_action_fn = function()
             -- TODO: detect if we are in a Go buffer, otherwise don't do this.
             -- https://github.com/laurazard/dot-nvim/blob/a0905267f9b60b305a1c0f96ef46f4c9da0da4bc/lua/lib/lsp_utils.lua#L4
@@ -71,6 +74,7 @@ require("lazy").setup({
             vim.lsp.buf.code_action(opts)
           end
           vim.keymap.set({ "n", "v" }, "<space>ca", code_action_fn, opts)
+          vim.keymap.set({ "n", "v" }, "gra", code_action_fn, opts)
           vim.keymap.set({ "n", "v" }, "<space>f", function()
             vim.lsp.buf.format({ async = true })
           end, opts)
@@ -105,6 +109,7 @@ require("lazy").setup({
         -- rust_analyzer = {},
         intelephense = {
           intelephense = {
+            stubs = { "bcmath", "bz2", "Core", "curl", "date", "dom", "fileinfo", "filter", "gd", "gettext", "hash", "iconv", "imap", "intl", "json", "libxml", "mbstring", "mcrypt", "mysql", "mysqli", "password", "pcntl", "pcre", "PDO", "pdo_mysql", "Phar", "readline", "regex", "session", "SimpleXML", "sockets", "sodium", "standard", "superglobals", "tokenizer", "xml", "xdebug", "xmlreader", "xmlwriter", "yaml", "zip", "zlib", "wordpress-stubs", "woocommerce-stubs", "acf-pro-stubs", "wordpress-globals", "wp-cli-stubs", "genesis-stubs", "polylang-stubs", "grpc" },
             format = {
               braces = "k&r",
             }
@@ -198,55 +203,22 @@ require("lazy").setup({
 
       local ensure_installed = vim.tbl_keys(servers or {})
 
-      local mason_lspconfig = require("mason-lspconfig")
-
       require('mason-lspconfig').setup {
         ensure_installed = ensure_installed,
         handlers = {
           function(server_name)
-            local server = servers[server_name] or {}
+            local config = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities,
-              server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            -- config.capabilities = vim.tbl_deep_extend('force', {}, capabilities,
+            --   config.capabilities or {})
+            vim.lsp.config(server_name, config)
+            vim.lsp.enable(server_name)
+            -- require('lspconfig')[server_name].setup(config)
           end,
-        }
+        },
       }
-
-      mason_lspconfig.setup({
-        ensure_installed = vim.tbl_keys(servers),
-      })
-
-      -- Markdown popup
-      do
-        local default = vim.lsp.util.open_floating_preview
-
-        vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
-          -- This makes the separator between the definition and description look a
-          -- bit better, instead of it looking like a distracting black line.
-          local buf, win = default(contents, syntax, opts)
-          local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-
-          for i, line in ipairs(lines) do
-            if vim.startswith(line, '─') and vim.endswith(line, '─') then
-              vim.api.nvim_buf_add_highlight(buf, -1, 'TelescopeBorder', i - 1, 0, -1)
-            end
-          end
-
-          return buf, win
-        end
-      end
-
-      local float_width = 120
-      local float_height = 20
-
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = 'rounded',
-        max_width = float_width,
-        max_heigh = float_height,
-      })
     end
   },
 
@@ -270,11 +242,12 @@ require("lazy").setup({
           "vim",
           "vimdoc",
           "javascript",
+          "java",
           "html",
           "css",
           "typescript",
           "tsx",
-          "json",
+          -- "json",
           "bash",
           "yaml",
           "dockerfile",
@@ -444,7 +417,7 @@ require("lazy").setup({
       local action_layout = require "telescope.actions.layout"
 
       local picker_defaults = {
-        previewer = true,
+        previewer = false,
         show_line = true,
         results_title = false,
         preview_title = false,
@@ -472,9 +445,9 @@ require("lazy").setup({
               preview_width = 0.6,
             },
           },
-          -- preview = {
-          --   hide_on_startup = true,
-          -- },
+          preview = {
+            hide_on_startup = true,
+          },
           vimgrep_arguments = {
             "rg",
             "--color=never",
@@ -496,7 +469,7 @@ require("lazy").setup({
           },
           mappings = {
             i = {
-              ["<M-p>"] = action_layout.toggle_preview,
+              ["<C-s>"] = action_layout.toggle_preview,
               ["<M-m>"] = action_layout.toggle_mirror,
               ["<C-k>"] = actions.cycle_history_next,
               ["<C-j>"] = actions.cycle_history_prev,
@@ -555,7 +528,7 @@ require("lazy").setup({
 
       local multi_rg = function(opts)
         opts = opts or {}
-        opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+        opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.uv.cwd()
         opts.shortcuts = opts.shortcuts
             or {
               ["l"] = "*.lua",
@@ -726,10 +699,12 @@ require("lazy").setup({
   },
 
   {
-    "ruifm/gitlinker.nvim",
-    config = function()
-      require("gitlinker").setup()
-    end,
+    "linrongbin16/gitlinker.nvim",
+    cmd = "GitLink",
+    opts = {},
+    keys = {
+      { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
+    },
   },
 
   {
@@ -752,6 +727,103 @@ require("lazy").setup({
   },
 
   "yorickpeterse/nvim-grey",
+
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "BufReadPost",
+    opts = {
+      panel = { enabled = false },
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        debounce = 25,
+        keymap = {
+          accept = false,
+          accept_word = false,
+          accept_line = "<Tab>",
+          next = false,
+          prev = false,
+          dismiss = false,
+        },
+      },
+    },
+  },
+
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "main",
+    cmd = "CopilotChat",
+    opts = function()
+      local user = vim.env.USER or "User"
+      user = user:sub(1, 1):upper() .. user:sub(2)
+      return {
+        model = "claude-3.7-sonnet",
+        auto_insert_mode = true,
+        question_header = "  " .. user .. " ",
+        answer_header = "  Copilot ",
+        window = {
+          width = 0.4,
+        },
+      }
+    end,
+    keys = {
+      { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
+      { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
+      {
+        "<leader>aa",
+        function()
+          return require("CopilotChat").toggle()
+        end,
+        desc = "Toggle (CopilotChat)",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>ax",
+        function()
+          return require("CopilotChat").reset()
+        end,
+        desc = "Clear (CopilotChat)",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>aq",
+        function()
+          vim.ui.input({
+            prompt = "Quick Chat: ",
+          }, function(input)
+            if input ~= "" then
+              require("CopilotChat").ask(input)
+            end
+          end)
+        end,
+        desc = "Quick Chat (CopilotChat)",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>ap",
+        function()
+          require("CopilotChat").select_prompt()
+        end,
+        desc = "Prompt Actions (CopilotChat)",
+        mode = { "n", "v" },
+      },
+    },
+    config = function(_, opts)
+      local chat = require("CopilotChat")
+
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "copilot-chat",
+        callback = function()
+          vim.opt_local.relativenumber = false
+          vim.opt_local.number = false
+        end,
+      })
+
+      chat.setup(opts)
+    end,
+  },
 })
 
 -- options
@@ -775,14 +847,14 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.pumheight = 30
-vim.opt.completeopt = "menuone,noselect"
 
 vim.opt.shortmess:append('c')
 vim.opt.completeopt:append {
   'noinsert',
   'menuone',
   'noselect',
-  'preview'
+  'preview',
+  "popup"
 }
 vim.opt.wrap = false
 vim.opt.scrolloff = 8 -- Make it so there are always lines below my cursor
@@ -962,8 +1034,6 @@ vim.diagnostic.config({
 
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 
 -- terminal: disable line numbers and start in insert mode
 vim.api.nvim_create_autocmd("TermOpen", {
@@ -992,7 +1062,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-vim.keymap.set("n", "<Leader>l", ":lua require('textcase').current_word('to_pascal_case')<CR> <CR>")
+vim.keymap.set("n", "<Leader>l", ":lua require('textcase').current_word('to_camel_case')<CR> <CR>")
+vim.keymap.set("n", "<Leader>L", ":lua require('textcase').current_word('to_pascal_case')<CR> <CR>")
 
 -- Open a terminal at the bottom of the screen with a fixed height.
 vim.keymap.set("n", "<Leader>st", function()
