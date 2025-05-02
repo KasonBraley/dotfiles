@@ -243,7 +243,7 @@ require("lazy").setup({
           vim.keymap.set("n", "gri", vim.lsp.buf.implementation, opts)
           vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
           vim.keymap.set("n", "grt", vim.lsp.buf.type_definition, opts)
-          vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end)
+          vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end, opts)
           vim.keymap.set("n", "S", vim.lsp.buf.signature_help, opts)
           vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
           vim.keymap.set("n", "grn", vim.lsp.buf.rename, opts)
