@@ -733,25 +733,25 @@ require("lazy").setup({
 
 -- options
 -- Search
-vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
-vim.opt.smartcase = true
+vim.o.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
+vim.o.smartcase = true
 
-vim.opt.colorcolumn = "100"
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.opt.cul = true
-vim.opt.mouse = "a"
+vim.o.colorcolumn = "100"
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.cul = true
+vim.o.mouse = "a"
 -- Disable horizontal scrolling.
 vim.o.mousescroll = 'ver:3,hor:0'
 
-vim.opt.signcolumn = "yes"
-vim.opt.cmdheight = 1
-vim.opt.updatetime = 200 -- update interval for gitsigns
-vim.opt.timeoutlen = 400
-vim.opt.clipboard = "unnamedplus"
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.pumheight = 30
+vim.o.signcolumn = "yes"
+vim.o.cmdheight = 1
+vim.o.updatetime = 200 -- update interval for gitsigns
+vim.o.timeoutlen = 400
+vim.o.clipboard = "unnamedplus"
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.pumheight = 30
 
 vim.opt.shortmess:append('c')
 vim.opt.completeopt:append {
@@ -761,27 +761,27 @@ vim.opt.completeopt:append {
   'preview',
   "popup"
 }
-vim.opt.wrap = false
-vim.opt.scrolloff = 8 -- Make it so there are always lines below my cursor
+vim.o.wrap = false
+vim.o.scrolloff = 8 -- Make it so there are always lines below my cursor
 
 -- Numbers
 vim.wo.number = true -- Make line numbers default
-vim.opt.numberwidth = 1
+vim.o.numberwidth = 1
 -- vim.opt.relativenumber = false
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.autoindent = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.autoindent = true
 
-vim.opt.inccommand = "split"
-vim.opt.equalalways = false
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
+vim.o.inccommand = "split"
+vim.o.equalalways = false
+vim.o.incsearch = true
+vim.o.hlsearch = true
 
-vim.opt.showmode = false
+vim.o.showmode = false
 
 vim.opt.diffopt:append {
   'linematch:50',
@@ -945,9 +945,9 @@ vim.api.nvim_create_autocmd("TermOpen", {
   group = vim.api.nvim_create_augroup("custom-term-open", {}),
   pattern = "term://*",
   callback = function()
-    vim.opt_local.number = false
-    vim.opt_local.relativenumber = false
-    vim.opt_local.scrolloff = 0
+    vim.o.number = false
+    vim.o.relativenumber = false
+    vim.o.scrolloff = 0
     vim.cmd.startinsert()
   end,
 })
