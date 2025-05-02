@@ -740,7 +740,7 @@ require("lazy").setup({
   },
 
   -- Status Line
-  "hoob3rt/lualine.nvim",
+  "nvim-lualine/lualine.nvim",
 
   {
     "ThePrimeagen/harpoon",
