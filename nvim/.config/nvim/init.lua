@@ -3,7 +3,6 @@ vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappin
 vim.g.maplocalleader = " "
 
 vim.g.loaded_matchparen = 0
-vim.g.zig_fmt_autosave = 0
 
 local install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(install_path) then
@@ -26,8 +25,6 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = {
       { "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
-      "williamboman/mason-lspconfig.nvim",
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
@@ -93,133 +90,41 @@ require("lazy").setup({
         end
       })
 
-      --  Add any additional override configuration in the following tables. They will be passed to
-      --  the `settings` field of the server config.
-      local servers = {
-        html = {},
-        cssls = {},
-        ts_ls = {},
-        clangd = {
-          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto"
-        },
-        zls = {}, -- zig
-        dockerls = {},
-        bashls = {},
-        terraformls = {},
-        -- rust_analyzer = {},
-        intelephense = {
-          intelephense = {
-            stubs = { "bcmath", "bz2", "Core", "curl", "date", "dom", "fileinfo", "filter", "gd", "gettext", "hash", "iconv", "imap", "intl", "json", "libxml", "mbstring", "mcrypt", "mysql", "mysqli", "password", "pcntl", "pcre", "PDO", "pdo_mysql", "Phar", "readline", "regex", "session", "SimpleXML", "sockets", "sodium", "standard", "superglobals", "tokenizer", "xml", "xdebug", "xmlreader", "xmlwriter", "yaml", "zip", "zlib", "wordpress-stubs", "woocommerce-stubs", "acf-pro-stubs", "wordpress-globals", "wp-cli-stubs", "genesis-stubs", "polylang-stubs", "grpc" },
-            format = {
-              braces = "k&r",
-            }
-          },
-        },
-        templ = {},
-
-        jsonls = {
-          json = {
-            schemas = {
-              {
-                fileMatch = { "package.json" },
-                url = "https://json.schemastore.org/package.json",
-              },
-              {
-                fileMatch = { "tsconfig*.json" },
-                url = "https://json.schemastore.org/tsconfig.json",
-              },
-              {
-                fileMatch = { ".prettierrc", ".prettierrc.json", "prettier.config.json" },
-                url = "https://json.schemastore.org/prettierrc.json",
-              },
-              {
-                fileMatch = { ".eslintrc", ".eslintrc.json" },
-                url = "https://json.schemastore.org/eslintrc.json",
-              },
-              {
-                fileMatch = { ".babelrc", ".babelrc.json", "babel.config.json" },
-                url = "https://json.schemastore.org/babelrc.json",
-              },
-              {
-                fileMatch = { "composer.json" },
-                url =
-                "https://raw.githubusercontent.com/composer/composer/main/res/composer-schema.json",
-              },
-            },
-          },
-        },
-
-        yamlls = {
-          yaml = {
-            -- Schemas https://www.schemastore.org
-            schemas = {
-              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
-              "docker-compose.yml",
-              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-            },
-          },
-        },
-
-        gopls = {
-          gopls = {
-            buildFlags = { "-tags=unit,integration,e2e" },
-            staticcheck = true,
-            usePlaceholders = false,
-            analyses = {
-              unusedparams = true,
-              nillness = true,
-              unusedwrite = true,
-              unusedvariable = true,
-            },
-          },
-        },
-
-        lua_ls = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT',
-            },
-            workspace = {
-              checkThirdParty = false,
-              library = { vim.env.VIMRUNTIME }
-            },
-            telemetry = { enable = false },
-            format = { enable = true },
-            diagnostics = {
-              disable = {
-                'missing-fields',
-              },
-            },
-          },
-        },
-      }
-
       -- config that activates keymaps and enables snippet support
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities,
         require('cmp_nvim_lsp').default_capabilities())
 
-      require("mason").setup()
+      vim.lsp.config("*", { capabilities = capabilities })
 
-      local ensure_installed = vim.tbl_keys(servers or {})
-
-      require('mason-lspconfig').setup {
-        ensure_installed = ensure_installed,
-        handlers = {
-          function(server_name)
-            local config = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            -- config.capabilities = vim.tbl_deep_extend('force', {}, capabilities,
-            --   config.capabilities or {})
-            vim.lsp.config(server_name, config)
-            vim.lsp.enable(server_name)
-            -- require('lspconfig')[server_name].setup(config)
-          end,
-        },
-      }
+      vim.lsp.enable({
+        "bashls",
+        "clangd",
+        "cssls",
+        "dockerls",
+        "gopls",
+        "html",
+        "intelephense",
+        "jsonls",
+        "lua_ls",
+        "terraformls",
+        "ts_ls",
+        "yamlls",
+      })
     end
+  },
+
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    build = ":MasonUpdate",
+    opts_extend = { "ensure_installed" },
+    opts = {
+      ensure_installed = {
+        -- "stylua",
+        -- "shfmt",
+      },
+    },
   },
 
   {
