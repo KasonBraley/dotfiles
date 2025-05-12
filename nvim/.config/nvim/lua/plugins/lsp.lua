@@ -2,7 +2,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      { "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
+      { "mason-org/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
       { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
@@ -93,7 +93,7 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     cmd = "Mason",
     build = ":MasonUpdate",
     config = function()
