@@ -12,6 +12,11 @@ return {
         yaml = { "prettierd", "prettier", stop_after_first = true },
         json = { "prettierd", "prettier", stop_after_first = true },
         java = { "google-java-format" },
+        python = {
+          "ruff_fix", -- To fix auto-fixable lint errors.
+          "ruff_format", -- To run the Ruff formatter.
+          "ruff_organize_imports", -- To organize the imports.
+        },
       },
     },
   },

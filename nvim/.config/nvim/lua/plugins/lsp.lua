@@ -83,6 +83,8 @@ return {
         "gopls",
         "html",
         "intelephense",
+        "ruff",
+        "pyright",
         "jsonls",
         "lua_ls",
         "terraformls",

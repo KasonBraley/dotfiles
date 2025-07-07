@@ -24,6 +24,8 @@ return {
           ["gx"] = "actions.open_external",
           ["g."] = "actions.toggle_hidden",
           ["g\\"] = "actions.toggle_trash",
+          ['gy'] = 'actions.copy_to_system_clipboard',
+          ['gp'] = 'actions.paste_from_system_clipboard',
         },
       }
 
