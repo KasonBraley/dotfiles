@@ -1,0 +1,6 @@
+sudo rm -rfd /opt/nvim-macos-arm64/
+curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
+
+xattr -c ./nvim-macos-arm64.tar.gz
+sudo tar -C /opt -xzvf nvim-macos-arm64.tar.gz
+rm ./nvim-macos-arm64.tar.gz
