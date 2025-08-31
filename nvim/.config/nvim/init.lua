@@ -215,7 +215,12 @@ if not vim.uv.fs_stat(install_path) then
 end
 vim.opt.rtp:prepend(install_path)
 
-require("lazy").setup("plugins")
+require("lazy").setup({ import = "plugins" }, {
+  change_detection = {
+    enabled = true,
+    notify = false,
+  },
+})
 
 -- colorscheme
 vim.o.termguicolors = true
