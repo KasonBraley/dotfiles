@@ -2,7 +2,6 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     event = "VimEnter",
-    branch = "0.1.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -120,8 +119,6 @@ return {
       local make_entry = require "telescope.make_entry"
       local pickers = require "telescope.pickers"
 
-      local flatten = vim.tbl_flatten
-
       local multi_rg = function(opts)
         opts = opts or {}
         opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.uv.cwd()
@@ -160,11 +157,11 @@ return {
               table.insert(args, string.format(opts.pattern, pattern))
             end
 
-            return flatten {
+            return vim.iter({
               args,
               { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column",
                 "--smart-case" },
-            }
+            }):flatten():totable()
           end,
           entry_maker = make_entry.gen_from_vimgrep(opts),
           cwd = opts.cwd,

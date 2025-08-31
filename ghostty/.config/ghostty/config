@@ -49,11 +49,14 @@ palette = 6=#007872
 palette = 14=#007872
 
 # white
-palette = 7=#ffffff
-palette = 15=#ffffff
+palette = 7=#000000
+palette = 15=#000000
+# palette = 7=#ffffff
+# palette = 15=#ffffff
 
 # Keybindings
 keybind = super+z=toggle_quick_terminal
 
 # Other
 shell-integration-features = "sudo"
+keybind = shift+enter=text:\n

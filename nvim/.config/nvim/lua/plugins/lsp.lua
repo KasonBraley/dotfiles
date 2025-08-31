@@ -65,6 +65,29 @@ return {
 
           -- vim.keymap.set({ "n", "v" }, "<space>cc", vim.lsp.codelens.run, opts)
           -- vim.keymap.set("n", "<space>cC", vim.lsp.codelens.refresh, opts)
+
+          vim.keymap.set("i", "<C-CR>", function()
+            if not vim.lsp.inline_completion.get() then
+              return "<C-CR>"
+            end
+          end, {
+            expr = true,
+            replace_keycodes = true,
+            desc = "Get the current inline completion",
+          })
+
+          local function toggle_copilot()
+            if vim.lsp.inline_completion.is_enabled() then
+              vim.lsp.inline_completion.enable(false)
+              vim.notify('Copilot disabled')
+            else
+              vim.lsp.inline_completion.enable(true)
+              vim.notify('Copilot enabled')
+            end
+          end
+
+          vim.api.nvim_create_user_command('CopilotToggle', toggle_copilot, {})
+          vim.keymap.set("n", "<Leader>ta", ":CopilotToggle<CR>", { noremap = true, silent = true })
         end
       })
 
@@ -75,9 +98,16 @@ return {
 
       vim.lsp.config("*", { capabilities = capabilities })
 
+      -- vim.lsp.config["clangd"] = {
+      --   cmd = { 'clangd', '--clang-tidy' },
+      --   root_markers = { '.clangd', 'compile_commands.json' },
+      --   filetypes = { 'c', 'cpp' },
+      -- }
+
       vim.lsp.enable({
         "bashls",
         "clangd",
+        "copilot",
         "cssls",
         "dockerls",
         "gopls",
@@ -87,7 +117,7 @@ return {
         "pyright",
         "jsonls",
         "lua_ls",
-        "terraformls",
+        -- "terraformls",
         "ts_ls",
         "yamlls",
       })
@@ -112,7 +142,7 @@ return {
         "intelephense",
         "json-lsp",
         "lua-language-server",
-        "terraform-ls",
+        -- "terraform-ls",
         "typescript-language-server",
         "yaml-language-server",
       }
@@ -139,7 +169,7 @@ return {
     opts = {},
   },
 
-  { "mfussenegger/nvim-jdtls" },
+  -- { "mfussenegger/nvim-jdtls" },
 
   {
     "icholy/lsplinks.nvim",

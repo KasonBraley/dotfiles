@@ -14,8 +14,8 @@ local treesitter_langs = {
   "yaml",
   "dockerfile",
   "go",
-  "hcl",
-  "terraform",
+  -- "hcl",
+  -- "terraform",
   "markdown",
   "rust",
   -- php ts extension currently causes silent panics. very annoying. can't grep in codebases with
