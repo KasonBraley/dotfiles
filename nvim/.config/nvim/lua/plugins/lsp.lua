@@ -78,9 +78,13 @@ return {
 
           local function toggle_copilot()
             if vim.lsp.inline_completion.is_enabled() then
+              -- Disable the lsp server entirely, then completion. 
+              vim.lsp.enable("copilot", false)
               vim.lsp.inline_completion.enable(false)
               vim.notify('Copilot disabled')
             else
+              -- Enable the lsp server, then completion.
+              vim.lsp.enable("copilot", true)
               vim.lsp.inline_completion.enable(true)
               vim.notify('Copilot enabled')
             end
@@ -107,7 +111,6 @@ return {
       vim.lsp.enable({
         "bashls",
         "clangd",
-        "copilot",
         "cssls",
         "dockerls",
         "gopls",
