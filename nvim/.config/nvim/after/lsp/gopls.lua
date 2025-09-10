@@ -106,6 +106,7 @@ return {
         nillness = true,
         unusedwrite = true,
         unusedvariable = true,
+        ST1000 = false,
       },
     },
   }
