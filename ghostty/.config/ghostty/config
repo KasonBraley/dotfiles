@@ -54,9 +54,6 @@ palette = 15=#000000
 # palette = 7=#ffffff
 # palette = 15=#ffffff
 
-# Keybindings
-keybind = super+z=toggle_quick_terminal
-
 # Other
 shell-integration-features = "sudo"
 keybind = shift+enter=text:\n
