@@ -238,3 +238,22 @@ end)
 
 vim.keymap.set("n", "<Leader>l", ":lua require('textcase').current_word('to_camel_case')<CR> <CR>")
 vim.keymap.set("n", "<Leader>L", ":lua require('textcase').current_word('to_pascal_case')<CR> <CR>")
+
+local green = '#1C7E08'
+local red = '#c4331d'
+local dark_yellow = '#b37f02'
+
+local highlights = {
+  GitSignsAdd = { fg = green },
+  GitSignsDelete = { fg = red },
+  GitSignsChange = { fg = dark_yellow },
+  GitSignsStagedAdd = { fg = green },
+  GitSignsStagedDelete = { fg = red },
+  GitSignsStagedChange = { fg = dark_yellow },
+
+  DiffDelete = { fg = red },
+}
+
+for group, o in pairs(highlights) do
+  vim.api.nvim_set_hl(0, group, o)
+end
