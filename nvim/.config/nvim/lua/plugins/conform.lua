@@ -18,6 +18,9 @@ return {
           "ruff_organize_imports", -- To organize the imports.
         },
       },
+      default_format_opts = {
+        lsp_format = "fallback",
+      },
     },
   },
 }
