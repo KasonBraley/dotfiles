@@ -107,6 +107,7 @@ return {
         unusedwrite = true,
         unusedvariable = true,
         ST1000 = false,
+        ST1003 = false,
       },
     },
   }
