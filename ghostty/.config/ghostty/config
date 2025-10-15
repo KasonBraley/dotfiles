@@ -8,7 +8,7 @@ font-family = "Berkeley Mono"
 font-family-bold = "Berkeley Mono Bold"
 font-family-italic = "Berkeley Mono Italic"
 font-family-bold-italic = "Berkeley Mono Bold Italic"
-font-size = 16
+font-size = 20
 
 cursor-color = 000000
 cursor-text = ffffff
@@ -57,3 +57,10 @@ palette = 15=#000000
 # Other
 shell-integration-features = "sudo"
 keybind = shift+enter=text:\n
+
+keybind = super+shift+up=resize_split:up,30
+keybind = super+shift+down=resize_split:down,30
+keybind = super+shift+equal=equalize_splits
+
+# Rebind the default fullscreen mapping.
+keybind = super+enter=toggle_split_zoom
