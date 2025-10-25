@@ -42,6 +42,9 @@ return {
         end)
         map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
         map("n", "<leader>hd", gitsigns.diffthis)
+
+        map('n', '<leader>hQ', function() gitsigns.setqflist('all') end)
+        map('n', '<leader>hq', gitsigns.setqflist)
       end,
     }
   },
