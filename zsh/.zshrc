@@ -76,6 +76,7 @@ alias gr="git rebase "${@}""
 alias gw="git worktree "${@}""
 # To clean up and update the local list of remote branches
 alias gbc="git remote update origin --prune"
+alias gj="git jump"
 
 alias ls='ls -F --color=auto --group-directories-first --sort=version'
 
