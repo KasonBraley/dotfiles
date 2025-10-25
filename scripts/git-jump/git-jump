@@ -38,7 +38,7 @@ open_editor() {
 		;;
 	*)
 		# assume anything else is vi-compatible
-		eval "$editor -q \$1"
+		eval "$editor -q \$1 -c \"copen\""
 		;;
 	esac
 }
