@@ -26,7 +26,7 @@ return {
           ["g\\"] = "actions.toggle_trash",
           ['gy'] = 'actions.copy_to_system_clipboard',
           ['gp'] = 'actions.paste_from_system_clipboard',
-          ['<C-q>'] = 'actions.send_to_qflist'
+          ['<C-q>'] = { 'actions.send_to_qflist', opts = { only_matching_search = true } }
         },
       }
 
