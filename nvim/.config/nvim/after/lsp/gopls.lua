@@ -99,7 +99,7 @@ return {
   end,
   settings = {
     gopls = {
-      staticcheck = true,
+      staticcheck = false,
       usePlaceholders = false,
       analyses = {
         unusedparams = true,

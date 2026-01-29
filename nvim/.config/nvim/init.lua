@@ -229,7 +229,7 @@ vim.cmd("colorscheme grey")
 vim.keymap.set("n", "<Leader>g", ":Neogit<CR>")
 
 -- Formatter
-vim.keymap.set({ "n", "v" }, "<Leader>fm", function()
+vim.keymap.set({ "n", "v" }, "<Leader>f", function()
   require("conform").format({
     async = true,
     lsp_fallback = true,

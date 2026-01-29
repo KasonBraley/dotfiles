@@ -5,12 +5,14 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         -- Use a sub-list to run only the first available formatter
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        html = { "prettierd", "prettier", stop_after_first = true },
-        markdown = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { "prettier", stop_after_first = true },
+        typescript = { "prettier", stop_after_first = true },
+        html = { "prettier", stop_after_first = true },
+        css = { "prettier", stop_after_first = true },
+        json = { "prettier", stop_after_first = true },
+        yaml = { "prettier", stop_after_first = true },
+        markdown = { "prettier", stop_after_first = true },
         php = { "pint" },
-        yaml = { "prettierd", "prettier", stop_after_first = true },
-        json = { "prettierd", "prettier", stop_after_first = true },
         java = { "google-java-format" },
         python = {
           "ruff_fix", -- To fix auto-fixable lint errors.

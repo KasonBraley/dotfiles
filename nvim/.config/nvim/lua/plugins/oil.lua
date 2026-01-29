@@ -34,4 +34,11 @@ return {
       vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
     end,
   },
+  {
+    'stevearc/quicker.nvim',
+    ft = "qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
+  }
 }

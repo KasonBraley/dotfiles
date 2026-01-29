@@ -63,6 +63,8 @@ go install golang.org/x/tools/cmd/goimports@latest
 # Go benchmark tools
 go install golang.org/x/perf/cmd/...@latest
 
+go install fillmore-labs.com/scopeguard@latest
+
 # nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 nvm install node
