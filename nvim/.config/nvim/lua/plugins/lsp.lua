@@ -95,11 +95,16 @@ return {
         end
       })
 
-      -- config that activates keymaps and enables snippet support
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities,
-        require('cmp_nvim_lsp').default_capabilities())
+      local capabilities = {
+        textDocument = {
+          foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true
+          }
+        }
+      }
 
+      capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
       vim.lsp.config("*", { capabilities = capabilities })
 
       -- vim.lsp.config["clangd"] = {
