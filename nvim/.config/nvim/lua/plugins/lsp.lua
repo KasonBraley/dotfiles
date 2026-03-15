@@ -213,17 +213,4 @@ return {
     ft = "lua",
     opts = {},
   },
-
-  {
-    "icholy/lsplinks.nvim",
-    event = { "LspAttach" },
-    config = function()
-      local lsplinks = require("lsplinks")
-      lsplinks.setup({
-        highlight = false
-      })
-      vim.keymap.set("n", "gx", lsplinks.gx)
-    end
-  },
-
 }
