@@ -11,24 +11,12 @@ brew "git"
 brew "git-extras"
 # GNU sed
 brew "gnu-sed"
-brew "go"
-brew "golangci-lint"
 # GNU grep
 brew "grep"
 brew "htop"
 brew "jq"
-brew "neovim"
 brew "node"
 brew "python"
 brew "ripgrep"
 brew "ssh-copy-id"
 brew "stow"
-
-# 'brew install --cask'
-cask "google-chrome"
-cask "kitty"
-# better docker desktop
-cask "orbstack"
-cask "postman"
-# video player
-cask "iina"

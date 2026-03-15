@@ -6,7 +6,6 @@ if ! command -v stow &> /dev/null; then
 fi 
 
 stow --target "$HOME" git
-stow --target "$HOME" i3
-stow --target "$HOME" kitty
+stow --target "$HOME" ghostty
 stow --target "$HOME" nvim
 stow --target "$HOME" zsh
