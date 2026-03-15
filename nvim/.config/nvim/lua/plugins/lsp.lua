@@ -107,11 +107,47 @@ return {
       capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
       vim.lsp.config("*", { capabilities = capabilities })
 
-      -- vim.lsp.config["clangd"] = {
-      --   cmd = { 'clangd', '--clang-tidy' },
-      --   root_markers = { '.clangd', 'compile_commands.json' },
-      --   filetypes = { 'c', 'cpp' },
-      -- }
+      vim.lsp.config('gopls', {
+        settings = {
+          gopls = {
+            staticcheck = false,
+            usePlaceholders = false,
+            analyses = {
+              unusedparams = true,
+              nillness = true,
+              unusedwrite = true,
+              unusedvariable = true,
+              ST1000 = false,
+              ST1003 = false,
+            },
+          },
+        }
+      })
+
+      vim.lsp.config('lua_ls', {
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT',
+            },
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                '${3rd}/busted/library',
+                '${3rd}/luv/library',
+              },
+            },
+            telemetry = { enable = false },
+            format = { enable = true },
+            diagnostics = {
+              disable = {
+                'missing-fields',
+              },
+            },
+          },
+        },
+      })
 
       vim.lsp.enable({
         "bashls",
@@ -177,8 +213,6 @@ return {
     ft = "lua",
     opts = {},
   },
-
-  -- { "mfussenegger/nvim-jdtls" },
 
   {
     "icholy/lsplinks.nvim",
