@@ -155,7 +155,7 @@ vim.diagnostic.config({
   virtual_text = true,
   signs = true,
   underline = false,
-  update_in_insert = true,
+  update_in_insert = false,
   severity_sort = true,
 })
 
@@ -257,3 +257,5 @@ local highlights = {
 for group, o in pairs(highlights) do
   vim.api.nvim_set_hl(0, group, o)
 end
+
+vim.lsp.inlay_hint.enable(false)

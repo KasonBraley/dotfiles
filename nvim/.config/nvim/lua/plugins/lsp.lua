@@ -125,9 +125,10 @@ return {
         "pyright",
         "jsonls",
         "lua_ls",
-        -- "terraformls",
+        "terraformls",
         "ts_ls",
         "yamlls",
+        "templ",
       })
     end
   },
