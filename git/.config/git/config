@@ -41,8 +41,12 @@
 	changed = green
 	untracked = cyan
 
+[difftool "nvim_difftool"]
+    cmd = nvim -c \"packadd nvim.difftool\" -c \"DiffTool $LOCAL $REMOTE\"
 [diff]
 	noprefix = 1
+    tool = nvim_difftool
+
 [merge]
 	conflictstyle = diff3
 [gpg]
