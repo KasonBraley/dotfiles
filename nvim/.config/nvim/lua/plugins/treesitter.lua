@@ -4,7 +4,6 @@ local treesitter_langs = {
   "vim",
   "vimdoc",
   "javascript",
-  "java",
   "html",
   "css",
   "typescript",
@@ -18,10 +17,6 @@ local treesitter_langs = {
   -- "terraform",
   "markdown",
   "rust",
-  -- php ts extension currently causes silent panics. very annoying. can't grep in codebases with
-  -- telescope due to this, it just crashes neovim.
-  -- https://github.com/tree-sitter/tree-sitter-php/issues/238
-  -- "php",
   "proto",
   "templ",
   "zig",
