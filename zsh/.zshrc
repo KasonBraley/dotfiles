@@ -117,9 +117,9 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]="${_error_style}"
 
 # auto completion
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
-source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin

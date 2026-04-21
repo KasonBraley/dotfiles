@@ -1,17 +1,17 @@
 # 'brew install'
-brew "bat"
+# GNU find utils
+# GNU grep
+# GNU sed
 # GNU utils
+brew "bat"
 brew "coreutils"
 brew "fd"
-# GNU find utils
 brew "findutils"
 brew "fzf"
 brew "gh"
 brew "git"
 brew "git-extras"
-# GNU sed
 brew "gnu-sed"
-# GNU grep
 brew "grep"
 brew "htop"
 brew "jq"
@@ -20,3 +20,5 @@ brew "python"
 brew "ripgrep"
 brew "ssh-copy-id"
 brew "stow"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
