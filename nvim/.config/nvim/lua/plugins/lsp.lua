@@ -185,9 +185,10 @@ return {
         "html-lsp",
         "json-lsp",
         "lua-language-server",
-        -- "terraform-ls",
         "typescript-language-server",
+        "vue-language-server",
         "yaml-language-server",
+        -- "terraform-ls",
       }
 
       registry.refresh(function()
