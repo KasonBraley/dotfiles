@@ -29,6 +29,9 @@ palette = 9=#c4331d
 # green
 palette = 2=#1C7E08
 palette = 10=#1C7E08
+# remove unreadable lime green
+palette = 150=#1C7E08
+palette = 193=#1C7E08
 
 # yellow
 palette = 3=#b37f02
@@ -51,10 +54,6 @@ palette = 7=#000000
 palette = 15=#000000
 # palette = 7=#ffffff
 # palette = 15=#ffffff
-
-# remove unreadable lime green
-palette = 150=#5f7f3f
-palette = 193=#5f7f3f
 
 # Other
 shell-integration-features = "sudo"
