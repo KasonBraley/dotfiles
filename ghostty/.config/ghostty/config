@@ -40,6 +40,8 @@ palette = 11=#b37f02
 # blue
 palette = 4=#1561b8
 palette = 12=#1561b8
+# make light blue darker
+palette = 74=#1561b8
 
 # purple
 palette = 5=#5c21a5
