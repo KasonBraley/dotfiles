@@ -52,6 +52,10 @@ palette = 15=#000000
 # palette = 7=#ffffff
 # palette = 15=#ffffff
 
+# remove unreadable lime green
+palette = 150=#5f7f3f
+palette = 193=#5f7f3f
+
 # Other
 shell-integration-features = "sudo"
 keybind = shift+enter=text:\n
