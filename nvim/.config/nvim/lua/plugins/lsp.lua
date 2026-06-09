@@ -161,6 +161,7 @@ return {
         "jsonls",
         "lua_ls",
         "terraformls",
+        "vue_ls",
         "ts_ls",
         "yamlls",
         "templ",

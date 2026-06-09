@@ -7,6 +7,7 @@ return {
         -- Use a sub-list to run only the first available formatter
         javascript = { "prettier", stop_after_first = true },
         typescript = { "prettier", stop_after_first = true },
+        vue = { "prettier", stop_after_first = true },
         html = { "prettier", stop_after_first = true },
         css = { "prettier", stop_after_first = true },
         json = { "prettier", stop_after_first = true },
