@@ -124,19 +124,9 @@ source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
-# https://github.com/NixOS/nix/issues/3616#issuecomment-1655785404
-# placing this at the end of the file seems to undo the fzf file sourcing below
-# so putting this here and it works
-[[ ! $(command -v nix) && -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]] && source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-
+source <(fzf --zsh)
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --no-ignore'
 export FZF_DEFAULT_OPTS='--info=hidden --no-mouse'
-
-# https://nixos.wiki/wiki/Fzf
-if [ -n "${commands[fzf-share]}" ]; then
-  source "$(fzf-share)/key-bindings.zsh"
-  source "$(fzf-share)/completion.zsh"
-fi
 
 # colorized go test output
 set -o pipefail
