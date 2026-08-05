@@ -1,4 +1,0 @@
-// use `yay` to install these from the aur
-
-postman-bin
-stylua
