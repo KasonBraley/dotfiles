@@ -56,3 +56,5 @@
     autoSetupRemote = true
 [tag]
 	gpgsign = true
+[coderabbit]
+	machineId = cli/a4604bc3ebbc46a48b2c0d3088cdafec

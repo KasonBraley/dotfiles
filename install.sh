@@ -5,7 +5,5 @@ if ! command -v stow &> /dev/null; then
     exit
 fi 
 
-stow --target "$HOME" git
-stow --target "$HOME" ghostty
-stow --target "$HOME" nvim
+stow --target "$HOME" home
 stow --target "$HOME" zsh
