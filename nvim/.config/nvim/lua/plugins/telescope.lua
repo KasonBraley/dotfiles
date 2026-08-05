@@ -159,7 +159,7 @@ return {
 
             return vim.iter({
               args,
-              { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column",
+              { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden",
                 "--smart-case" },
             }):flatten():totable()
           end,

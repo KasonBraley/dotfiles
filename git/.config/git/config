@@ -9,7 +9,7 @@
 	defaultBranch = main
 [commit]
     template = ~/.config/git/template
-    gpgsign = true
+	gpgsign = true
 [branch]
 	autosetupmerge = true
 	autosetuprebase = always
@@ -54,3 +54,5 @@
 [push]
     # Automatically set origin as the remote for current branch
     autoSetupRemote = true
+[tag]
+	gpgsign = true
