@@ -157,9 +157,6 @@ export PATH="$HOME/dotfiles/bin:$PATH"
 export PATH=$PATH:/opt/nvim-macos-arm64/bin
 export PATH=$PATH:/opt/nvim-macos/bin
 
-# opencode
-export PATH=/Users/kason/.opencode/bin:$PATH
-
 # pnpm
 export PNPM_HOME="/Users/kason/Library/pnpm"
 case ":$PATH:" in
