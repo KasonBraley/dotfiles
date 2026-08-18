@@ -1,13 +1,30 @@
 ---
 name: use-modern-go
-description: Apply modern Go syntax guidelines based on project's Go version. Use when modifying any Go code.
+description: Apply modern Go syntax guidelines based on project's Go version. Use when writing, modifying, or reviewing Go code.
 ---
 
 # Modern Go Guidelines
 
-## Detected Go Version
+## Detecting the Go Version
 
-!`grep -rh "^go " --include="go.mod" . 2>/dev/null | cut -d' ' -f2 | sort | uniq -c | sort -nr | head -1 | xargs | cut -d' ' -f2 | grep . || echo unknown`
+This is a monorepo where each service has its own `go.mod`, and Go versions differ
+between modules. There is NO single project-wide Go version. Always detect the version
+from the module that owns the file(s) you are working on:
+
+1. From the directory of the file you are editing, run:
+   ```
+   go list -m -f '{{.GoVersion}}'
+   ```
+   Or equivalently, walk up from the file's directory to the nearest `go.mod` and read
+   its `go` directive.
+2. Use that version (minor version, e.g. `1.26`) as the feature ceiling for all code in
+   that module.
+3. Detect once per module, not once per session. If you touch files in multiple modules,
+   detect separately for each — never assume one module's version applies to another.
+
+**If a version is detected:**
+- Say: "This module is using Go X.XX, so I'll stick to modern Go best practices and freely use language features up to and including this version.
+If you'd prefer a different target version, just let me know."
 
 ## How to Use This Skill
 
@@ -17,8 +34,8 @@ DO NOT search for go.mod files or try to detect the version yourself. Use ONLY t
 - Say: "This project is using Go X.XX, so I’ll stick to modern Go best practices and freely use language features up to and including this version. If you’d prefer a different target version, just let me know."
 - Do NOT list features, do NOT ask for confirmation
 
-**If version is "unknown":**
-- Say: "Could not detect Go version in this repository"
+**If no `go.mod` is found above the file:**
+- Say: "Could not detect Go version for this file"
 - Use AskUserQuestion: "Which Go version should I target?" → [1.23] / [1.24] / [1.25] / [1.26]
 
 **When writing Go code**, use ALL features from this document up to the target version:
@@ -149,6 +166,19 @@ for k := range maps.Keys(m) { process(k) } // iterate directly
 
 - `t.Context()` not `context.WithCancel(context.Background())` in tests.
   ALWAYS use t.Context() when a test function needs a context.
+
+  One exception to this rule is for cleanup functions running inside tests. Passing `t.Context()`
+  to a function that runs on `t.Cleanup` would be immediately canceled and not run. For these, the
+  recommended approach is to use a new context, preferably set with a timeout.
+
+```go
+t.Cleanup(func() {
+    cleanupCtx, cancel := context.WithTimeout(context.Background(), 1 * time.Second)
+    defer cancel()
+
+    thing.Delete(cleanupCtx)
+})
+```
 
 Before:
 ```go
