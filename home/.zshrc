@@ -74,6 +74,24 @@ alias g.="git add -p "${@}""
 alias gar="git add --all ."
 alias gr="git rebase "${@}""
 alias gw="git worktree "${@}""
+# Like `gw add`, but drops .claude/ from the new worktree via sparse-checkout
+# so Claude Code never loads the repo's project-level config.
+# Usage: gwa [-b <branch>] <path> [<commit-ish>]  (same args as `git worktree add`)
+gwa() {
+  git worktree add "$@" || return
+
+  local wt="" skip_next=0 arg
+  for arg in "$@"; do
+    if (( skip_next )); then skip_next=0; continue; fi
+    case "$arg" in
+      -b|-B|--orphan|--reason) skip_next=1 ;; # flags that consume the next arg
+      -*) ;;
+      *) wt="$arg"; break ;;                  # first positional = worktree path
+    esac
+  done
+
+  [[ -n "$wt" ]] && git -C "$wt" sparse-checkout set --no-cone '/*' '!/.claude/'
+}
 # To clean up and update the local list of remote branches
 alias gbc="git remote update origin --prune"
 alias gj="git jump"
