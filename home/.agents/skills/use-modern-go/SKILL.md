@@ -36,7 +36,7 @@ DO NOT search for go.mod files or try to detect the version yourself. Use ONLY t
 
 **If no `go.mod` is found above the file:**
 - Say: "Could not detect Go version for this file"
-- Use AskUserQuestion: "Which Go version should I target?" → [1.23] / [1.24] / [1.25] / [1.26]
+- Use AskUserQuestion: "Which Go version should I target?" → [1.23] / [1.24] / [1.25] / [1.26] / [1.27]
 
 **When writing Go code**, use ALL features from this document up to the target version:
 - Prefer modern built-ins and packages (`slices`, `maps`, `cmp`) over legacy patterns
@@ -319,3 +319,70 @@ if pathErr, ok := errors.AsType[*os.PathError](err); ok {
     handle(pathErr)
 }
 ```
+
+### Go 1.27+
+
+**Language:**
+
+- Generic methods may declare their own type parameters. Prefer a generic method over a
+  package-level generic function when the operation belongs in the receiver type's namespace.
+  Interface methods cannot declare type parameters, and generic methods do not implement
+  interface methods.
+
+```go
+type List[E any] []E
+
+func (l List[E]) Apply[F any](f func(E) F) List[F] {
+    result := make(List[F], len(l))
+    for i, value := range l {
+        result[i] = f(value)
+    }
+    return result
+}
+```
+
+- Keyed struct literals may initialize promoted fields directly. Prefer the promoted field key
+  over spelling out an embedded value solely to set that field. Do not specify both an embedded
+  field and one of its promoted fields in the same literal because they overlap.
+
+```go
+type Metadata struct{ Name string }
+type Record struct{ Metadata; ID int }
+
+record := Record{Name: "example", ID: 1}
+```
+
+- Let the target function type infer a generic function's type arguments in assignments,
+  conversions, arguments, and return statements. Omit explicit type arguments when the target
+  type determines all of them.
+
+```go
+func Identity[T any](value T) T { return value }
+
+var transform func(string) string = Identity
+func stringTransform() func(string) string { return Identity }
+converted := (func(string) string)(Identity)
+```
+
+**Standard library:**
+
+- `strings.CutLast` / `bytes.CutLast`: use them instead of `LastIndex` plus manual slicing when
+  splitting around the final separator.
+- `(*url.URL).Clone()` / `url.Values.Clone()`: use these for deep copies instead of copying fields
+  or nested query-value slices manually.
+- `synctest.Sleep(d)`: inside a `testing/synctest` bubble, use it instead of `time.Sleep(d)` followed
+  by `synctest.Wait()` so peer goroutines settle after fake time advances.
+- `uuid`: prefer the standard package for UUID generation and parsing. Use `uuid.New()` when no
+  specific version is required, `uuid.NewV4()` or `uuid.NewV7()` when it is, and `uuid.Parse()` for
+  untrusted input.
+- `encoding/json/v2`: prefer it for new JSON code that benefits from configurable options and
+  stricter defaults. It rejects invalid UTF-8 and duplicate object names and matches struct field
+  names case-sensitively by default, so preserve `encoding/json` v1 when compatibility requires its
+  semantics rather than migrating mechanically. Use `MarshalWrite` / `UnmarshalRead` for
+  `io.Writer` / `io.Reader` values instead of adding an intermediate buffer.
+- `(*rand.Rand).N`: use the receiver method instead of the package-level `rand.N` when values must
+  come from a specific `math/rand/v2.Rand` source.
+- `(*big.Int).Divide`: use it when quotient and remainder require an explicit `Trunc`, `Floor`,
+  `Round`, or `Ceil` rounding mode.
+- `httptest.NewTestServer`: use it with `testing/synctest` when an HTTP test needs an in-memory fake
+  network rather than a loopback socket.
