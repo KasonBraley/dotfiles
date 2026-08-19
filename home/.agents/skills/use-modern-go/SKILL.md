@@ -382,7 +382,5 @@ converted := (func(string) string)(Identity)
   `io.Writer` / `io.Reader` values instead of adding an intermediate buffer.
 - `(*rand.Rand).N`: use the receiver method instead of the package-level `rand.N` when values must
   come from a specific `math/rand/v2.Rand` source.
-- `(*big.Int).Divide`: use it when quotient and remainder require an explicit `Trunc`, `Floor`,
-  `Round`, or `Ceil` rounding mode.
 - `httptest.NewTestServer`: use it with `testing/synctest` when an HTTP test needs an in-memory fake
   network rather than a loopback socket.
