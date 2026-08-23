@@ -28,8 +28,6 @@ If you'd prefer a different target version, just let me know."
 
 ## How to Use This Skill
 
-DO NOT search for go.mod files or try to detect the version yourself. Use ONLY the version shown above.
-
 **If version detected (not "unknown"):**
 - Say: "This project is using Go X.XX, so I’ll stick to modern Go best practices and freely use language features up to and including this version. If you’d prefer a different target version, just let me know."
 - Do NOT list features, do NOT ask for confirmation
