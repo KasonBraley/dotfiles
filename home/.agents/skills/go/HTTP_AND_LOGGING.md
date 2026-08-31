@@ -46,11 +46,11 @@ On shutdown, stop accepting work and drain in-flight requests with a fresh bound
 
 ## Structured logging
 
-Pass `*slog.Logger` as a dependency. Derive a request logger with stable attributes and pass it explicitly to deeper operations that log:
+Pass `*slog.Logger` as a dependency, preferably as function parameter. Derive a request logger with stable attributes and pass it explicitly to deeper operations that log:
 
 ```go
-log := base.With("request_id", requestID, "user_id", userID)
-log.Info("handling request")
+logger := logger.With("request_id", requestID, "user_id", userID)
+logger.Info("handling request")
 ```
 
 Use levels consistently:
