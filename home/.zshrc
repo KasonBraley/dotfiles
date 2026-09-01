@@ -74,8 +74,9 @@ alias g.="git add -p "${@}""
 alias gar="git add --all ."
 alias gr="git rebase "${@}""
 alias gw="git worktree "${@}""
-# Like `gw add`, but drops .claude/ from the new worktree via sparse-checkout
-# so Claude Code never loads the repo's project-level config.
+# Like `gw add`, but drops files and directories from the new
+# worktree via sparse-checkout so harnesses never loads them and pollutes the context window.
+#
 # Usage: gwa [-b <branch>] <path> [<commit-ish>]  (same args as `git worktree add`)
 gwa() {
   git worktree add "$@" || return
@@ -90,7 +91,7 @@ gwa() {
     esac
   done
 
-  [[ -n "$wt" ]] && git -C "$wt" sparse-checkout set --no-cone '/*' '!/.claude/'
+  [[ -n "$wt" ]] && git -C "$wt" sparse-checkout set --no-cone '/*' '!/.claude/' '!/docs/styles/go/STYLE.md' '!/AGENTS.md' '!/CLAUDE.md' '!/skills'
 }
 # To clean up and update the local list of remote branches
 alias gbc="git remote update origin --prune"
@@ -194,3 +195,4 @@ export PATH="$HOME/.local/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="/Users/kason/.terragrunt/bin:$PATH"
