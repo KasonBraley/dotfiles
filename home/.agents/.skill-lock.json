@@ -1,17 +1,6 @@
 {
   "version": 3,
   "skills": {
-    "ask-matt": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "ref": "v1.2.3",
-      "skillPath": "skills/engineering/ask-matt/SKILL.md",
-      "skillFolderHash": "c9c83b11b1a0c91c555ed6ade5ba67f6d6b103d4",
-      "pluginName": "mattpocock-skills",
-      "installedAt": "2026-08-06T17:16:54.564Z",
-      "updatedAt": "2026-08-06T17:16:54.564Z"
-    },
     "code-review": {
       "source": "mattpocock/skills",
       "sourceType": "github",
