@@ -1,7 +1,6 @@
 ---
 name: coding-standards
 description: Correct-by-construction Go standards. Use for Go engineering or when another skill needs the user's coding standards.
-disable-model-invocation: true
 ---
 
 # Go Coding Standards
