@@ -57,6 +57,10 @@ func (s *Service) GetUser(ctx context.Context, id UserID) (User, error) {
 
 Use concrete constructor parameters unless the consumer needs multiple implementations or a test seam. Define small interfaces where they are consumed. Return concrete implementations from constructors. Validate required dependencies at construction when nil would make later execution invalid; otherwise make the zero value useful.
 
+Use functional options for several independent optional settings with stable defaults.
+Use a config struct when settings are naturally validated together or commonly loaded from configuration.
+For a stateful resource, prefer a domain object as the entry point so state and operations stay explicitly owned rather than spread across package globals.
+
 Keep interfaces cohesive and domain-shaped. One-method interfaces are natural when one behavior is the capability. Do not add getters solely to expose dependencies or implementation state.
 
 ## Package surface and wiring

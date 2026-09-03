@@ -12,7 +12,11 @@ Export only what callers should use. Keep implementation types and helpers unexp
 
 ## Packages, files, and helpers
 
-Give each package a focused, searchable owner. Avoid ownership-free packages such as `util`, `common`, `helpers`, `types`, and `interfaces`. Define interfaces in consuming packages. Package names are short, lowercase, and read naturally as qualifiers without stutter: `user.ParseID`, not `user.ParseUserID`.
+Start with one package until a boundary clarifies ownership, creates a reusable unit, or isolates an independently testable concern.
+Give each package a focused, searchable domain or capability owner rather than an architectural-layer name.
+Avoid ownership-free packages such as `util`, `common`, `helpers`, `types`, and `interfaces`.
+Define interfaces in consuming packages.
+Package names are short, lowercase, and read naturally as qualifiers without stutter: `user.ParseID`, not `user.ParseUserID`.
 
 Give each file a searchable subject identifying what it owns:
 
@@ -27,9 +31,15 @@ Preserve Go suffix conventions such as `_test.go`, `_linux.go`, and `_amd64.go`.
 
 A shared generic helper package has an explicit stable subject. A helper may move there when its meaning is generic and stable; a second consumer is evidence, not a prerequisite. Keep domain and application policy with owning packages. Prefer standard-library helpers over local collections or string utility packages.
 
-A file owns one cohesive concept or capability and may contain related operations and private helpers. Split unrelated concepts; keep tiny helpers beside the concept they serve. Use cohesion and discoverability rather than file-size limits.
+A file owns one cohesive concept or capability and may contain related operations and private helpers.
+Keep tightly coupled artifacts together, such as a type and its validation, a handler and its template, or a domain operation and its data vocabulary.
+Split unrelated concepts; keep tiny helpers beside the concept they serve.
+Put a type's primary constructor immediately after its declaration when practical, then keep all its methods together;
+place the remaining standalone functions after the method block. Use cohesion and discoverability rather than file-size limits.
 
-Avoid `internal` as a dumping ground; use it to enforce a deliberate import boundary. Avoid package-level mutable variables. Build tags and platform files describe real compile-time variation and keep a common API where practical.
+Avoid `internal` as a dumping ground; use it to enforce a deliberate import boundary.
+Avoid package-level mutable variables.
+Build tags and platform files describe real compile-time variation and keep a common API where practical.
 
 ## Completion check
 

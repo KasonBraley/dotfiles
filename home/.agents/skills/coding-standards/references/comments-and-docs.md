@@ -29,6 +29,9 @@ type RequestOptions struct {
 
 Use `Deprecated:` in the declaration's doc paragraph and name the replacement. Describe expected errors in the operation's outcomes and panic behavior only when panic is an intentional caller-visible contract. Keep TODOs actionable and owned according to repository convention.
 
+Use Go doc links for referenced symbols: `[SymbolName]`, `[pkg.Name]`, `[io.EOF]`, or `[*bytes.Buffer]`.
+Surround each link with punctuation, whitespace, or a line boundary so Go documentation recognizes it.
+
 ## Completion check
 
 Every exported declaration has useful Go documentation at its original owner; concise comments state the sharpest fact the signature cannot show and longer comments earn their detail; package docs and deprecations follow Go conventions; non-obvious fields, invariants, synchronization, and internal behavior are documented; expected errors and intentional panic contracts are truthful; comments add meaning beyond the code and include searchable domain phrases; and public language uses durable, audience-appropriate vocabulary.

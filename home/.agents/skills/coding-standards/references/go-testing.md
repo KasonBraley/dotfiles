@@ -2,6 +2,12 @@
 
 Apply the test levels, observable-outcome rules, and completion check in [`testing.md`](testing.md) to every Go test. This reference adds Go runtime, time, synchronization, helper, and fake rules.
 
+Read every matching testing branch:
+
+- Test-first feature or bug-fix work and behavior-preserving refactoring: [`go-test-first.md`](go-test-first.md).
+- Assertions, subtests, tables, examples, benchmarks, edge cases, or test doubles: [`go-testing-patterns.md`](go-testing-patterns.md).
+- HTTP, filesystems, concurrency, processes, containers, or complete user journeys: [`go-testing-boundaries.md`](go-testing-boundaries.md).
+
 ## Defaults
 
 - Use the standard `testing` package by default.
@@ -79,4 +85,8 @@ For retry tests, also read [`scheduling-and-retry.md`](scheduling-and-retry.md).
 
 ## Completion check
 
-The completion check in [`testing.md`](testing.md) passes; tests use the standard runtime and repository conventions; helpers, cleanup, contexts, files, and servers have test-owned lifetimes; temporal and concurrent tests use explicit synchronization; reusable fakes cross the production interface while controls remain on the concrete test type; observable cancellation and cleanup are asserted; race-sensitive changes receive race coverage when practical; and every applicable service, retry, configuration, and concurrency pointer has been followed.
+The completion check in [`testing.md`](testing.md) passes; tests use the standard runtime and repository conventions;
+helpers, cleanup, contexts, files, and servers have test-owned lifetimes; temporal and concurrent tests use explicit synchronization;
+reusable fakes cross the production interface while controls remain on the concrete test type;
+observable cancellation and cleanup are asserted; race-sensitive changes receive race coverage when practical;
+and every applicable service, retry, configuration, and concurrency pointer has been followed.

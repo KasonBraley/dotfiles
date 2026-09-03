@@ -8,6 +8,17 @@ Concurrency is an ownership decision, not a default optimization. Every goroutin
 
 Use channels when values move between concurrent owners or coordinate readiness. Use direct calls and ordinary iterators for synchronous pipelines. Use callback or iterator APIs when the caller should pull values without a background goroutine.
 
+## Synchronization chooser
+
+Choose by ownership:
+
+- Use a mutex to protect small state shared by multiple goroutines.
+- Use a channel to transfer ownership, stream values, or coordinate events.
+- Use atomics only for small lock-free state whose memory semantics remain obvious.
+- Use `errgroup.WithContext` when peer operations form one failure domain.
+
+For bounded fan-out, prefer `errgroup.Group.SetLimit` to a permanent worker pool. Use the loop-capture form required by the repository's Go version.
+
 ## Source chooser
 
 - In-memory values: range over a slice or iterator.
@@ -52,7 +63,10 @@ func (w *Worker) Run(ctx context.Context) error {
 }
 ```
 
-Use `errgroup.WithContext` when peer goroutines form one failure domain. Ensure the owner waits for all started goroutines. Never send on a channel whose closure another goroutine owns.
+Use `errgroup.WithContext` when peer goroutines form one failure domain. Ensure the owner waits for all started goroutines.
+A goroutine reporting through a channel must not become stranded when its receiver exits; prefer `errgroup`,
+or size and coordinate the channel so the sender can finish. The producer owns closing its channel.
+Signal that a consumer is done through context cancellation rather than closing a producer-owned channel.
 
 ## Backpressure and buffers
 

@@ -12,7 +12,12 @@ Prefer ordinary Go returns:
 func (s *UserStore) Find(ctx context.Context, id UserID) (User, error)
 ```
 
-Use sentinel errors when callers only need stable classification. Use custom error types when callers or diagnostics need structured context. Wrap causes with `%w` when preserving `errors.Is` or `errors.As` is part of the contract. Third-party errors are translated by the module that owns that dependency before crossing its public boundary.
+Use sentinel errors when callers only need stable classification. Use custom error types when callers or diagnostics need structured context.
+Return an error unchanged when the caller already has the missing context; otherwise add a concise operation
+phrase at the package or subsystem boundary without repeating details from the inner error.
+Wrap causes with `%w` when preserving `errors.Is` or `errors.As` is part of the contract.
+Third-party errors are translated by the module that owns that dependency before crossing its public boundary.
+Combine independent cleanup failures with `errors.Join` when every cause should remain inspectable.
 
 ## Defects
 
@@ -49,7 +54,9 @@ Keep failure sets precise in operation docs and tests. Broad application-level c
 
 Model absence according to meaning. Return `(value, found, error)` when absence is an ordinary lookup result and the zero value is safe; use a named optional/result type when that contract is clearer; return `ErrNotFound` or a typed not-found error when the operation requires the value or absence violates a precondition. Do not use a nil pointer plus nil error as an undocumented absence channel.
 
-Cancellation is expected control flow. Preserve `context.Canceled` and `context.DeadlineExceeded` through wrapping, stop work promptly, and avoid translating cancellation into an unrelated dependency failure.
+Cancellation is expected control flow. Preserve `context.Canceled` and `context.DeadlineExceeded` through wrapping,
+stop work promptly, and avoid translating cancellation into an unrelated dependency failure.
+At a request boundary, map cancellation and deadline expiry to the protocol's intentional result.
 
 ## Completion check
 

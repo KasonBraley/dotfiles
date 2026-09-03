@@ -20,7 +20,13 @@ Use generics when one algorithm genuinely serves multiple types without hiding d
 
 Reserve `unsafe` for measured, contained interoperability or performance requirements that safe Go cannot meet. Every use has a `// SAFETY:` comment stating the invariant, who establishes it, why the safe alternative is insufficient, and how the unsafe value is contained. Add focused tests around the invariant.
 
-## Concurrency safety
+## Context and concurrency safety
+
+Pass `context.Context` first, propagate it through blocking calls, and derive cancellation as close as possible to the bounded operation.
+The function creating a cancel function owns calling it. Keep request lifetime in parameters and durable configuration in structs.
+
+Use `context.WithoutCancel` only for intentionally detached work that must retain context values.
+Detached work still needs an owner, deadline, shutdown path, and error handling.
 
 Every shared mutable value has an explicit owner or synchronization policy. Prefer confinement to one goroutine; otherwise use the smallest fitting primitive and document lock ordering or atomic invariants that are not obvious. Never copy values containing mutexes after first use. Run race-sensitive tests with `go test -race` when practical.
 
