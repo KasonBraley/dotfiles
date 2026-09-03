@@ -47,10 +47,8 @@ Read every applicable reference completely before designing the change:
 - [`references/go.md`](references/go.md) — whenever Go code changes; follow its branch pointers before editing.
 - [`references/errors.md`](references/errors.md) — when behavior can fail or absence may be ordinary.
 - [`references/sensitive-data-and-observability.md`](references/sensitive-data-and-observability.md) — when behavior handles secrets, personal data, logging, tracing, metrics, or error reporting.
-- [`references/parsing-and-schemas.md`](references/parsing-and-schemas.md) — when data crosses an external/serialized edge, validation changes, or protocol/persistence representations are designed.
-- [`references/domain-types-and-state.md`](references/domain-types-and-state.md) — when IDs, units, constrained values, optional inputs, entities, lifecycle states, or operation options change.
 - [`references/modules-services-and-adapters.md`](references/modules-services-and-adapters.md) — when behavior owns domain rules, coordinates side effects, uses dependencies, crosses technology boundaries, or changes package/service design.
-- [`references/persistence.md`](references/persistence.md) — when behavior reads or writes a database, cache, durable store, ORM model, transaction, or persisted record.
+- [`references/persistence.md`](references/persistence.md) — when behavior reads or writes a database, durable or external cache, ORM model, transaction, or persisted record.
 - [`references/workflows-transactions-and-idempotency.md`](references/workflows-transactions-and-idempotency.md) — when work spans boundaries, retries, resumes, receives redelivery, delays, compensates, or may execute more than once.
 - [`references/testing.md`](references/testing.md) — whenever behavior, public types, tests, or test implementations change.
 - [`references/go-safety.md`](references/go-safety.md) — when types, signatures, pointers, mutable values, conversions, generics, concurrency, or compiler/tool settings change.

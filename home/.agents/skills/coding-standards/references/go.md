@@ -11,7 +11,8 @@ Inspect the project's `go` directive, pinned module versions, and relevant sourc
 Read every branch that matches the changed behavior:
 
 - Packages, files, identifiers, receivers, methods, interfaces, exports, errors, logs, or doc comments: call the Skill tool with `write-discoverable-code`.
-- Data models, JSON, text/binary encoding, custom scalar types, variants, optional fields, or decoders: [`encoding-and-data.md`](encoding-and-data.md).
+- Domain records, identifiers, units, constrained values, semantic optionality, lifecycle states, or operation inputs: [`domain-types-and-state.md`](domain-types-and-state.md).
+- External or serialized data, protocol/persistence representations, schemas, validation, JSON, text/binary encoding, codecs, tagged variants, or decoders: [`boundary-data.md`](boundary-data.md).
 - Services, package surfaces, interfaces, constructors, runtime wiring, or test implementations: [`services.md`](services.md).
 - Startup, servers, workers, handlers, dependency wiring, or planning/runtime phases: [`go-runtime-composition.md`](go-runtime-composition.md).
 - Runtime configuration, environment variables, flags, files, or typed config: [`go-configuration.md`](go-configuration.md).
