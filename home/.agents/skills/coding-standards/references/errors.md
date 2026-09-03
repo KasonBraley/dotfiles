@@ -27,14 +27,9 @@ Known configuration and startup failures are error values; `main` reports them s
 
 ## Custom errors
 
-A custom expected error includes:
+A custom expected error includes structured safe context such as operation, domain identifier, provider, or retry state, plus an `Unwrap() error` method when the cause is intentionally inspectable.
 
-- a conventional searchable name: sentinel names start `Err`, error types end `Error`;
-- a stable message explaining what failed and why when known;
-- structured safe context such as operation, domain identifier, provider, or retry state;
-- an `Unwrap() error` method when the cause is intentionally inspectable.
-
-The owner constructs the stable message. Begin it with stable literal operation text that leads a plain-text search back to the definition, then append dynamic context. Classify with `errors.Is` and `errors.As`, never by matching message text.
+Classify errors with `errors.Is` and `errors.As`, never by matching message text.
 
 ```go
 type UserStoreUnavailableError struct {
@@ -60,4 +55,4 @@ At a request boundary, map cancellation and deadline expiry to the protocol's in
 
 ## Completion check
 
-Every known failure is represented by a classified error or explicitly identified as a defect; panic is reserved for defects; absence has the intended found/optional or not-found meaning; error definitions own stable searchable messages and safe structured context; third-party failures are translated by their owner; cancellation remains identifiable; outer boundaries translate expected errors into valid outcomes; and classification uses `errors.Is`/`errors.As`, not message text.
+Every known failure is represented by a classified error or explicitly identified as a defect; panic is reserved for defects; absence has the intended found/optional or not-found meaning; error definitions carry safe structured context; third-party failures are translated by their owner; cancellation remains identifiable; outer boundaries translate expected errors into valid outcomes; and classification uses `errors.Is`/`errors.As`, not message text.

@@ -10,18 +10,18 @@ Inspect the project's `go` directive, pinned module versions, and relevant sourc
 
 Read every branch that matches the changed behavior:
 
-- Identifiers, packages, files, receivers, methods, accessors, interfaces, or exported names: [`go-naming.md`](go-naming.md).
+- Packages, files, identifiers, receivers, methods, interfaces, exports, errors, logs, or doc comments: call the Skill tool with `write-discoverable-code`.
 - Data models, JSON, text/binary encoding, custom scalar types, variants, optional fields, or decoders: [`encoding-and-data.md`](encoding-and-data.md).
 - Services, package surfaces, interfaces, constructors, runtime wiring, or test implementations: [`services.md`](services.md).
 - Startup, servers, workers, handlers, dependency wiring, or planning/runtime phases: [`go-runtime-composition.md`](go-runtime-composition.md).
 - Runtime configuration, environment variables, flags, files, or typed config: [`go-configuration.md`](go-configuration.md).
+- Resource acquisition or cleanup, package initialization, mutable process-wide state, time, or randomness: [`resources-and-process-effects.md`](resources-and-process-effects.md).
 - Retry, repeat, polling, backoff, jitter, rate limits, timeouts, or worker loops: [`scheduling-and-retry.md`](scheduling-and-retry.md).
 - Memoization, TTL caches, concurrent lookup deduplication, `singleflight`, or request batching: [`caching-and-batching.md`](caching-and-batching.md).
 - Goroutines, channels, event sources, queues, pagination, backpressure, or long-lived consumers: [`concurrency-and-streams.md`](concurrency-and-streams.md).
 - Outgoing HTTP, `http.Client`, status handling, transport configuration, or HTTP rate limiting: [`http-clients.md`](http-clients.md).
 - HTTP servers, handlers, middleware, graceful shutdown, or structured logging: [`go-http-servers-and-logging.md`](go-http-servers-and-logging.md).
 - Go tests, time, synchronization, fakes, race-sensitive behavior, or test helpers: [`go-testing.md`](go-testing.md).
-- Persistent build, test, runtime, intermittent, or performance failures: [`go-debugging.md`](go-debugging.md).
 
 ## Cross-cutting defaults
 

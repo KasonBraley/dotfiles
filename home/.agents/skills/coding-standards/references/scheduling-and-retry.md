@@ -21,7 +21,7 @@ When retries can duplicate side effects, read [`workflows-transactions-and-idemp
 Handle expected pass failures according to explicit product policy:
 
 ```go
-func runWorker(ctx context.Context, interval time.Duration) error {
+func runWorker(ctx context.Context, logger *slog.Logger, interval time.Duration) error {
     timer := time.NewTimer(0)
     defer timer.Stop()
 
@@ -33,7 +33,7 @@ func runWorker(ctx context.Context, interval time.Duration) error {
         }
 
         if err := runPass(ctx); err != nil {
-            slog.ErrorContext(ctx, "worker pass failed", "error", err)
+            logger.ErrorContext(ctx, "worker pass failed", "error", err)
         }
         timer.Reset(interval)
     }
@@ -69,7 +69,8 @@ For provider errors carrying a retry delay, wait for the larger of bounded local
 - Use a context-aware timer when one operation should start later.
 - Use a ticker or reset timer for recurring work according to cadence semantics.
 - Stop owned timers and tickers when required by the supported Go version and lifecycle.
-- In tests, prefer an injected clock/timer seam or short event-driven synchronization over real sleeps; read [`go-testing.md`](go-testing.md).
+- In tests, prefer the std lib synctest package over an injected clock or timer seam, or short event-driven synchronization.
+    Avoid real sleeping for real time.
 
 ## Completion check
 

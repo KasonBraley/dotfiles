@@ -6,7 +6,7 @@ Boundary code turns untrusted or less-structured input into application or domai
 
 ## Boundary representations
 
-Use a separate protocol or persistence representation when fields, encoding, naming, optionality, or semantics differ from the application input and separation keeps boundary concerns out of inner code. Symbols use their actual meaning, such as `CreateUserRequest`, `StripeCustomerResponse`, or `UserRecord`:
+Use a separate protocol or persistence representation when fields, encoding, naming, optionality, or semantics differ from the application input and separation keeps boundary concerns out of inner code:
 
 ```txt
 bytes -> CreateUserRequest -> CreateUserInput -> EmailAddress/UserID/etc.
@@ -20,16 +20,9 @@ bytes -> CreateUserInput
 
 A boundary adapter owns its representation and struct tags. Keep that type private where possible and translate it into an application or domain type before calling inner code. Do not let JSON, SQL, protobuf, or vendor-generated types become the domain model merely because decoding produced them.
 
-## Parser names
+## Parser behavior
 
-Use names preserving meaning:
-
-- `ParseX(input) (X, error)` for untrusted or less-structured input;
-- `NewX(...) (X, error)` for construction from typed pieces when construction can fail;
-- `MustX(...) X` only for package constants, tests, or startup declarations whose invalidity is a programmer defect;
-- `IsX(value) bool` for true predicates.
-
-Functions that both normalize and enforce invariants are parsers or constructors, not vague `Validate` helpers that leave the original invalid value in circulation. A `Validate() error` method is appropriate when a framework constructs the struct first or validation is part of a boundary contract; inner code receives a validated value.
+Functions that both normalize and enforce invariants are parsers or constructors rather than checks that leave the original invalid value in circulation. A `Validate() error` method is appropriate when a framework constructs the struct first or validation is part of a boundary contract; inner code receives a validated value.
 
 ## Decoder choices
 

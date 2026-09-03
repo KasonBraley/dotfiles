@@ -1,6 +1,6 @@
 # Testing Go system boundaries
 
-Use this reference for HTTP, filesystems, concurrency, processes, containers, or a complete user journey. Keep each boundary explicit and every lifecycle deterministic.
+Use this reference for HTTP, filesystems, concurrent streams, processes, containers, or a complete user journey. Keep each boundary explicit and every lifecycle deterministic.
 
 ## HTTP
 
@@ -10,15 +10,15 @@ For client behavior, `httptest.NewServer` provides a controllable endpoint witho
 
 ## Filesystems
 
-Accept `fs.FS` when code reads a filesystem. Use `fstest.MapFS` for fast isolated cases and `os.DirFS` or `embed.FS` at integration boundaries. Exercise missing, empty, malformed, permission, path, and decoding behavior at the narrowest useful boundary. Use `t.Cleanup` for temporary directories and files that must exist on disk.
+Use `fstest.MapFS` for fast isolated cases and `os.DirFS` or `embed.FS` at integration boundaries. Exercise missing, empty, malformed, permission, path, and decoding behavior at the narrowest useful boundary. Use `t.Cleanup` for temporary directories and files that must exist on disk.
 
-## Concurrency and context
+## Streams and concurrent boundaries
 
-Use synchronization, channels, and explicit cancellation rather than sleeps. Every test goroutine has a bounded lifetime and is joined. Test completion and cancellation, propagate context to dependencies, and use a deadline so broken behavior fails rather than hangs. Return `ctx.Err()` or the operation's documented cancellation error. Run race-sensitive paths with the race detector.
+Use `net.Pipe` for in-memory connection behavior when a real listener or socket lifecycle is not part of the contract. Bound every open stream or consumer with test-owned cancellation or an expected count before waiting. Give each test goroutine a deadline and join it before the test returns. Assert the operation's documented completion or cancellation result so broken behavior fails instead of hanging.
 
 ## Acceptance tests
 
-Use an acceptance test as the north star for a valuable user journey, process lifecycle, packaging concern, or whole-system integration. Begin with the smallest public scenario and drive domain and adapter design from that failure. Add focused domain tests for rules and edge cases once the domain seam is clear.
+When the policy in [`testing.md`](testing.md) selects a valuable user journey for acceptance coverage, begin with the smallest public scenario whose contract includes the relevant process lifecycle, packaging, application wiring, or whole-system integration. Add focused domain tests for rules and edge cases once the domain seam is clear.
 
 Separate essential behavior from transport mechanics:
 
@@ -34,4 +34,4 @@ Use Testcontainers or another process harness when container image behavior or a
 
 ## Completion check
 
-The harness matches the boundary being verified; requests, clients, files, contexts, goroutines, servers, processes, and containers have test-owned bounded lifetimes; synchronization is explicit; acceptance specifications remain independent of their drivers; readiness is observed rather than guessed; and cleanup runs on success and failure.
+The harness matches the boundary being verified; requests, clients, files, contexts, goroutines, servers, processes, and containers have test-owned bounded lifetimes; concurrent harnesses terminate deterministically; acceptance specifications remain independent of their drivers; readiness is observed rather than guessed; and cleanup runs on success and failure.

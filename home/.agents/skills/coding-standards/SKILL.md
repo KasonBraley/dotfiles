@@ -45,7 +45,6 @@ Trace each caller-visible operation from input through every decision and side e
 Read every applicable reference completely before designing the change:
 
 - [`references/go.md`](references/go.md) — whenever Go code changes; follow its branch pointers before editing.
-- [`references/go-runtime-composition.md`](references/go-runtime-composition.md) — when startup, dependency wiring, servers, workers, handlers, or two-phase planning/runtime composition changes.
 - [`references/errors.md`](references/errors.md) — when behavior can fail or absence may be ordinary.
 - [`references/sensitive-data-and-observability.md`](references/sensitive-data-and-observability.md) — when behavior handles secrets, personal data, logging, tracing, metrics, or error reporting.
 - [`references/parsing-and-schemas.md`](references/parsing-and-schemas.md) — when data crosses an external/serialized edge, validation changes, or protocol/persistence representations are designed.
@@ -53,7 +52,6 @@ Read every applicable reference completely before designing the change:
 - [`references/modules-services-and-adapters.md`](references/modules-services-and-adapters.md) — when behavior owns domain rules, coordinates side effects, uses dependencies, crosses technology boundaries, or changes package/service design.
 - [`references/persistence.md`](references/persistence.md) — when behavior reads or writes a database, cache, durable store, ORM model, transaction, or persisted record.
 - [`references/workflows-transactions-and-idempotency.md`](references/workflows-transactions-and-idempotency.md) — when work spans boundaries, retries, resumes, receives redelivery, delays, compensates, or may execute more than once.
-- [`references/configuration-and-resources.md`](references/configuration-and-resources.md) — when behavior reads configuration, creates/closes resources, performs startup work, uses time/randomness, or touches global state.
 - [`references/testing.md`](references/testing.md) — whenever behavior, public types, tests, or test implementations change.
 - [`references/go-safety.md`](references/go-safety.md) — when types, signatures, pointers, mutable values, conversions, generics, concurrency, or compiler/tool settings change.
 - [`references/imports-exports-and-files.md`](references/imports-exports-and-files.md) — when imports, exported API, package entrypoints, helper placement, or file organization changes.
@@ -77,6 +75,9 @@ Implement every path required by the caller-visible operation, including expecte
 
 ## 5. Verify through public interfaces
 
-Add or update the tests required by [`references/testing.md`](references/testing.md). Format changed Go files and run the repository's required verification commands, adding focused `go test`, `go vet`, race, build, lint, or static-analysis commands only when they are not already covered. Re-read each applicable reference and check every changed symbol against it. Fix each exception or report it with concrete evidence.
+Confirm the tests required by [`references/testing.md`](references/testing.md) exist, then run them.
+Format changed Go files and run the repository's required verification commands, adding focused `go test`, `go vet`, race, build, lint, or static-analysis commands only when they are not already covered.
+Re-read each applicable reference and check every changed symbol against it.
+Fix each exception or report it with concrete evidence.
 
 **Complete when:** every required check passes or has a reported failure with concrete evidence; every applicable reference rule has been checked; every caller-visible feature has its required coverage; every added or changed export is intentional and has the documentation required by [`references/comments-and-docs.md`](references/comments-and-docs.md); each abstraction, helper, conversion, goroutine, and `unsafe` use in the changed behavior is required and conforms to its applicable reference; and all changes remain within the requested scope.

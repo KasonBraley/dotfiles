@@ -13,13 +13,13 @@ When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and 
 
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification — "user can checkout with valid cart" tells you exactly what capability exists — and survives refactors because it doesn't care about internal structure.
 
-Call the Skill tool with `coding-standards` for Go test examples and guidelines.
+The project's coding standards own coverage breadth and test-level policy. Call the Skill tool with `coding-standards` for the Go policy, examples, and guidelines.
 
 ## Seams — where tests go
 
 A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. Tests live at seams, never against internals.
 
-**Test only at pre-agreed seams.** Before writing any test, write down the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You can't test everything — agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.
+Before writing the first test, name the seam selected under the governing coverage policy. Confirm it with the user when the choice would materially change scope, cost, or the public contract; otherwise state it and proceed.
 
 Ask: "What's the public interface, and which seams should we test?"
 

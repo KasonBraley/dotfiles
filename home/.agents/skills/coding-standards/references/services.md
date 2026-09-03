@@ -2,7 +2,8 @@
 
 Apply [`modules-services-and-adapters.md`](modules-services-and-adapters.md) for ownership and adapter decisions.
 
-Treat a service as an **authority seam**: a cohesive capability that owns policy, I/O, state, or runtime resources. Define its smallest interface in the consuming package. The concrete implementation owner keeps its constructor and applicable production or reusable test implementations with that implementation.
+Treat a service as an **authority seam**: a cohesive capability that owns policy, I/O, state, or runtime resources.
+The concrete implementation owner keeps its constructor and applicable production or reusable test implementations with that implementation.
 
 ## Service test
 
@@ -20,7 +21,9 @@ Prefer an existing standard-library capability or concrete value before defining
 - framework values confined to their adapter;
 - wrappers that only rename or forward another service.
 
-An interface seam represents real ownership or variability in production or a necessary consumer-owned test seam. When injection is the only need, pass a concrete value or function if that is the complete capability. Record production evidence for the interface-or-concrete decision and the rejected alternative.
+An interface seam represents real ownership or variability in production or a necessary consumer-owned test seam.
+When injection is the only need, pass a concrete value or function if that is the complete capability.
+Record production evidence for the interface-or-concrete decision and the rejected alternative.
 
 ## Authority and dependencies
 
@@ -55,7 +58,10 @@ func (s *Service) GetUser(ctx context.Context, id UserID) (User, error) {
 }
 ```
 
-Use concrete constructor parameters unless the consumer needs multiple implementations or a test seam. Define small interfaces where they are consumed. Return concrete implementations from constructors. Validate required dependencies at construction when nil would make later execution invalid; otherwise make the zero value useful.
+Use concrete constructor parameters unless the consumer needs multiple implementations or a test seam.
+Define small interfaces where they are consumed.
+Return concrete implementations from constructors.
+Validate required dependencies at construction when nil would make later execution invalid; otherwise make the zero value useful.
 
 Use functional options for several independent optional settings with stable defaults.
 Use a config struct when settings are naturally validated together or commonly loaded from configuration.
@@ -68,22 +74,17 @@ Keep interfaces cohesive and domain-shaped. One-method interfaces are natural wh
 - Keep implementation types unexported unless callers need to configure or name them.
 - Export constructors and domain-shaped operations, not wiring internals.
 - Keep dependency construction at `main`, a server/worker constructor, or another explicit composition root.
-- Build resources in dependency order and close them in reverse order.
 - Keep runtime wiring flat, named, and easy to trace.
-- Start long-lived goroutines only after all dependencies are valid; give shutdown ownership to the containing server or worker.
-
-Read [`go-runtime-composition.md`](go-runtime-composition.md) and [`concurrency-and-streams.md`](concurrency-and-streams.md) when a service owns long-lived work.
 
 ## Operation boundaries
 
-Public service methods are named for searchable domain operations. Add concise operation context when wrapping errors and structured operation names to logs and spans. Keep orchestration focused on sequence and decisions; move domain calculations and protocol mechanics to their owners. Apply retry, timeout, cleanup, and result translation once at the narrowest owning boundary.
+Public service methods expose cohesive domain operations. Add concise operation context when wrapping errors and structured operation names to logs and spans. Keep orchestration focused on sequence and decisions; move domain calculations and protocol mechanics to their owners. Apply retry, timeout, cleanup, and result translation once at the narrowest owning boundary.
 
 ## Test implementations
 
-When tests or reusable implementations change, read [`go-testing.md`](go-testing.md). Tests cross the same consumer-owned interface as production callers. Use a faithful in-memory implementation only when it preserves the complete observable contract. Prefer a real local substitute when persistence, transactions, serialization, or protocol behavior matters. Keep a narrow one-off fake in its test when promoting it would create production API solely for that test.
-
-Name reusable implementations for observable behavior, such as `InMemoryCache`, `RecordingEmailSender`, or `ManualClock`.
+When tests or reusable implementations change, apply the double-selection and fidelity rules in [`go-testing-patterns.md`](go-testing-patterns.md).
+The concrete implementation owner keeps reusable production and test implementations with that implementation.
 
 ## Completion check
 
-Complete when the service-or-value decision cites real ownership or variability and the rejected alternative; every interface, constructor, expected error, method, production implementation, and reusable test implementation has one owner; interfaces are consumer-owned and minimal; stable dependencies are captured at construction while contexts remain method inputs; construction and cleanup lifetimes are explicit; long-lived work is owned; public operations have searchable names and operation-level diagnostics; package surfaces expose only intended API; and tests exercise the production interface at the fidelity required by its observable contract.
+Complete when the service-or-value decision cites real ownership or variability and the rejected alternative; every interface, constructor, expected error, method, production implementation, and reusable test implementation has one owner; interfaces are consumer-owned and minimal; stable dependencies are captured at construction while contexts remain method inputs; construction and cleanup lifetimes are explicit; long-lived work is owned; public operations have operation-level diagnostics; package surfaces expose only intended API; and tests exercise the production interface at the fidelity required by its observable contract.

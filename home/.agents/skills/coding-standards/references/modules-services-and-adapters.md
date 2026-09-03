@@ -44,7 +44,9 @@ Inputs and outputs are domain values rather than protocol or persistence records
 
 An Application Service owns one cohesive operation or capability. Use one when behavior coordinates authorization, domain decisions, persistence, external calls, transactions, messages, time, IDs, telemetry, or multiple entrypoints.
 
-Design a meaningful service from the consuming API first. Define the smallest interface in the consumer only when multiple implementations or a test seam require it; otherwise depend on a concrete type. Read [`services.md`](services.md) when a service, interface, constructor, or dependency changes.
+Design a meaningful service from the consuming API first.
+Define the smallest interface in the consumer only when multiple implementations or a test seam require it; otherwise depend on a concrete type.
+Read [`services.md`](services.md) when a service, interface, constructor, or dependency changes.
 
 An Application Service:
 
@@ -58,14 +60,6 @@ An Application Service:
 Operation-specific authorization evidence and scoped handles remain explicit inputs. A function dependency is appropriate when one higher-order behavior is the complete capability.
 
 A service may expose multiple related methods when they share one owner and reason to change. Build broader services by composing smaller capabilities only after those seams earn their place. Keep sequence and decision points visible without accumulating protocol mechanics or pass-through packages.
-
-## Capability and operation names
-
-Name an interface for what the capability is in stable domain vocabulary: `UserStore`, `EmailSender`, or `Clock`. Put specific behavior in method names such as `FindActiveByEmail` or `SendPasswordResetEmail`.
-
-Define interfaces where consumed. A concrete implementation uses the shortest qualifier preserving meaningful distinction, such as `PostgresUserStore`, `ResendEmailSender`, or `SystemClock`. Do not prefix interfaces with `I`; Go call sites distinguish interfaces by behavior and package ownership. Avoid generic architecture suffixes such as `Manager`, `Provider`, or `Repository` unless they are established domain vocabulary.
-
-Let the package and receiver provide context. Prefer `user.Store.FindActiveByEmail` over names that repeat `User` at every level. Preserve clear local naming rather than creating naming-only churn; rename stale names when behavior or audience changes.
 
 ## Adapters and concrete clients
 
@@ -94,4 +88,4 @@ Create an ADR for a lasting architectural boundary, shared pattern, provider str
 
 ## Completion check
 
-Every changed operation is traced: each concern has one owner; domain packages remain pure; authorization follows the allocation above; each service uses a concrete dependency or consumer-owned interface justified by current need; orchestration keeps policy visible while delegating owned calculations and mechanics; framework, persistence, runtime, and vendor details stop at their Adapter or private implementation; each abstraction passes the deletion test and existing-owner check; names remain clear at call sites and searches; and each entrypoint parses protocol input, invokes the owning operation, and renders the protocol result.
+Every changed operation is traced: each concern has one owner; domain packages remain pure; authorization follows the allocation above; each service uses a concrete dependency or consumer-owned interface justified by current need; orchestration keeps policy visible while delegating owned calculations and mechanics; framework, persistence, runtime, and vendor details stop at their Adapter or private implementation; each abstraction passes the deletion test and existing-owner check; and each entrypoint parses protocol input, invokes the owning operation, and renders the protocol result.

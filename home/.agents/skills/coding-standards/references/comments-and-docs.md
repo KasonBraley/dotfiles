@@ -4,7 +4,7 @@ Every exported package, type, function, method, variable, and constant has a Go 
 
 Start an exported declaration's comment with its name, as Go tooling expects. Package comments begin `Package name` and live in one owning file, commonly `doc.go` when substantial. Document embedded or promoted API where its locally relevant contract differs; aliases and forwarding declarations rely on the owner's documentation when no behavior changes.
 
-Names, public documentation, UI copy, and rendered errors use durable vocabulary appropriate to their audience. Include ordinary domain phrases readers are likely to search for when those phrases differ from an identifier's spelling. Keep ticket names, migration phases, internal storage fields, framework mechanics, and planning language in internal implementation or planning material.
+Keep ticket names, migration phases, internal storage fields, framework mechanics, and planning language in internal implementation or planning material.
 
 Document unexported code when safe maintenance depends on a non-obvious purpose, invariant, domain rule, side effect, trade-off, synchronization rule, or safety justification. Comments explain why or the contract; code explains how.
 
@@ -34,4 +34,4 @@ Surround each link with punctuation, whitespace, or a line boundary so Go docume
 
 ## Completion check
 
-Every exported declaration has useful Go documentation at its original owner; concise comments state the sharpest fact the signature cannot show and longer comments earn their detail; package docs and deprecations follow Go conventions; non-obvious fields, invariants, synchronization, and internal behavior are documented; expected errors and intentional panic contracts are truthful; comments add meaning beyond the code and include searchable domain phrases; and public language uses durable, audience-appropriate vocabulary.
+Every exported declaration has useful Go documentation at its original owner; concise comments state the sharpest fact the signature cannot show and longer comments earn their detail; package docs and deprecations follow Go conventions; non-obvious fields, invariants, synchronization, and internal behavior are documented; expected errors and intentional panic contracts are truthful; and comments add meaning beyond the code.
