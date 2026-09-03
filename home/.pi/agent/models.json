@@ -1,0 +1,50 @@
+{
+  "providers": {
+    "openai-codex": {
+      "models": [
+        {
+          "id": "gpt-6-astra",
+          "name": "GPT-6 Astra",
+          "api": "openai-codex-responses",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "minimal": "low",
+            "xhigh": "xhigh",
+            "max": "max"
+          },
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 272000,
+          "maxTokens": 128000,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsOpenAIGrammarTools": true,
+            "supportsAdditionalTools": true,
+            "supportsToolSearch": true
+          }
+        }
+      ]
+    },
+    "anthropic": {
+      "modelOverrides": {
+        "claude-opus-5": {
+          "headers": {
+            "user-agent": "claude-cli/2.1.259"
+          }
+        },
+        "claude-fable-5-1": {
+          "headers": {
+            "user-agent": "claude-cli/2.1.259"
+          }
+        }
+      }
+    }
+  }
+}
