@@ -1,10 +1,10 @@
 {
-  "lastChangelogVersion": "0.84.4",
+  "lastChangelogVersion": "0.85.0",
   "theme": "light",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-6-astra",
   "hideThinkingBlock": false,
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "low",
   "enabledModels": [
     "gpt-5.6*",
     "gpt-6*",
