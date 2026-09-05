@@ -9,19 +9,21 @@ Design **deep modules**: a lot of behaviour behind a small interface, placed at 
 
 ## Glossary
 
-Use these terms exactly — don't substitute "component," "service," "API," or "boundary." Consistent language is the whole point.
+Use consistent concepts while preserving the project's domain and technology vocabulary. A service can be a module, an HTTP API can expose a module contract, and a trust boundary need not be a substitution seam. Name the specific responsibility rather than banning useful words.
 
-**Module** — anything with an interface and an implementation. Deliberately scale-agnostic: a function, class, package, or tier-spanning slice. _Avoid_: unit, component, service.
+**Module** — anything with a caller-facing contract and an implementation. Deliberately scale-agnostic: a function, class, package, application service, or tier-spanning slice.
 
-**Interface** — everything a caller must know to use the module correctly: the type signature, but also invariants, ordering constraints, error modes, required configuration, and performance characteristics. _Avoid_: API, signature (too narrow — they refer only to the type-level surface).
+**Module contract** (or **interface** in this document) — everything a caller must know: types, invariants, ordering constraints, error modes, configuration, ownership, and performance characteristics. A **Go interface type** is only a language mechanism for expressing a method set; a module can have a contract without declaring one.
 
-**Implementation** — what's inside a module, its body of code. Distinct from **Adapter**: a thing can be a small adapter with a large implementation (a Postgres repo) or a large adapter with a small implementation (an in-memory fake). Reach for "adapter" when the seam is the topic; "implementation" otherwise.
+**Implementation** — the code satisfying a module contract. Several concrete implementations may satisfy the same contract; that variation can justify a substitution seam.
 
 **Depth** — leverage at the interface: the amount of behaviour a caller (or test) can exercise per unit of interface they have to learn. A module is **deep** when a large amount of behaviour sits behind a small interface, **shallow** when the interface is nearly as complex as the implementation.
 
-**Seam** _(Michael Feathers)_ — a place where you can alter behaviour without editing in that place; the *location* at which a module's interface lives. Where to put the seam is its own design decision, distinct from what goes behind it. _Avoid_: boundary (overloaded with DDD's bounded context).
+**Seam** — a place where callers or tests enter a module contract or substitute a dependency. State whether the topic is an observation surface or a substitution point; neither requires exposing private internals.
 
-**Adapter** — a concrete thing that satisfies an interface at a seam. Describes *role* (what slot it fills), not substance (what's inside).
+**Technology adapter** (or **adapter**) — an implementation that translates a protocol, representation, or technology into the contract its consumer needs. An inbound adapter translates external input into an application call; an outbound adapter translates an application capability into external I/O. Translation can earn its place with one provider.
+
+**Application service** — a module owning application policy and side-effect sequencing. Domain calculations can remain pure modules inside it. For Go-specific allocation and interface decisions, read [`modules-services-and-adapters.md`](../coding-standards/references/modules-services-and-adapters.md).
 
 **Leverage** — what callers get from depth: more capability per unit of interface they learn. One implementation pays back across N call sites and M tests.
 
@@ -62,13 +64,13 @@ When designing an interface, ask:
 - **Depth is a property of the interface, not the implementation.** A deep module can be internally composed of small, mockable, swappable parts — they just aren't part of the interface. A module can have **internal seams** (private to its implementation, used by its own tests) as well as the **external seam** at its interface.
 - **The deletion test.** Imagine deleting the module. If complexity vanishes, it was a pass-through. If complexity reappears across N callers, it was earning its keep.
 - **The interface is the test surface.** Callers and tests cross the same seam. If you want to test *past* the interface, the module is probably the wrong shape.
-- **One adapter means a hypothetical seam. Two adapters means a real one.** Don't introduce a seam unless something actually varies across it.
+- **Earned seams.** A boundary earns its place by hiding meaningful translation, policy, ownership, or variation. Two implementations are evidence for substitution, not a prerequisite for a boundary. A Go interface type needs a current consumer requirement; a concrete dependency can already hide complexity. Apply the deletion test instead of counting adapters.
 
 ## Designing for testability
 
 Good interfaces make testing natural:
 
-1. **Accept dependencies, don't create them.**
+1. **Accept stable runtime dependencies at the composition boundary.** Keep acquisition out of per-call policy; an owning constructor can still create a private concrete client.
 
    ```typescript
    // Testable
@@ -92,7 +94,9 @@ Good interfaces make testing natural:
    }
    ```
 
-3. **Small surface area.** Fewer methods = fewer tests needed. Fewer params = simpler test setup.
+3. **Small surface area.** Minimize caller knowledge and setup, not behavior coverage. Fewer methods do not mean fewer invariants or failure paths to test.
+
+Select test levels using project policy, falling back to [`testing.md`](../coding-standards/references/testing.md). This glossary does not require testing everything through the outermost interface.
 
 ## Relationships
 
@@ -106,7 +110,7 @@ Good interfaces make testing natural:
 
 - **Depth as ratio of implementation-lines to interface-lines** (Ousterhout): rewards padding the implementation. We use depth-as-leverage instead.
 - **"Interface" as the TypeScript `interface` keyword or a class's public methods**: too narrow — interface here includes every fact a caller must know.
-- **"Boundary"**: overloaded with DDD's bounded context. Say **seam** or **interface**.
+- **Conflating boundaries**: identify whether a boundary concerns trust, domain ownership, technology translation, observation, or substitution.
 
 ## Going deeper
 

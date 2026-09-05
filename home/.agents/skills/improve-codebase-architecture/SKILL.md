@@ -10,7 +10,7 @@ Surface architectural friction and propose **deepening opportunities** — refac
 
 This command is _informed_ by the project's domain model and built on a shared design vocabulary:
 
-- Run the `/codebase-design` skill for the architecture vocabulary (**module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**) and its principles (the deletion test, "the interface is the test surface", "one adapter = hypothetical seam, two = real"). Use these terms exactly in every suggestion — don't drift into "component," "service," "API," or "boundary."
+- Read [`codebase-design`](../codebase-design/SKILL.md) for the shared vocabulary, deletion test, and earned-seam principle. Distinguish module contracts from Go interface types, and translation/ownership boundaries from substitution.
 - The domain language in `CONTEXT.md` gives names to good seams; ADRs in `docs/adr/` record decisions this command should not re-litigate.
 
 ## Process
@@ -22,9 +22,9 @@ This command is _informed_ by the project's domain model and built on a shared d
 - If the user named a direction — a module, a subsystem, a pain point — take it, and skip the inference below.
 - Otherwise, walk back a good stretch of the commit history (`git log --oneline`) to find the codebase's hot spots — the files and areas that keep coming up — and let those paths pull your attention first. If the changes are scattered with no clear hot spot, widen the net.
 
-Read the project's domain glossary (`CONTEXT.md`) and any ADRs in the area you're touching first.
+Read the project's domain glossary (`CONTEXT.md`), applicable standards, and relevant ADRs first. For Go, read [`coding-standards`](../coding-standards/SKILL.md) in design mode.
 
-Then spawn a sub-agent to walk the codebase. Don't follow rigid heuristics — explore organically and note where you experience friction:
+Use a sub-agent to walk the codebase when available, supplying the scope and resolved reference paths. Otherwise do the evidence pass directly and disclose the fallback. Explore organically and note where you experience friction:
 
 - Where does understanding one concept require bouncing between many small modules?
 - Where are modules **shallow** — interface nearly as complex as the implementation?
@@ -51,7 +51,7 @@ For each candidate, render a card with:
 
 End the report with a **Top recommendation** section: which candidate you'd tackle first and why.
 
-**Use CONTEXT.md vocabulary for the domain, and the `/codebase-design` vocabulary for the architecture.** If `CONTEXT.md` defines "Order," talk about "the Order intake module" — not "the FooBarHandler," and not "the Order service."
+**Use domain names from CONTEXT.md and architectural roles from `codebase-design`.** For example, name the Order intake module or application service rather than presenting its handler class as the domain concept. Select test surfaces under project policy, falling back to [`testing.md`](../coding-standards/references/testing.md); proposed test deletion requires the coverage mapping in [`DEEPENING.md`](../codebase-design/DEEPENING.md#testing-strategy-preserve-behavior-coverage).
 
 **ADR conflicts**: if a candidate contradicts an existing ADR, only surface it when the friction is real enough to warrant revisiting the ADR. Mark it clearly in the card (e.g. a warning callout: _"contradicts ADR-0007 — but worth reopening because…"_). Don't list every theoretical refactor an ADR forbids.
 

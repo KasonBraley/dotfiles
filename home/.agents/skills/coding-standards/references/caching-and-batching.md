@@ -12,6 +12,12 @@ Use the standard library or the repository's established cache package when its 
 - A single immutable derived value may use `sync.OnceValue` when supported by the repository's Go version and failures do not require retry. Use explicit synchronization when failed initialization should be retried.
 - Resource caches own cleanup for every eviction and final shutdown.
 
+## Isolation and shared-flight lifetime
+
+A key includes every dimension that can change the authorized result: tenant, principal or permission scope where relevant, representation/version, and policy inputs. Alternatively cache permission-independent data and authorize separately on every access. Apply the same isolation rule to `singleflight` and batches. Test equal object IDs across different tenants or permissions; caching must not bypass authorization or preserve access beyond the intended revocation policy.
+
+Shared-flight work has an explicit lifetime owner. Decide whether cancellation of one waiter cancels only its wait or the shared operation. Avoid accidentally tying all waiters to the first request's context. When work should survive an individual waiter, use a service-owned bounded context with shutdown cancellation and let each waiter stop waiting independently; join/clean up the shared work. Test a canceled first waiter while another still needs the result.
+
 ## Result-aware TTL
 
 Choose TTL by result semantics. Give transient failures and degraded fallbacks no cache lifetime so the caller receives the result while the next lookup can try again. A short negative-cache TTL may protect an upstream from repeated stable failures such as not-found results. Never cache context cancellation or deadline errors as data.
@@ -45,4 +51,4 @@ Selection guide:
 
 ## Completion check
 
-For every cache or batching path, the primitive matches the key pattern and backend; capacity, TTL, invalidation, ownership, copying, and cleanup are intentional; stable dependencies are acquired once; concurrent miss deduplication does not masquerade as caching; cancellation is not cached; each batch maps every key to an outcome; and all goroutines and timers have shutdown owners.
+For every cache or batching path, the primitive matches the key pattern and backend; capacity, TTL, invalidation, ownership, copying, and cleanup are intentional; stable dependencies are acquired once; concurrent miss deduplication does not masquerade as caching; cancellation is not cached; keys preserve authorization isolation and shared work has deliberate cancellation ownership; each batch maps every key to an outcome; and all goroutines and timers have shutdown owners.

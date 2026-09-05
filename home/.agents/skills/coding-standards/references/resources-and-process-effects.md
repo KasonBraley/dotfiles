@@ -8,8 +8,10 @@ Each acquired resource has one owner. Acquire dependencies in order and release 
 
 Confine mutable process-wide state to unavoidable framework boundaries. Define constants and immutable lookup tables as ordinary package values.
 
-Make time and randomness explicit when they are part of production behavior. Pure domain functions accept concrete timestamps or generated values. Dependency-bearing services use standard-library time and randomness unless production policy or a real alternate source earns a capability; do not add an abstraction solely for tests.
+Make time and randomness explicit when they are part of production behavior. Pure domain functions accept concrete timestamps or generated values. Dependency-bearing services use standard-library time and randomness unless production policy or a real alternate source earns a capability. Test-time control is selected by [`go-testing.md`](go-testing.md#time-randomness-and-race-behavior), not by adding a service automatically.
+
+Use `crypto/rand` for secrets, authentication tokens, cryptographic nonces, and other values requiring unpredictability. Use `math/rand` or version-supported `math/rand/v2` for non-security simulation, sampling, and jitter. Keep deterministic seeds confined to those policies and isolated test fixtures; never weaken production security randomness for reproducibility. Use supported cryptographic test facilities only in isolated tests with their documented concurrency limits.
 
 ## Completion check
 
-Every acquired resource has one owner and is released on success, startup failure, cancellation, and shutdown; package initialization is inert outside true entrypoints; mutable process-wide state stays at an unavoidable framework boundary; cleanup failures follow repository policy; and time or randomness abstractions represent production behavior rather than test-only substitution.
+Every acquired resource has one owner and is released on success, startup failure, cancellation, and shutdown; package initialization is inert outside true entrypoints; mutable process-wide state stays at an unavoidable framework boundary; cleanup failures follow repository policy; time-control choices follow the owning production/test policy; and security-sensitive randomness remains cryptographically strong.

@@ -2,6 +2,8 @@
 
 ## Roles
 
+Use the module-contract, Go-interface-type, service, and adapter distinctions in [`codebase-design`](../../codebase-design/SKILL.md#glossary). This reference owns their Go responsibility allocation.
+
 **Domain package**, **Application Service**, **Adapter**, and **composition root** name responsibilities, not required folders or suffixes.
 
 Classify code by what would make it change:
@@ -57,7 +59,7 @@ An Application Service:
 - owns which side effects occur, under what policy, and in what order;
 - keeps public contracts independent of framework, ORM, vendor SDK, and runtime types.
 
-Operation-specific authorization evidence and scoped handles remain explicit inputs. A function dependency is appropriate when one higher-order behavior is the complete capability.
+Operation-specific authorization evidence and scoped handles remain explicit inputs. A function dependency is appropriate when one higher-order behavior is the complete capability. Context lifetime rules belong to [`go-safety.md`](go-safety.md#context-and-concurrency-safety).
 
 A service may expose multiple related methods when they share one owner and reason to change. Build broader services by composing smaller capabilities only after those seams earn their place. Keep sequence and decision points visible without accumulating protocol mechanics or pass-through packages.
 
@@ -77,7 +79,7 @@ Before creating an Adapter or service:
 4. Extend an Adapter when the method fits its owner and reason to change.
 5. Create one when it hides meaningful mechanics, serves multiple owners, or supports real variation.
 
-Create an ADR for a lasting architectural boundary, shared pattern, provider strategy, or deliberate exception. For each new service or Adapter, record which existing owners were checked and why reuse or extension did not fit.
+Apply the **deletion test** from [`codebase-design`](../../codebase-design/SKILL.md#principles). Record alternatives for consequential boundary, shared-contract, or provider decisions; routine helpers need no rejection ledger. Offer an ADR only under the criteria in [`domain-modeling`](../../domain-modeling/SKILL.md#offer-adrs-sparingly).
 
 ## Authentication and authorization
 

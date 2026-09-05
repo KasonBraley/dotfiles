@@ -57,7 +57,7 @@ A reusable policy specifies:
 - attempt diagnostics;
 - final-error behavior.
 
-Inject time or randomness only when deterministic tests or domain policy need control. Keep the loop direct when a generic retry abstraction would obscure side-effect safety.
+Select test-time control using [`go-testing.md`](go-testing.md#time-randomness-and-race-behavior). Keep the loop direct when a generic retry abstraction would obscure side-effect safety.
 
 ## Rate-limit-aware retry
 
@@ -69,8 +69,7 @@ For provider errors carrying a retry delay, wait for the larger of bounded local
 - Use a context-aware timer when one operation should start later.
 - Use a ticker or reset timer for recurring work according to cadence semantics.
 - Stop owned timers and tickers when required by the supported Go version and lifecycle.
-- In tests, prefer the std lib synctest package over an injected clock or timer seam, or short event-driven synchronization.
-    Avoid real sleeping for real time.
+- Verify delay, attempt bounds, and cancellation using the test-time control selected above.
 
 ## Completion check
 

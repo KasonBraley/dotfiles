@@ -17,7 +17,7 @@ Require an explicit idempotency strategy when an operation has a real duplicate-
 - a transactional outbox when state change and publication intent must be atomic;
 - a transactional inbox when message deduplication and resulting state change must commit atomically.
 
-For every retried side effect, state the guarantee making repetition safe. Make concurrent duplicate handling atomic; a check followed by insert without a transaction or unique constraint is not deduplication. Persist the result associated with an idempotency key when repeated callers must receive the same outcome.
+For every retried side effect, state the guarantee making repetition safe. Make concurrent duplicate handling atomic using a unique constraint, atomic conditional write, or correctly isolated/locked transaction. A transaction containing an ordinary check followed by insert is not sufficient under every isolation level. Persist the result associated with an idempotency key when repeated callers must receive the same outcome.
 
 ## Completion check
 

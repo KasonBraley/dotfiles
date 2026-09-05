@@ -21,6 +21,8 @@ Place protocol mechanics in an outbound adapter or private concrete client. Appl
 
 Configure timeouts deliberately. A request-scoped context owns the total operation budget; `http.Client.Timeout`, transport dial/TLS/header timeouts, and idle connection settings bound lower-level phases where needed. Reuse transports to preserve connection pooling. Callers close response bodies, and drain a bounded amount only when connection reuse and payload policy justify it.
 
+When destinations are caller-controlled, constrain schemes, hosts, ports, and reachable networks according to product policy. Check redirects as new destinations; an initial URL check alone does not prevent SSRF through redirects or DNS changes. Enforce network/address restrictions at connection time where required. Forward credentials only to explicitly trusted destinations, and configure `CheckRedirect` to reject or sanitize cross-origin requests rather than assuming arbitrary custom auth headers are safe. Preserve normal TLS verification. Test rejected destinations, redirect hops, and credential forwarding without contacting real internal services.
+
 Keep a narrow executor interface in the consuming package only when tests or transport variation need it:
 
 ```go
@@ -33,7 +35,7 @@ Prefer a real `httptest.Server` for protocol tests over mocking `Do` when reques
 
 ## Status and decoding
 
-Classify status before decoding a success representation. Bound response bodies with `io.LimitReader` or an equivalent before reading untrusted payloads into memory. Configure JSON decoding deliberately: reject unknown fields when the contract is closed and forward compatibility does not require them; reject trailing data; preserve provider error evidence only as safe bounded fields.
+Classify status before decoding a success representation. Bound every response path, including error bodies and draining. When an oversized body is an error, read at most limit+1 bytes and explicitly reject the extra byte; `io.LimitReader(body, limit)` alone makes truncation look like EOF and can accept a valid JSON prefix while hiding trailing data. Apply limits to decoded/decompressed data as well as wire bytes when applicable. Configure JSON decoding deliberately: reject unknown fields when the contract is closed and forward compatibility does not require them; reject trailing data; preserve provider error evidence only as safe bounded fields.
 
 ```go
 req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
@@ -51,8 +53,16 @@ if resp.StatusCode != http.StatusOK {
     return User{}, classifyProviderStatus(resp)
 }
 
+// maxProviderBodyBytes is a validated, bounded configuration value.
+body, err := io.ReadAll(io.LimitReader(resp.Body, maxProviderBodyBytes+1))
+if err != nil {
+    return User{}, &ProviderDecodeError{Operation: "get user", Cause: err}
+}
+if int64(len(body)) > maxProviderBodyBytes {
+    return User{}, ErrProviderBodyTooLarge
+}
 var wire providerUserResponse
-if err := decodeJSON(resp.Body, &wire); err != nil {
+if err := decodeJSON(bytes.NewReader(body), &wire); err != nil {
     return User{}, &ProviderDecodeError{Operation: "get user", Cause: err}
 }
 return wire.toDomain()
@@ -68,4 +78,4 @@ Use a rate limiter for proactive pacing when the provider contract requires it. 
 
 ## Completion check
 
-Every outgoing operation uses a reused configured `http.Client`; request construction, authentication, cancellation, status classification, bounded body handling, decoding, failure translation, and safe diagnostics have clear owners; status is classified before success decoding; bodies close on every path; database transactions contain only database work; protocol behavior has `httptest` coverage where applicable; and every retry or rate-limit policy has explicit ownership and a proven idempotency guarantee.
+Every outgoing operation uses a reused configured `http.Client`; destination/redirect restrictions and credential forwarding match policy; oversized bodies are detected, not silently truncated; request construction, authentication, cancellation, status classification, bounded body handling, decoding, failure translation, and safe diagnostics have clear owners; status is classified before success decoding; bodies close on every path; database transactions contain only database work; protocol behavior has `httptest` coverage where applicable; and every retry or rate-limit policy has explicit ownership and a proven idempotency guarantee.

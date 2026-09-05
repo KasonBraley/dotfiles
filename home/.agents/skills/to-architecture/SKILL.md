@@ -22,11 +22,11 @@ The issue tracker should have been provided. If `docs/agents/issue-tracker.md` i
 
 ### 2. Explore the affected code
 
-Call the Skill tool with "codebase-design". Use its terms **module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, and **locality** exactly throughout the proposal.
+Call the Skill tool with "codebase-design" for shared vocabulary, distinguishing a module contract from a language interface type. Read applicable project standards; for Go, read [`coding-standards`](../coding-standards/SKILL.md) in design mode before proposing boundaries.
 
 Read `CONTEXT.md` and the ADRs relevant to the spec when they exist. Use the glossary's domain language to name modules and good seams.
 
-Then spawn a sub-agent to explore the affected codebase. Give it the spec and the relevant domain and ADR context. Tell it to call the Skill tool with "codebase-design", trace the current code paths, modules, interfaces, dependencies, and tests touched by every material requirement, and return a concise evidence report covering:
+Then use a sub-agent to explore the affected codebase when available; otherwise perform this evidence pass directly and disclose the fallback. Supply the spec, relevant domain/ADR context, and resolved paths to the design and standards references. Tell it to call the Skill tool with "codebase-design", trace code paths, contracts, dependencies, and tests touched by every material requirement, and return a concise evidence report covering:
 
 - Requirement-to-module and file-path mapping
 - Current interaction flow, state ownership, side effects, and error handling
@@ -34,7 +34,7 @@ Then spawn a sub-agent to explore the affected codebase. Give it the spec and th
 - Relevant test locations and prior art
 - Architectural gaps and the scoped friction below, with supporting code references
 
-The sub-agent gathers evidence rather than choosing the final architecture. Keep its exploration scoped to what is needed to fit this spec into the system; nearby friction matters only when it affects that design. The main agent should inspect additional code only to resolve missing or conflicting evidence before designing the proposal.
+The evidence pass gathers facts rather than choosing the final architecture. Keep exploration scoped to what is needed to fit this spec into the system; nearby friction matters only when it affects that design. Resolve missing or conflicting evidence before designing the proposal.
 
 Within that scope, look for architectural friction that the feature would preserve or worsen:
 
@@ -60,13 +60,15 @@ For every proposed module change, establish:
 - Its place in the end-to-end interaction or data flow
 - The relevant existing or intended file path
 
-Apply the deletion test to existing modules considered for change and to proposed new modules. Prefer depth, locality, and leverage. Treat one adapter as a hypothetical seam and two adapters as evidence of a real seam; do not introduce an adapter solely to make mocking convenient. Respect existing ADRs; identify and explain any conflict the spec makes unavoidable.
+Apply the deletion test and earned-seam principle from `codebase-design` to existing and proposed modules. Prefer depth, locality, and leverage; distinguish translation/ownership boundaries from substitution interfaces. Respect existing ADRs; identify and explain any conflict the spec makes unavoidable.
+
+Select tests using project policy, falling back to [`testing.md`](../coding-standards/references/testing.md). When replacing tests during structural changes, require the coverage mapping in [`DEEPENING.md`](../codebase-design/DEEPENING.md#testing-strategy-preserve-behavior-coverage).
 
 Include structural prefactoring required to reach the design, stated as a target architectural change.
 
 Consider alternatives while reasoning, but present one coherent recommendation. If a material tradeoff cannot be resolved from the spec and codebase, discuss that decision with the user before completing the proposal.
 
-If the user wants to explore alternative interfaces, use the `codebase-design` design-it-twice process, compare the alternatives, and still bring one recommendation forward for approval.
+If the user wants to explore alternative interfaces, use [`DESIGN-IT-TWICE.md`](../codebase-design/DESIGN-IT-TWICE.md), compare the alternatives, and still bring one recommendation forward for approval.
 
 Complete this step when every material spec requirement is assigned to a module and observable through a stated test surface.
 

@@ -65,7 +65,7 @@ Use stable field names and structured values. Group related fields with `slog.Gr
 Apply [`sensitive-data-and-observability.md`](sensitive-data-and-observability.md) for redaction and single-owner logging.
 
 Reusable packages accept a logger or remain silent. A package-level default logger is acceptable at the composition root.
-Tests that need a logger pass `slog.New(slog.DiscardHandler)`, never `nil`.
+Tests that need a logger pass `slog.New(slog.DiscardHandler)` on Go 1.24+. On Go 1.21–1.23, use `slog.New(slog.NewTextHandler(io.Discard, nil))`. For older targets, use the repository's supported logger. Pass a usable logger rather than `nil`.
 
 ## Completion check
 

@@ -7,39 +7,36 @@ description: Apply modern Go syntax guidelines based on project's Go version. Us
 
 ## Detecting the Go Version
 
-This is a monorepo where each service has its own `go.mod`, and Go versions differ
-between modules. There is NO single project-wide Go version. Always detect the version
-from the module that owns the file(s) you are working on:
+Detect once per owning module, not once per session. A repository may have one module,
+nested modules, or a workspace with different versions.
 
-1. From the directory of the file you are editing, run:
+1. Walk up from each changed file to its nearest owning `go.mod` and read the `go`
+   directive. For a buildable package, this query from its directory also identifies
+   the owner:
+   ```sh
+   go list -f '{{.Module.Path}} {{.Module.GoVersion}}' .
    ```
-   go list -m -f '{{.GoVersion}}'
-   ```
-   Or equivalently, walk up from the file's directory to the nearest `go.mod` and read
-   its `go` directive.
-2. Use that version (minor version, e.g. `1.26`) as the feature ceiling for all code in
-   that module.
-3. Detect once per module, not once per session. If you touch files in multiple modules,
-   detect separately for each — never assume one module's version applies to another.
-
-**If a version is detected:**
-- Say: "This module is using Go X.XX, so I'll stick to modern Go best practices and freely use language features up to and including this version.
-If you'd prefer a different target version, just let me know."
+   `go list -m` without a module argument can list every workspace module; its output
+   is not a file-owner query. If package loading fails, read the owning file directly.
+2. Treat that module's declared version as the compatibility target. A newer installed
+   toolchain, `toolchain` directive, or `go.work` version does not raise it. Account for
+   deliberate per-file version build tags and ensure older targets retain their fallback.
+3. If no module governs the file, inspect the repository's documented target and CI.
+   If still unknown, ask the user which Go version to target in ordinary conversation.
 
 ## How to Use This Skill
 
-**If version detected (not "unknown"):**
-- Say: "This project is using Go X.XX, so I’ll stick to modern Go best practices and freely use language features up to and including this version. If you’d prefer a different target version, just let me know."
-- Do NOT list features, do NOT ask for confirmation
+State the target once when relevant to the decision; avoid repeated version announcements.
+Use the task's design, implementation, or read-only review mode. Modernization is not
+permission to expand the diff or raise the supported Go version.
 
-**If no `go.mod` is found above the file:**
-- Say: "Could not detect Go version for this file"
-- Use AskUserQuestion: "Which Go version should I target?" → [1.23] / [1.24] / [1.25] / [1.26] / [1.27]
-
-**When writing Go code**, use ALL features from this document up to the target version:
-- Prefer modern built-ins and packages (`slices`, `maps`, `cmp`) over legacy patterns
-- Never use features from newer Go versions than the target
-- Never use outdated patterns when a modern alternative is available
+Prefer applicable modern APIs when they simplify the changed code **and preserve its
+behavior, ownership, and compatibility**. Existing wire formats, nil/empty distinctions,
+aliasing, cancellation, and performance requirements take priority over mechanical
+replacement. Check versioned standard-library documentation for API semantics; this list
+is a chooser, not a requirement to use every feature. Experimental APIs require an
+explicit project opt-in and a verified toolchain; an API's presence in a newer toolchain
+alone does not establish target compatibility.
 
 ---
 
@@ -62,6 +59,7 @@ If you'd prefer a different target version, just let me know."
 - `any`: Use `any` instead of `interface{}`
 - `bytes.Cut`: `before, after, found := bytes.Cut(b, sep)` instead of Index+slice
 - `strings.Cut`: `before, after, found := strings.Cut(s, sep)`
+- `strings.Clone`: `strings.Clone(s)` when an independent backing allocation is needed
 
 ### Go 1.19+
 
@@ -79,7 +77,6 @@ ptr.Store(cfg)
 
 ### Go 1.20+
 
-- `strings.Clone`: `strings.Clone(s)` to copy string without sharing memory
 - `bytes.Clone`: `bytes.Clone(b)` to copy byte slice
 - `strings.CutPrefix/CutSuffix`: `if rest, ok := strings.CutPrefix(s, "pre:"); ok { ... }`
 - `errors.Join`: `errors.Join(err1, err2)` to combine multiple errors
@@ -122,7 +119,9 @@ ptr.Store(cfg)
 
 **Loops:**
 - `for i := range n`: `for i := range len(items)` instead of `for i := 0; i < len(items); i++`
-- Loop variables are now safe to capture in goroutines (each iteration has its own copy)
+- Variables declared by the loop have per-iteration bindings. Assignment to pre-existing
+  variables still shares them; captured pointers and referenced mutable data need their
+  own ownership/synchronization policy.
 
 **cmp package:**
 - `cmp.Or`: `cmp.Or(flag, env, config, "default")` returns first non-zero value
@@ -153,7 +152,7 @@ name := cmp.Or(os.Getenv("NAME"), "default")
 ```go
 keys := slices.Collect(maps.Keys(m))       // not: for k := range m { keys = append(keys, k) }
 sortedKeys := slices.Sorted(maps.Keys(m))  // collect + sort
-for k := range maps.Keys(m) { process(k) } // iterate directly
+for k := range m { process(k) }           // direct map iteration needs no adapter
 ```
 
 **time package**
@@ -162,8 +161,8 @@ for k := range maps.Keys(m) { process(k) } // iterate directly
 
 ### Go 1.24+
 
-- `t.Context()` not `context.WithCancel(context.Background())` in tests.
-  ALWAYS use t.Context() when a test function needs a context.
+- Prefer `t.Context()` as the test-lifetime parent. Derive a child with cancellation or
+  a deadline when testing those behaviors or bounding a shorter operation.
 
   One exception to this rule is for cleanup functions running inside tests. Passing `t.Context()`
   to a function that runs on `t.Cleanup` would be immediately canceled and not run. For these, the
@@ -194,24 +193,25 @@ func TestFoo(t *testing.T) {
 }
 ```
 
-- `omitzero` not `omitempty` in JSON struct tags.
-  ALWAYS use omitzero for time.Duration, time.Time, structs, slices, maps.
+- `omitzero` adds a distinct omission policy, not a replacement for `omitempty`.
+  Choose tags using the encoded-contract rules in
+  [`boundary-data.md`](../coding-standards/references/boundary-data.md#encoded-contracts).
+  In `encoding/json` v1, both tags omit zero `time.Duration`; `omitzero` can omit zero
+  `time.Time` and other structs. Non-nil empty slices/maps are omitted by `omitempty`
+  but retained by `omitzero`. Preserve the wire contract and test nil, empty, zero, and
+  populated values before changing a tag.
 
-Before:
 ```go
-type Config struct {
-    Timeout time.Duration `json:"timeout,omitempty"` // doesn't work for Duration!
-}
-```
-After:
-```go
-type Config struct {
-    Timeout time.Duration `json:"timeout,omitzero"`
+type Response struct {
+    Timeout time.Duration `json:"timeout,omitempty"` // omit numeric zero
+    Updated time.Time     `json:"updated,omitzero"`   // omit zero time
+    Items   []string      `json:"items,omitempty"`    // omit nil and empty slices
 }
 ```
 
 - `b.Loop()` not `for i := 0; i < b.N; i++` in benchmarks.
-  ALWAYS use b.Loop() for the main loop in benchmark functions.
+  Prefer `b.Loop()` for ordinary sequential benchmarks. Keep `b.RunParallel` for parallel
+  benchmarks and preserve setup, timing, and allocation semantics when converting.
 
 Before:
 ```go
@@ -231,7 +231,8 @@ func BenchmarkFoo(b *testing.B) {
 ```
 
 - `strings.SplitSeq` not `strings.Split` when iterating.
-  ALWAYS use SplitSeq/FieldsSeq when iterating over split results in a for-range loop.
+  Prefer SplitSeq/FieldsSeq for one-pass iteration; retain a materialized slice when
+  indexing, reuse, mutation, or the measured performance contract requires it.
 
 Before:
 ```go
@@ -250,7 +251,9 @@ Also: `strings.FieldsSeq`, `bytes.SplitSeq`, `bytes.FieldsSeq`.
 ### Go 1.25+
 
 - `wg.Go(fn)` not `wg.Add(1)` + `go func() { defer wg.Done(); ... }()`.
-  ALWAYS use wg.Go() when spawning goroutines with sync.WaitGroup.
+  Prefer `wg.Go()` for tasks owned by a WaitGroup; its callback must not let a panic
+  escape. Preserve any supervision/recovery policy. Use `errgroup` when errors should
+  cancel peers, and keep explicit Add/Done when tracking work not spawned here.
 
 Before:
 ```go
@@ -280,8 +283,9 @@ wg.Wait()
 - `new(val)` not `x := val; &x` — returns pointer to any value.
   Go 1.26 extends new() to accept expressions, not just types.
   Type is inferred: new(0) → *int, new("s") → *string, new(T{}) → *T.
-  DO NOT use `x := val; &x` pattern — always use new(val) directly.
-  DO NOT use redundant casts like new(int(0)) — just write new(0).
+  Prefer `new(val)` when allocating an independent initialized value. Preserve `&x`
+  when callers need the identity or later mutations of an existing variable. Keep
+  conversions required for the intended type; `new(0)` is `*int`, not `*int64`.
   Common use case: struct fields with pointer types.
 
 Before:
@@ -302,7 +306,8 @@ cfg := Config{
 ```
 
 - `errors.AsType[T](err)` not `errors.As(err, &target)`.
-  ALWAYS use errors.AsType when checking if error matches a specific type.
+  Prefer `errors.AsType` when the target error type is statically known. Keep `errors.As`
+  when the target is supplied dynamically or the established API requires it.
 
 Before:
 ```go

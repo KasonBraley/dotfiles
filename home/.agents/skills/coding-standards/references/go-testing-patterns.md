@@ -57,7 +57,7 @@ When generic inference, interface satisfaction, method sets, or API assignabilit
 
 Testing friction is design evidence. Prefer concrete production types and small interfaces discovered at the consuming seam. Inject dependencies through parameters or constructors rather than globals. Use standard capabilities such as `io.Reader`, `io.Writer`, `fs.FS`, and `context.Context` where they are the actual effect boundary. Separate what is done from where the effect goes; for example, accept an `io.Writer` instead of capturing process-global output.
 
-Apply the same approach to clocks, HTTP clients, filesystems, and other effects only when behavior requires control. Keep a useful zero value and direct control flow so fixtures remain small.
+Apply the same approach to HTTP clients, filesystems, and other effects only when behavior requires control. Time and randomness follow the selection policy in [`go-testing.md`](go-testing.md#time-randomness-and-race-behavior). Keep a useful zero value and direct control flow so fixtures remain small.
 
 ## Test doubles
 

@@ -14,7 +14,6 @@
   "packages": [
     {
       "source": "npm:@gotgenes/pi-anthropic-auth",
-      "extensions": [],
       "skills": [],
       "prompts": [],
       "themes": []

@@ -23,42 +23,54 @@ Prefer an existing standard-library capability or concrete value before defining
 
 An interface seam represents real ownership or variability in production or a necessary consumer-owned test seam.
 When injection is the only need, pass a concrete value or function if that is the complete capability.
-Record production evidence for the interface-or-concrete decision and the rejected alternative.
+Explain consequential interface-or-concrete decisions; routine injection needs no written alternatives ledger.
 
 ## Authority and dependencies
 
 The consuming application package owns the interface. A technology adapter owns its concrete type and constructor only after translation, mechanics, reuse, or real implementation variation earns that seam. The composition root selects top-level implementations.
 
-Construct stable runtime dependencies once and store them on the concrete service. Pass request- or operation-scoped `context.Context` to each method; never store it. Authorization evidence, scoped handles, and operation-specific capability values remain explicit inputs when they are part of the request or domain contract.
+Construct stable runtime dependencies once and store them on the concrete service. Context lifetime follows [`go-safety.md`](go-safety.md#context-and-concurrency-safety). Authorization evidence, scoped handles, and operation-specific capability values remain explicit inputs when they are part of the request or domain contract.
 
 ## Package shape
 
 Follow the repository's established equivalent of this shape:
 
 ```go
-// Store is the user persistence capability required by Service.
+// In the account application package; domain types are omitted here.
+// Store supplies the persistence operations needed to deactivate an account.
 type Store interface {
-    FindByID(context.Context, UserID) (User, error)
+    Find(context.Context, AccountID) (Account, error)
+    Save(context.Context, Account) error
 }
 
+// Service enforces account lifecycle policy.
 type Service struct {
-    users Store
+    accounts Store
 }
 
-func NewService(users Store) *Service {
-    return &Service{users: users}
-}
-
-func (s *Service) GetUser(ctx context.Context, id UserID) (User, error) {
-    user, err := s.users.FindByID(ctx, id)
-    if err != nil {
-        return User{}, fmt.Errorf("get user: %w", err)
+// New constructs a service with a required account store.
+func New(accounts Store) (*Service, error) {
+    if accounts == nil {
+        return nil, errors.New("account service: missing store")
     }
-    return user, nil
+    return &Service{accounts: accounts}, nil
+}
+
+// Deactivate applies the domain transition and persists it.
+func (s *Service) Deactivate(ctx context.Context, id AccountID) error {
+    account, err := s.accounts.Find(ctx, id)
+    if err != nil {
+        return fmt.Errorf("deactivate account: %w", err)
+    }
+    deactivated, err := account.Deactivate()
+    if err != nil {
+        return err
+    }
+    return s.accounts.Save(ctx, deactivated)
 }
 ```
 
-Use concrete constructor parameters unless the consumer needs multiple implementations or a test seam.
+The sketch assumes `Save` enforces the required concurrency/version contract; it does not imply a check-then-write sequence is atomic. Use concrete constructor parameters unless the consumer needs multiple implementations or a test seam.
 Define small interfaces where they are consumed.
 Return concrete implementations from constructors.
 Validate required dependencies at construction when nil would make later execution invalid; otherwise make the zero value useful.
@@ -83,8 +95,7 @@ Public service methods expose cohesive domain operations. Add concise operation 
 ## Test implementations
 
 When tests or reusable implementations change, apply the double-selection and fidelity rules in [`go-testing-patterns.md`](go-testing-patterns.md).
-The concrete implementation owner keeps reusable production and test implementations with that implementation.
 
 ## Completion check
 
-Complete when the service-or-value decision cites real ownership or variability and the rejected alternative; every interface, constructor, expected error, method, production implementation, and reusable test implementation has one owner; interfaces are consumer-owned and minimal; stable dependencies are captured at construction while contexts remain method inputs; construction and cleanup lifetimes are explicit; long-lived work is owned; public operations have operation-level diagnostics; package surfaces expose only intended API; and tests exercise the production interface at the fidelity required by its observable contract.
+The checklist identifies service ownership, earned interfaces, stable dependencies, intended exports, and operation contracts. Consequential decisions have a rationale. Resource, context, error, and test behavior satisfy their owning references rather than a second service-specific policy.

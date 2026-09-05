@@ -4,13 +4,13 @@ These defaults target the Go version declared by the repository's `go.mod`.
 
 ## Source rule
 
-Inspect the project's `go` directive, pinned module versions, and relevant source or package documentation before selecting APIs. Prefer standard-library documentation and examples for that supported version, then pinned dependency source, over remembered APIs. Consult current upstream source only when the pinned module does not answer the question.
+Read [`use-modern-go`](../../use-modern-go/SKILL.md) for owning-module version detection and compatibility-aware modernization. Inspect pinned module versions and relevant source or package documentation before selecting APIs. Prefer standard-library documentation for the supported version, then pinned dependency source, over remembered APIs. Consult current upstream source only when the pinned module does not answer the question.
 
 ## Branch chooser
 
 Read every branch that matches the changed behavior:
 
-- Packages, files, identifiers, receivers, methods, interfaces, exports, errors, logs, or doc comments: call the Skill tool with `write-discoverable-code`.
+- Packages, files, identifiers, receivers, methods, interfaces, exports, errors, logs, or doc comments: read [`write-discoverable-code`](../../write-discoverable-code/SKILL.md) for naming and searchability.
 - Domain records, identifiers, units, constrained values, semantic optionality, lifecycle states, or operation inputs: [`domain-types-and-state.md`](domain-types-and-state.md).
 - External or serialized data, protocol/persistence representations, schemas, validation, JSON, text/binary encoding, codecs, tagged variants, or decoders: [`boundary-data.md`](boundary-data.md).
 - Services, package surfaces, interfaces, constructors, runtime wiring, or test implementations: [`services.md`](services.md).
@@ -27,10 +27,10 @@ Read every branch that matches the changed behavior:
 ## Cross-cutting defaults
 
 - Write boring Go with direct control flow and early returns.
-- Pass `context.Context` first for request-scoped cancellation; do not store it in structs.
-- Return concrete types and accept small interfaces at the consuming boundary.
-- Wrap errors with concise operation context while preserving `errors.Is`/`errors.As` behavior that is part of the contract.
-- Give every goroutine an owner, exit condition, and error path.
+- Context propagation and mutable-value safety are owned by [`go-safety.md`](go-safety.md).
+- Interface and constructor decisions are owned by [`services.md`](services.md).
+- Failure classification and wrapping are owned by [`errors.md`](errors.md).
+- Goroutine ownership is owned by [`concurrency-and-streams.md`](concurrency-and-streams.md).
 - Prefer multi-line keyed struct literals with one field per line when a struct is too large to remain immediately readable on one line.
 - Prefer modern standard-library types and APIs supported by the repository's Go version.
     Isolate unavoidable platform or vendor APIs in their owning adapter.
@@ -38,4 +38,4 @@ Read every branch that matches the changed behavior:
 
 ## Completion check
 
-Every matching branch has been read, every chosen API is supported by the repository's Go and module versions, and every cross-cutting default has been checked against each changed Go path. Report any exception with concrete evidence.
+The scoped checklist includes every matching branch and verifies API compatibility against the owning module. Record exceptions with evidence; already-loaded references need no duplicate read.

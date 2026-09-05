@@ -5,7 +5,7 @@ description: Test-driven development. Use when the user wants to build features 
 
 # Test-Driven Development
 
-TDD is the red → green loop. This skill is the reference that makes that loop produce tests worth keeping: what a good test is, where tests go, the anti-patterns, and the rules of the loop. Every section applies on every cycle — consult them before and during the loop, not after.
+This workflow uses a red → green implementation loop followed by a separate review/remediation stage. This skill owns sequencing and test-first discipline; applicable coding standards inform the design before the first test.
 
 When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
 
@@ -13,7 +13,7 @@ When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and 
 
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification — "user can checkout with valid cart" tells you exactly what capability exists — and survives refactors because it doesn't care about internal structure.
 
-The project's coding standards own coverage breadth and test-level policy. Call the Skill tool with `coding-standards` for the Go policy, examples, and guidelines.
+The project's coding standards own coverage breadth and test-level policy. Where the project is silent, use [`testing.md`](../coding-standards/references/testing.md). For Go work, call the Skill tool with `coding-standards` in implementation mode for the policy, constraints, and applicable examples.
 
 ## Seams — where tests go
 
@@ -23,7 +23,7 @@ Before writing the first test, name the seam selected under the governing covera
 
 Ask: "What's the public interface, and which seams should we test?"
 
-When the shape of that interface is itself in question — how deep the module is, where the seam belongs, what the interface should expose — use the `/codebase-design` skill for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
+When the shape of that interface is itself in question — how deep the module is, where the seam belongs, what the interface should expose — read [`codebase-design`](../codebase-design/SKILL.md) for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
 
 ## Anti-patterns
 
@@ -35,4 +35,4 @@ When the shape of that interface is itself in question — how deep the module i
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
-- **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
+- **Refactoring follows the loop.** Keep red → green slices minimal. Once the behavior is green, use [`code-review`](../code-review/SKILL.md) to identify improvements; the implementing agent owns remediation, reruns affected checks, and requests review of material revisions before committing. Review itself remains read-only.

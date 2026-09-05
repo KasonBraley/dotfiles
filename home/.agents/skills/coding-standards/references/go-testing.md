@@ -31,9 +31,18 @@ Never use `time.Sleep` to guess readiness. A real-time test is appropriate only 
 
 ## Time, randomness, and race behavior
 
-Test pure time-based policy with concrete timestamps.
-Never introduce a clock interface. Use the std libraries synctest package to better test time without sleeping for real time.
-Inject deterministic randomness when output or retry jitter is under test.
+This section owns time-control selection for tests:
+
+| Behavior | Control |
+| --- | --- |
+| Pure time policy | Pass concrete timestamps to the domain calculation. |
+| Self-contained concurrent work on Go 1.25+ | Use `testing/synctest.Test`; create participating goroutines and synchronization inside its bubble. |
+| Real network/process integration, or older Go targets | Use explicit synchronization and bounded deadlines; use real elapsed time only when timing is the contract. |
+| Production policy needs an alternate time source | Use the earned capability described in [`resources-and-process-effects.md`](resources-and-process-effects.md). |
+
+A synctest bubble does not virtualize external processes or real socket I/O. On Go 1.27+, `httptest.NewTestServer` provides an in-memory network for compatible HTTP tests; otherwise use `net.Pipe` where suitable or test real I/O outside the bubble. Go 1.24's experimental synctest API requires an existing project opt-in; it is not the stable Go 1.25 API.
+
+For an older target where elapsed-time tests would be impractical, reuse an established clock seam or consider a narrow time function at the existing owner and explain the need. Avoid a new clock service merely to replace an already-testable timestamp calculation. Inject deterministic randomness for non-security policy such as retry jitter; security-sensitive randomness follows [`resources-and-process-effects.md`](resources-and-process-effects.md).
 Run focused tests under `go test -race` for changed synchronization or goroutine ownership when practical.
 Use leak detection already established by the repository; otherwise prove shutdown with explicit joins and bounded test deadlines.
 
@@ -41,4 +50,4 @@ For retry tests, also read [`scheduling-and-retry.md`](scheduling-and-retry.md).
 
 ## Completion check
 
-The completion check in [`testing.md`](testing.md) passes; tests use the standard runtime and repository conventions; contexts and concurrent work have test-owned lifetimes; temporal and concurrent tests use explicit synchronization; observable cancellation and cleanup are asserted; race-sensitive changes receive race coverage when practical; and every matching branch pointer above has been followed.
+The scoped checklist covers test-owned lifetimes, applicable time-control selection, observable cancellation/cleanup, and race coverage or its blocker. Coverage breadth remains owned by [`testing.md`](testing.md).
