@@ -18,7 +18,7 @@ Show this to the user, then immediately proceed to Step 2. The user reads and th
 
 ### 2. Spawn sub-agents
 
-Spawn 3+ sub-agents in parallel when available. Otherwise produce the same alternatives in separate passes and disclose that they did not have isolated contexts. Each must produce a **radically different** contract for the deepened module.
+Default to three materially different designs, or use the count requested by the user. Add or omit alternatives according to the distinct, relevant trade-offs they test. Delegate independent designs in parallel when tools are available and doing so helps. Otherwise use separate passes and disclose that their contexts were not isolated. Each design must differ in its contract, rather than just its names.
 
 Prompt each sub-agent with a separate technical brief (file paths, coupling details, dependency category from [DEEPENING.md](DEEPENING.md), what sits behind the seam). The brief is independent of the user-facing problem-space explanation in Step 1. Give each agent a different design constraint:
 

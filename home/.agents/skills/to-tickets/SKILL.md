@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Break a plan, spec, or conversation into a set of **tickets** — tracer-bullet vertical slices, each declaring the tickets that **block** it.
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+Read `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md` when present; otherwise use the destination and conventions established in context. Prepare the ticket files below before asking for missing publication details. Setup is optional and does not block drafting.
 
 ## Process
 
@@ -39,7 +39,7 @@ Give each ticket its **blocking edges** — the other tickets that must complete
 
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change — rename a column, retype a shared symbol — whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket — green is promised only there.
 
-### 4. Quiz the user
+### 4. Review the breakdown
 
 Present the proposed breakdown as a numbered list. For each ticket, show:
 
@@ -47,24 +47,18 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 
-Ask the user:
-
-- Does the granularity feel right? (too coarse / too fine)
-- Are the blocking edges correct — does each ticket only depend on tickets that genuinely gate it?
-- Should any tickets be merged or split further?
-
-Iterate until the user approves the breakdown.
+Write the draft ticket files so the proposed scope, acceptance criteria, and blocking edges are reviewable. Mark them `draft` while material decisions or requested approval are pending; set `ready-for-agent` only when publishing settled tickets. If the user requested review before publishing, or a material scope choice remains, ask about that choice. Reuse an approved breakdown; when the user has delegated slicing and authorized publication, proceed without another approval round.
 
 ### 5. Publish the tickets to the configured tracker
 
-Publish the approved tickets. **How** depends on the tracker `/setup-matt-pocock-skills` configured — the tickets are the same either way, only the shape of the blocking edges changes:
+Publish the tickets when authorized and material scope choices are settled. **How** depends on the configured or user-supplied tracker — the tickets are the same either way, only the shape of the blocking edges changes:
 
 - **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below — one ticket per file, never a single combined file.
 - **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking / sub-issue relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. Apply the `ready-for-agent` triage label unless instructed otherwise — the tickets are agent-grabbable by construction.
 
-Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
+The **frontier** identifies tickets available for later implementation: those whose blockers are all done. This skill finishes with ticket paths or published identifiers and blocking links; implement them only if also requested.
 
-Do NOT close or modify any parent issue.
+Leave parent issues unchanged unless the user explicitly requests a parent update.
 
 <local-ticket-template>
 

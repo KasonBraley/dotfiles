@@ -22,7 +22,8 @@ nested modules, or a workspace with different versions.
    toolchain, `toolchain` directive, or `go.work` version does not raise it. Account for
    deliberate per-file version build tags and ensure older targets retain their fallback.
 3. If no module governs the file, inspect the repository's documented target and CI.
-   If still unknown, ask the user which Go version to target in ordinary conversation.
+   If still unknown, retain the existing syntax and APIs while continuing independent work.
+   Ask for a target only when a needed change depends on the version.
 
 ## How to Use This Skill
 

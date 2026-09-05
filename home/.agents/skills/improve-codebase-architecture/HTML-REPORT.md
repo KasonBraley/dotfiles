@@ -44,12 +44,12 @@ The diagrams carry the weight. Prose is sparse, plain, and uses the glossary ter
 Each candidate is one `<article>`:
 
 - **Title** — short, names the deepening (e.g. "Collapse the Order intake pipeline").
-- **Badge row** — recommendation strength (`Strong` = emerald, `Worth exploring` = amber, `Speculative` = slate), plus a tag for the dependency category (`in-process`, `local-substitutable`, `ports & adapters`, `mock`).
+- **Badge row** — recommendation strength (`Strong` = emerald, `Worth exploring` = amber, `Speculative` = slate), plus a tag for the dependency category (`in-process`, `local-substitutable`, `remote-owned`, `true-external`).
 - **Files** — monospaced list, `font-mono text-sm`.
 - **Before / After diagram** — the centrepiece. Two columns, side by side. See patterns below.
 - **Problem** — one sentence. What hurts.
 - **Solution** — one sentence. What changes.
-- **Wins** — bullets, ≤6 words each. e.g. "Tests hit one interface", "Pricing logic stops leaking", "Delete 4 shallow wrappers".
+- **Wins** — short bullets naming concrete benefits. e.g. "Tests hit one interface", "Pricing logic stops leaking", "Delete 4 shallow wrappers".
 - **ADR callout** (if applicable) — one line in an amber-tinted box.
 
 No paragraphs of explanation. If the diagram needs a paragraph to be understood, redraw the diagram.
@@ -107,17 +107,17 @@ One larger card. Candidate name, one sentence on why, anchor link to its card. T
 
 Plain English, concise — but the architectural nouns and verbs come straight from the `/codebase-design` skill. Concision is not an excuse to drift.
 
-**Use exactly:** module, interface, implementation, depth, deep, shallow, seam, adapter, leverage, locality.
+**Shared terms:** module, contract/interface, implementation, depth, deep, shallow, seam, adapter, leverage, locality.
 
-**Never substitute:** component, service, unit (for module) · API, signature (for interface) · boundary (for seam) · layer, wrapper (for module, when you mean module).
+Distinguish module contracts from language interface types. Use specific roles such as application service, HTTP API, trust boundary, or technology adapter when they carry the intended meaning; avoid renaming everything to fit the diagram.
 
 **Phrasings that fit the style:**
 
 - "Order intake module is shallow — interface nearly matches the implementation."
 - "Pricing leaks across the seam."
-- "Deepen: one interface, one place to test."
-- "Two adapters justify the seam: HTTP in prod, in-memory in tests."
+- "Deepen: orchestration has one owner and a clear test surface."
+- "The adapter owns protocol translation; the domain contract stays stable."
 
 **Wins bullets** name the gain in glossary terms: *"locality: bugs concentrate in one module"*, *"leverage: one interface, N call sites"*, *"interface shrinks; implementation absorbs the wrappers"*. Don't write *"easier to maintain"* or *"cleaner code"* — those terms aren't in the glossary and don't earn their place.
 
-No hedging, no throat-clearing, no "it's worth noting that…". If a sentence could be a bullet, make it a bullet. If a bullet could be cut, cut it. If a term isn't in the `/codebase-design` glossary, reach for one that is before inventing a new one.
+State findings directly and use recommendation strength to distinguish evidence from speculation. Use bullets for parallel benefits and concise prose where explanation is needed. Preserve uncertainty, use established domain terms, and omit stock phrases or unnecessary repetition.

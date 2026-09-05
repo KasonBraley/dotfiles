@@ -17,8 +17,6 @@ Select the mode from the task; loading this skill does not authorize edits:
 
 Mandatory task and repository instructions govern. Respect project standards and accepted architectural decisions; these personal standards supply defaults where the project is silent. Heuristics such as code smells yield to those rules. Surface a safety problem or irreconcilable conflict rather than silently overriding a requirement. Keep unrelated behavior unchanged; contain incompatible legacy patterns at the nearest existing edge unless migration is requested.
 
-Treat implementation and review requests as authorization for ordinary local verification within task and repository restrictions. Ask only when a material ambiguity or consequential side effect requires a user decision; continue independent authorized work. When a skill instruction blocks completion or requires confirmation, link the source file, quote the instruction, and distinguish its explicit requirement from your interpretation.
-
 ## 1. Establish the local rules
 
 Read applicable `AGENTS.md` files, project standards, tool configuration, architecture decisions, and the changed area's conventions. For Go version and API selection, use the source rule in [`references/go.md`](references/go.md).

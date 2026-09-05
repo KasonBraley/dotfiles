@@ -5,7 +5,7 @@ disable-model-invocation: true
 argument-hint: "What would you like to learn about?"
 ---
 
-The user has asked you to teach them something. This is a stateful request - they intend to learn the topic over multiple sessions.
+Teach the requested topic at the user's level. Use a stateful teaching workspace for an ongoing course; a focused one-off question can be answered directly without creating a course or starting an intake interview.
 
 ## Teaching Workspace
 
@@ -27,7 +27,7 @@ To learn at a deep level, the user needs three things:
 - **Skills**, acquired through highly-relevant interactive lessons devised by you, based on the knowledge
 - **Wisdom**, which comes from interacting with other learners and practitioners
 
-Before the `RESOURCES.md` is well-populated, your focus should be to find high-quality resources which will help the user acquire knowledge. Never trust your parametric knowledge.
+Gather enough trusted source material to ground the current lesson. Verify unfamiliar, contested, or version-sensitive claims; use existing reliable resources before broadening research. An incomplete resource catalog does not block a well-supported lesson. State source gaps without fabricating citations.
 
 Some topics may require more skills than knowledge. Learning more about theoretical physics might be more knowledge-based. For yoga, more skills-based.
 
@@ -64,7 +64,7 @@ Each lesson should contain a reminder to ask followup questions to the agent. Th
 
 Lessons are built from reusable **components**, stored in `./assets/`: stylesheets, quiz widgets, simulators, diagram helpers — anything a second lesson could reuse.
 
-Reuse is the default, not the exception. Before authoring a lesson, read `./assets/` and build from the components already there. When a lesson needs something new and reusable, write it as a component in `./assets/` and link to it — never inline code a future lesson would duplicate.
+Before authoring a lesson, inspect `./assets/` if it exists and reuse suitable components. Extract a new component when lessons actually share it; keep one-off interactions local until reuse is concrete.
 
 A shared stylesheet is the first component every workspace earns: every lesson links it, so the lessons look like one consistent course rather than a pile of one-offs. As the workspace grows, so should the component library.
 
@@ -72,11 +72,9 @@ A shared stylesheet is the first component every workspace earns: every lesson l
 
 Every lesson should be tied into the mission - the reason that the user is interested in learning about the topic.
 
-If the user is unclear about the mission, or the `MISSION.md` is not populated, your first job should be to question the user on why they want to learn this.
+Infer the mission from the user's stated goal and existing records. When that suffices, teach the requested lesson and capture the mission if workspace setup is in scope. Ask about motivation only when the answer would change the lesson or course direction.
 
-Failing to understand the mission will mean knowledge acquisition is not grounded in real-world goals. Lessons will feel too abstract. You will have no way of judging what the user should do next.
-
-Missions may change as the user develops more skills and knowledge. This is normal - make sure to update the `MISSION.md` and add a learning record to capture the change. Confirm with the user before changing the mission.
+Missions may change as the user learns. Update `MISSION.md` and add a learning record when the user explicitly changes the goal. Ask before substituting a different mission of your own.
 
 ## Zone Of Proximal Development
 
@@ -92,7 +90,7 @@ The user may specify an exact thing they want to learn. If they don't, figure ou
 
 Lessons should be designed around a skill the user is going to learn. The knowledge in the lesson should be only what's required to acquire that skill. You teach the knowledge first, then get the user to practice the skills via an interactive feedback loop.
 
-Knowledge should first be gathered from trusted resources. Use `RESOURCES.md` to keep track of them. Lessons should be littered with citations - links to external resources to back up any claim made. This increases the trustworthiness of the lesson.
+Knowledge should first be gathered from trusted resources. Use `RESOURCES.md` to keep track of them. Cite the sources supporting material claims, keeping citations close to the relevant explanation and avoiding repeated links that interrupt learning.
 
 For acquiring knowledge, difficulty is the enemy. It eats working memory you need for understanding.
 
@@ -107,7 +105,7 @@ For skill acquisition, difficulty is the tool. Effortful retrieval is what build
 
 Each of these should be based on a **feedback loop**, where the user receives feedback on their performance. This feedback loop should be as tight as possible, giving feedback immediately - and ideally automatically.
 
-For quizzes, each answer should be exactly the same number of words (and characters, if possible). Don't give the user any clues about the answer through formatting.
+For quizzes, use plausible answer options with comparable length and consistent formatting so presentation does not reveal the answer. Preserve clear wording rather than forcing identical word or character counts.
 
 ## Acquiring Wisdom
 

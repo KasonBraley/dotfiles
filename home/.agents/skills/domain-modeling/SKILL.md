@@ -65,7 +65,7 @@ When a term is resolved, update `CONTEXT.md` right there. Don't batch these up �
 
 ### Offer ADRs sparingly
 
-Only offer to create an ADR when all three are true:
+Create an ADR for a settled decision when recording decisions is part of the request; otherwise offer it without blocking the current work. Use an ADR only when all three are true:
 
 1. **Hard to reverse** — the cost of changing your mind later is meaningful
 2. **Surprising without context** — a future reader will wonder "why did they do it this way?"

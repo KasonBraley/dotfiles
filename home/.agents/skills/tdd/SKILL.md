@@ -13,7 +13,7 @@ When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and 
 
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification — "user can checkout with valid cart" tells you exactly what capability exists — and survives refactors because it doesn't care about internal structure.
 
-The project's coding standards own coverage breadth and test-level policy. Where the project is silent, use [`testing.md`](../coding-standards/references/testing.md). For Go work, call the Skill tool with `coding-standards` in implementation mode for the policy, constraints, and applicable examples.
+The project's coding standards own coverage breadth and test-level policy. Where the project is silent, use [`testing.md`](../coding-standards/references/testing.md). For Go work, read [`coding-standards`](../coding-standards/SKILL.md) in implementation mode for the policy, constraints, and applicable examples.
 
 ## Seams — where tests go
 
@@ -21,7 +21,7 @@ A **seam** is the public boundary you test at: the interface where you observe b
 
 Before writing the first test, name the seam selected under the governing coverage policy. Confirm it with the user when the choice would materially change scope, cost, or the public contract; otherwise state it and proceed.
 
-Ask: "What's the public interface, and which seams should we test?"
+Determine the public interface and test seams from the request, code, and existing tests before asking the user.
 
 When the shape of that interface is itself in question — how deep the module is, where the seam belongs, what the interface should expose — read [`codebase-design`](../codebase-design/SKILL.md) for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
 

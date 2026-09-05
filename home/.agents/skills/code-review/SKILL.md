@@ -10,13 +10,13 @@ Review the same pinned change scope along two independent axes:
 - **Standards:** does the change follow the governing rules and preserve correctness?
 - **Spec:** does it implement the requested behavior without unrelated scope?
 
-Review is **read-only**. Leave source, tests, index, and commits unchanged. Report repairs for the implementing agent; loading a standards skill does not authorize its implementation steps. Inspect relevant unchanged callers, dependencies, and tests as well as the diff. Run checks only when permitted and report missing verification.
+Review is **read-only**. Leave source, tests, index, and commits unchanged. Report repairs for the implementing agent; loading a standards skill does not authorize its implementation steps. Inspect relevant unchanged callers, dependencies, and tests as well as the diff. Treat the review request as authorization for focused local checks within task and repository restrictions. Report missing verification; reuse applicable results instead of repeating checks without a reason.
 
 Use parallel subagents when available. Without them, run two separate passes and disclose that their contexts were not isolated.
 
 ## 1. Pin the scope
 
-Read `git status --short` before selecting changes. Reuse the baseline and scope supplied by the implementing agent. Otherwise identify the user's intended mode and fixed point; ask when ambiguous. Resolve the base to a commit SHA and record the current `HEAD` SHA before review.
+Read `git status --short` before selecting changes. Reuse the baseline and scope supplied by the implementing agent. Otherwise infer the intended mode and fixed point from the request, status, and branch context. State the comparison and proceed when clear; ask only when plausible scopes would review materially different work. Resolve the base to a commit SHA and record the current `HEAD` SHA before review.
 
 | Mode | Comparison | Included |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ bash "$skill_dir/scripts/review-diff.sh" "$mode" "$base_sha" > "$review_dir/trac
 
 Resolve `skill_dir` to this skill's directory and create `review_dir` as a private OS temporary directory. Run the helper from the repository root. It validates refs, uses the selected comparison, and disables external diff/text conversion programs. Record the resolved comparison and relevant commit list (`git log <comparison-base>..<head-sha> --oneline`) alongside the patch.
 
-Read full source at the selected snapshot: `git show <head-sha>:<path>` for branch mode, `git show :<path>` for staged mode, and current files for worktree mode. Apply that rule to unchanged callers and standards/spec files too, except mandatory active instructions still govern. Dirty working files are not evidence of a historical or staged implementation. Resolve unmerged index entries before reviewing a final-state scope, or explicitly agree a conflict-review scope with the user.
+Read full source at the selected snapshot: `git show <head-sha>:<path>` for branch mode, `git show :<path>` for staged mode, and current files for worktree mode. Apply that rule to unchanged callers and standards/spec files too, except mandatory active instructions still govern. Dirty working files are not evidence of a historical or staged implementation. For a final-state review with unmerged index entries, report the affected paths as unresolved and review unaffected changes. Ask about a conflict-review scope only if needed; review does not authorize resolving conflicts.
 
 For **worktree** mode, also inventory untracked files with `git ls-files --others --exclude-standard -z`. Inspect names first, select files belonging to the task, and snapshot their safe contents for both reviewers; inspect symlinks as links rather than following them outside the repository. Keep credentials and private artifacts out of snapshots and reports. Untracked files are absent from `git diff` and must be explicitly included or listed as excluded with a reason. A new-file-only change is not an empty review.
 
@@ -44,17 +44,17 @@ Preserve the user's unrelated dirty work: list exclusions rather than staging, c
 
 ## 2. Identify the spec
 
-Prefer the explicit spec/ticket/path supplied with the task. Otherwise look for issue references in commits, then matching spec files under the repository's established locations. Use `docs/agents/issue-tracker.md` when fetching tracker material; if unavailable, ask for the spec or tracker instructions rather than making local review depend on setup.
+Prefer the explicit spec/ticket/path supplied with the task. Otherwise look for issue references in commits, then matching spec files under the repository's established locations. Use `docs/agents/issue-tracker.md` when fetching tracker material. If it is absent, use the supplied reference and available tracker tooling; continue local review when tracker access is unavailable.
 
-If no spec is available, ask whether to proceed standards-only. On approval, skip the Spec pass and report "no spec available".
+The user's request and accepted conversation decisions can supply the spec. If no requirements are available, complete the Standards pass and report "no spec available; spec compliance not assessed". Ask for missing requirements only where their answer is necessary to judge a finding; keep reviewing independent concerns.
 
 ## 3. Identify the standards
 
-Read applicable repository instructions, project standards, and accepted architectural decisions. Those govern over personal defaults and smell heuristics. For changed Go code, the Standards axis requires the following skills; call the Skill tool for each of them:
+Read applicable repository instructions, project standards, and accepted architectural decisions. Those govern over personal defaults and smell heuristics. For changed Go code, read the following skills:
 
-- coding-standards, in **review mode**; follow its applicable reference pointers
-- write-discoverable-code
-- use-modern-go
+- [`coding-standards`](../coding-standards/SKILL.md), in **review mode**; follow its applicable reference pointers
+- [`write-discoverable-code`](../write-discoverable-code/SKILL.md)
+- [`use-modern-go`](../use-modern-go/SKILL.md)
 
 For other languages use their project standards rather than loading Go rules.
 

@@ -8,15 +8,15 @@ description: >-
   headless Chrome, or Chromium.
 ---
 
-Take every screenshot with `Bun.WebView`. It ships inside Bun 1.4+ — no npm install, no browser download, one script, done in seconds. On macOS it drives the system WebKit; on Linux/Windows it drives an installed Chrome/Chromium/Edge/Brave automatically.
+Prefer `Bun.WebView` for screenshots. It ships inside Bun 1.4+. On macOS it drives system WebKit; on Linux/Windows it drives an installed Chrome/Chromium/Edge/Brave. Honor an explicitly requested browser or an established project requirement.
 
 Docs: https://bun.com/docs/runtime/webview
 
 ## Steps
 
-1. Confirm `bun --version` is >= 1.4 (`Bun.WebView` landed there). If older, run `bun upgrade` or ask the user.
+1. Check once that `bun --version` is >= 1.4 and `Bun.WebView` is available. If unavailable, use an already-installed suitable capture tool or prepare the script and report the missing prerequisite. Upgrade or install tooling only when authorized; a screenshot request alone does not require a global runtime upgrade.
 2. Write a throwaway script (temp file or `bun -e`) from the template below. Adjust viewport, URL, and output path.
-3. Run it, then verify the output file exists and is non-empty (`ls -la`). Done when the image file is written and you have reported its path.
+3. Run it and verify the image was written. For a visual-check request, open the image with an available image-reading tool and assess the requested state; report if image inspection is unavailable. Finish with the path and relevant observations. Repeat captures only when a render issue, changed state, or requested viewport needs verification.
 
 ## Template
 
@@ -30,7 +30,7 @@ await Bun.write("screenshot.png", await view.screenshot());
 
 ## Reference
 
-**Targets.** `navigate()` accepts `https://…`, `file:///abs/path.html`, and `data:text/html,…`. To screenshot an HTML snippet, use a data URL or write it to a temp file first. For an app that isn't running, start its dev server, screenshot, then stop it.
+**Targets.** `navigate()` accepts `https://…`, `file:///abs/path.html`, and `data:text/html,…`. To screenshot an HTML snippet, use a data URL or write it to a temp file first. For an app that isn't running, start its dev server, screenshot, then stop the process you started. Leave pre-existing servers running.
 
 **Full page.** `screenshot()` captures the viewport only. For the whole page, resize to the document height first:
 

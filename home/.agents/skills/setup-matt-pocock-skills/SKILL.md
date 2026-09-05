@@ -12,7 +12,7 @@ Scaffold the per-repo configuration that the engineering skills assume:
 - **Triage labels** — the strings used for the five canonical triage roles
 - **Domain docs** — where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
 
-This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
+Explore the existing configuration, reuse settled choices, and complete the requested setup. Prepare a concrete draft before asking about any material unresolved choice.
 
 ## Process
 
@@ -31,9 +31,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 
 ### 2. Present findings and ask
 
-Summarise what's present and what's missing. Then take the sections in order — one section, one answer, then the next.
-
-Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
+Summarize what's present and what's missing. Reuse choices supplied by the user or existing configuration. Ask only about material unresolved choices, grouping independent questions in one exchange with recommended answers. Continue drafting sections already settled; skip Section B when `triage` is absent and use the single-context default for Section C unless evidence warrants otherwise.
 
 **Section A — Issue tracker.**
 
@@ -50,24 +48,20 @@ Record the choice in `docs/agents/issue-tracker.md`. The GitHub and GitLab templ
 
 **Section B — Triage label vocabulary.** Skip this section entirely if the `triage` skill isn't installed (exploration told you) — an uninstalled skill needs no labels.
 
-If it is installed, ask exactly one question:
-
-> Do you want to keep the default triage labels? (recommended: **yes**)
-
-The defaults are the five canonical roles, each label string equal to its name: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. On **yes**, write them as-is. Only if the user says no — usually because their tracker already uses other names (e.g. `bug:triage` for `needs-triage`) — collect the overrides so `triage` applies existing labels instead of creating duplicates.
+If installed, reuse the existing role mapping when present. Otherwise use the five default state roles: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. Inspect existing tracker labels before proposing new ones; ask only when matching an existing label to a role is ambiguous or the user wants custom labels.
 
 **Section C — Domain docs.** Default to **single-context** — one `CONTEXT.md` + `docs/adr/` at the repo root. This fits almost every repo; write it without asking.
 
 Offer **multi-context** — a root `CONTEXT-MAP.md` pointing to per-context `CONTEXT.md` files — only when exploration found monorepo signals. Then confirm which layout they want.
 
-### 3. Confirm and edit
+### 3. Prepare the draft
 
 Show the user a draft of:
 
 - The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
 - The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
 
-Let them edit before writing.
+If the user requested a preview, present the draft for approval. Otherwise write the settled configuration and report the diff; local setup needs no redundant confirmation. Ask about remaining material choices against this concrete draft.
 
 ### 4. Write
 
@@ -75,7 +69,7 @@ Let them edit before writing.
 
 - If `CLAUDE.md` exists, edit it.
 - Else if `AGENTS.md` exists, edit it.
-- If neither exists, ask the user which one to create — don't pick for them.
+- If neither exists, honor a stated harness preference; otherwise create `AGENTS.md`.
 
 Never create `AGENTS.md` when `CLAUDE.md` already exists (or vice versa) — always edit the one that's already there.
 

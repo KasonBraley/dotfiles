@@ -45,7 +45,7 @@ Every command prints JSON on stdout. Shape it at the source with the global `--f
 
 - IDs are forgiving: pass a UUID, team key (`ENG`), issue identifier (`ABC-123`), or name interchangeably. Reference tickets by identifier.
 - `issues create` requires `--team`; some filters need a scope flag — confirm in `usage` rather than memorizing.
-- Threaded discussion lives under `issues discuss` / `discussions` / `replies` / `reply`. The top-level `comments` domain is a deprecated facade (still works) — prefer the `issues` discussion commands. Record non-trivial progress in a discussion thread and keep the description in sync on status changes.
+- Threaded discussion lives under `issues discuss` / `discussions` / `replies` / `reply`. The top-level `comments` domain is a deprecated facade (still works) — prefer the `issues` discussion commands. During authorized implementation or tracker maintenance, record non-trivial progress and keep the description accurate without changing requirements. Read-only queries do not authorize discussion or description updates.
 - `files download <url>` only fetches Linear storage URLs (`uploads.linear.app`); `files upload` returns an `assetUrl` you can embed; `issues read --with-attachments` lists linked resources (PRs, docs, URLs) — references, not necessarily downloadable files.
 
 For anything not covered here, `linearis <domain> usage` is the reference.

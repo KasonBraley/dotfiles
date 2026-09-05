@@ -38,11 +38,11 @@ Five **state** roles:
 
 For a PR, the same states read against the attached code: `ready-for-agent` means a brief is attached and an agent should take the next step on the diff; `ready-for-human` means it's ready for a human to merge.
 
-Every triaged issue should carry exactly one category role and one state role. If state roles conflict, flag it and ask the maintainer before doing anything else.
+Every triaged issue should carry exactly one category role and one state role. If roles conflict, use the maintainer's stated target to resolve them. If the target is unclear, gather context and prepare a recommendation before asking about the role change.
 
-These are canonical role names — the actual label strings used in the issue tracker may differ. The mapping should have been provided to you - run `/setup-matt-pocock-skills` if not.
+These are canonical role names; read `docs/agents/triage-labels.md` for the actual labels when present. Otherwise inspect existing labels and task context. Missing configuration does not block read-only triage; ask only about an ambiguous mapping needed for a write.
 
-State transitions: an unlabeled issue normally goes to `needs-triage` first; from there it moves to `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. `needs-info` returns to `needs-triage` once the reporter replies. The maintainer can override at any time — flag transitions that look unusual and ask before proceeding.
+State transitions: an unlabeled issue normally goes to `needs-triage` first; from there it moves to `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. `needs-info` returns to `needs-triage` once the reporter replies. Honor explicit maintainer overrides without asking them to authorize the same transition again.
 
 ## Invocation
 
@@ -69,9 +69,9 @@ Show counts and a one-line summary per item. Let the maintainer pick.
 
 1. **Gather context.** Read the full issue or PR (body, comments, labels, author, dates; for a PR, the diff too). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Run two checks against the codebase: (a) **redundancy** — search for an existing implementation of the requested behavior by domain concept (not just the request's wording), and report where you looked. If found, it's an already-implemented `wontfix` (step 5). (b) **prior rejection** — read `.out-of-scope/*.md` and surface any that resembles this request.
 
-2. **Recommend.** Tell the maintainer your category and state recommendation with reasoning, plus a brief codebase summary relevant to the request — including whether it's already implemented. Wait for direction.
+2. **Form a recommendation.** Identify the likely category and state from the request and evidence. Continue into permitted verification before asking for a decision.
 
-3. **Verify the claim.** Before any grilling, check that the claim holds up. For a bug, reproduce it from the reporter's steps. For a PR, confirm the diff does what it claims — check it out, run the relevant tests or commands. Report what happened: confirmed (with code path), failed, or insufficient detail (a strong `needs-info` signal). A confirmed verification makes a much stronger agent brief.
+3. **Verify and present.** Before any grilling, check that the claim holds up. For a bug, attempt the reporter's repro. For a PR, inspect the diff and run relevant checks in an isolated checkout when needed, preserving the user's working tree and following repository execution restrictions. Report confirmed behavior, failure, or insufficient detail. Present the category/state recommendation with a brief codebase summary and any draft brief or comment. Ask for a maintainer decision only if the outcome has not already been specified or delegated.
 
 4. **Grill (if needed).** If the request needs fleshing out, run the `/grilling` and `/domain-modeling` skills together — grill it into shape a round of questions at a time, sharpening domain terms and updating `CONTEXT.md`/ADRs inline as decisions land.
 
@@ -87,7 +87,7 @@ Show counts and a one-line summary per item. Let the maintainer pick.
 
 ## Quick state override
 
-If the maintainer says "move #42 to ready-for-agent", trust them and apply the role directly. Confirm what you're about to do (role changes, comment, close), then act. Skip grilling. If moving to `ready-for-agent` without a grilling session, ask whether they want to write an agent brief.
+If the maintainer says "move #42 to ready-for-agent", apply the role directly, removing conflicting state roles, and report the result. Skip grilling and repeated confirmation. Create a brief only if requested or required by the configured workflow; reuse available requirements and report missing information without inventing it. A state override alone does not authorize unrelated comments or closure.
 
 ## Needs-info template
 

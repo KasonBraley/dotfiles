@@ -16,7 +16,7 @@ Do not repeat the same assertion at every level. Reserve end-to-end tests for va
 
 ## Sufficient verification
 
-Existing coverage counts. Add tests when they provide independent confidence in changed behavior. Once required checks and focused verification pass, broaden or repeat them only for new edits, failures, or unresolved concerns.
+Existing coverage counts. Add tests when they provide independent confidence in changed behavior. For reversible, low-impact changes with no changed runtime contract, such as wording or formatting, use the relevant syntax, link, render, or diff checks instead of tests that mirror the edit. Explicit project coverage requirements still govern. Once required checks and focused verification pass, broaden or repeat them only for new edits, failures, or unresolved concerns.
 
 ## Preserve coverage during restructuring
 

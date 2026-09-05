@@ -57,7 +57,7 @@ End the report with a **Top recommendation** section: which candidate you'd tack
 
 See [HTML-REPORT.md](HTML-REPORT.md) for the full HTML scaffold, diagram patterns, and styling guidance.
 
-Do NOT propose interfaces yet. After the file is written, ask the user: "Which of these would you like to explore?"
+For a scan, leave detailed interface design to the selected candidate. After writing the report, ask which candidate to explore only if the user has not already selected one or delegated that choice. If they have, continue with it.
 
 ### 3. Grilling loop
 

@@ -4,9 +4,9 @@ description: Turn the current conversation into a spec and publish it to the pro
 disable-model-invocation: true
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user — just synthesize what you already know.
+Synthesize a spec from the current conversation and codebase understanding. Reuse settled decisions and record unresolved requirements explicitly rather than starting an interview or inventing scope.
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+Read `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md` when present. Otherwise use the destination and conventions established by the user or repository. Missing tracker setup does not block drafting; ask only for a still-unknown publication target or required access after preparing the spec.
 
 ## Process
 
@@ -16,10 +16,10 @@ The issue tracker and triage label vocabulary should have been provided to you �
     Prefer existing seams; use a broader one only when the behavior includes wiring, protocol, persistence, or lifecycle that a narrower seam cannot establish.
     Map material requirements and expected failures to their test surfaces rather than targeting a particular number of seams.
 
-Confirm the choice with the user when it materially changes scope, cost, or the public contract; otherwise state it and proceed.
-For Go architectural constraints, read [`coding-standards`](../coding-standards/SKILL.md) in design mode.
+    Use settled requirements to choose the seams. Record any material unresolved choice in the draft; complete independent sections before asking for a decision.
+    For Go architectural constraints, read [`coding-standards`](../coding-standards/SKILL.md) in design mode.
 
-3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+3. Write the spec using the template below and publish it when authorized. For a draft-only request or unavailable tracker, save it under the repo's spec convention, falling back to `.scratch/<feature-slug>/spec.md`, and report the path. Apply `ready-for-agent` only when material requirements are settled; otherwise report the open decisions without claiming the spec is implementation-ready.
 
 <spec-template>
 
@@ -33,7 +33,7 @@ The solution to the problem, from the user's perspective.
 
 ## User Stories
 
-A LONG, numbered list of user stories. Each user story should be in the format of:
+A numbered list covering each distinct user need in scope, without padding or duplicate stories. Each user story should be in the format of:
 
 1. As an <actor>, I want a <feature>, so that <benefit>
 
@@ -41,7 +41,7 @@ A LONG, numbered list of user stories. Each user story should be in the format o
 1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
 </user-story-example>
 
-This list of user stories should be extremely extensive and cover all aspects of the feature.
+Cover the agreed actors, workflows, and material edge cases. Keep speculative features out of the spec.
 
 ## Implementation Decisions
 
@@ -63,8 +63,8 @@ Exception: if a prototype produced a snippet that encodes a decision more precis
 
 A list of testing decisions that were made. Include:
 
-- A description of what makes a good test (only test external behavior, not implementation details)
-- Which modules will be tested
+- Behavior and expected failures to verify at each selected seam
+- Existing coverage to reuse and any meaningful new tests
 - Prior art for the tests (i.e. similar types of tests in the codebase)
 
 ## Out of Scope

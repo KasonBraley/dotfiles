@@ -7,6 +7,14 @@ Reference for writing any document an agent consumes — a skill, an `AGENTS.md`
 
 When the document you're writing is a skill, read [`SKILL-MECHANICS.md`](SKILL-MECHANICS.md) for frontmatter, invocation choice, and router skills.
 
+## Behavioral calibration
+
+When creating or auditing instructions, check how they affect the current model: task authority, unnecessary pauses, writing style, delegation, and verification scope. Correct local contradictions rather than relying on global instructions to cancel them silently.
+
+Make confirmation gates specific to an unresolved decision or consequential action. Preserve requested interviews and approval steps while reusing decisions already made. Provide a direct-work fallback for optional tools and subagents. Keep completion criteria proportional to the task, with explicit evidence gaps instead of impossible prerequisites or arbitrary quotas. Separate requirements for an artifact from default conversation style.
+
+Audit reachable references, templates, and agent metadata as well as the entrypoint. Preserve useful domain rules; the goal is to remove behavioral conflicts, not rewrite every reference. Verify frontmatter, links, and instruction consistency; use representative task trials when behavioral uncertainty warrants them and distinguish those trials from static checks.
+
 ## Context pointers
 
 A **context pointer** is a reference held in the agent's context that names some out-of-context material and encodes the condition for reaching it. A skill's description is one; a line in `AGENTS.md` naming a doc is the same object. The pointer's _wording_, not its target, decides when the agent reaches the material — and how reliably. A must-have target behind a weakly worded pointer is a variance bug: sharpen the wording first, and inline the material only if sharpening fails.
