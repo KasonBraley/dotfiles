@@ -2,9 +2,11 @@
 
 ## Roles
 
-Use the module-contract, Go-interface-type, service, and adapter distinctions in [`codebase-design`](../../codebase-design/SKILL.md#glossary). This reference owns their Go responsibility allocation.
+Use the module-contract, Go-interface-type, service, and adapter distinctions in
+[`codebase-design`](../../codebase-design/SKILL.md#glossary). This reference owns their Go responsibility allocation.
 
-**Domain package**, **Application Service**, **Adapter**, and **composition root** name responsibilities, not required folders or suffixes.
+**Domain package**, **Application Service**, **Adapter**, and **composition root** name responsibilities, not required
+folders or suffixes.
 
 Classify code by what would make it change:
 
@@ -24,7 +26,8 @@ external input -> inbound Adapter -> Application Service -> Domain package
                                            +-> private concrete client -> external system
 ```
 
-Domain packages form the functional core. Application Services and Adapters form the imperative shell. An inbound Adapter may call a domain operation directly when it is pure and requires only parsed input.
+Domain packages form the functional core. Application Services and Adapters form the imperative shell. An inbound
+Adapter may call a domain operation directly when it is pure and requires only parsed input.
 
 For each changed operation:
 
@@ -36,18 +39,25 @@ For each changed operation:
 
 ## Domain packages
 
-A domain package is pure, type-driven, and centered on one domain concept or tightly related family. Use one for a real distinction, invariant, calculation, decision, or lifecycle.
+A domain package is pure, type-driven, and centered on one domain concept or tightly related family. Use one for a real
+distinction, invariant, calculation, decision, or lifecycle.
 
-It may own types, parsers, constructors, predicates, transitions, calculations, formatting, domain representations, and test generators. It returns refined values, expresses expected failures as errors, and remains independent of I/O, frameworks, persistence, ambient time, randomness, and mutable global state.
+It may own types, parsers, constructors, predicates, transitions, calculations, formatting, domain representations, and
+test generators. It returns refined values, expresses expected failures as errors, and remains independent of I/O,
+frameworks, persistence, ambient time, randomness, and mutable global state.
 
-Inputs and outputs are domain values rather than protocol or persistence records. Pure permission decisions over parsed values may live here. Use plain functions and immutable or encapsulated structs. Keep fields private when exporting them would bypass invariants; make the zero value useful only when truthful.
+Inputs and outputs are domain values rather than protocol or persistence records. Pure permission decisions over parsed
+values may live here. Use plain functions and immutable or encapsulated structs. Keep fields private when exporting them
+would bypass invariants; make the zero value useful only when truthful.
 
 ## Application Services
 
-An Application Service owns one cohesive operation or capability. Use one when behavior coordinates authorization, domain decisions, persistence, external calls, transactions, messages, time, IDs, telemetry, or multiple entrypoints.
+An Application Service owns one cohesive operation or capability. Use one when behavior coordinates authorization,
+domain decisions, persistence, external calls, transactions, messages, time, IDs, telemetry, or multiple entrypoints.
 
 Design a meaningful service from the consuming API first.
-Define the smallest interface in the consumer only when multiple implementations or a test seam require it; otherwise depend on a concrete type.
+Define the smallest interface in the consumer only when multiple implementations or a test seam require it; otherwise
+depend on a concrete type.
 Read [`services.md`](services.md) when a service, interface, constructor, or dependency changes.
 
 An Application Service:
@@ -59,17 +69,26 @@ An Application Service:
 - owns which side effects occur, under what policy, and in what order;
 - keeps public contracts independent of framework, ORM, vendor SDK, and runtime types.
 
-Operation-specific authorization evidence and scoped handles remain explicit inputs. A function dependency is appropriate when one higher-order behavior is the complete capability. Context lifetime rules belong to [`go-safety.md`](go-safety.md#context-and-concurrency-safety).
+Operation-specific authorization evidence and scoped handles remain explicit inputs. A function dependency is
+appropriate when one higher-order behavior is the complete capability. Context lifetime rules belong to
+[`go-safety.md`](go-safety.md#context-and-concurrency-safety).
 
-A service may expose multiple related methods when they share one owner and reason to change. Build broader services by composing smaller capabilities only after those seams earn their place. Keep sequence and decision points visible without accumulating protocol mechanics or pass-through packages.
+A service may expose multiple related methods when they share one owner and reason to change. Build broader services by
+composing smaller capabilities only after those seams earn their place. Keep sequence and decision points visible
+without accumulating protocol mechanics or pass-through packages.
 
 ## Adapters and concrete clients
 
-An inbound Adapter parses an external request, event, or command; invokes an Application Service or eligible pure domain operation; and renders the external protocol.
+An inbound Adapter parses an external request, event, or command; invokes an Application Service or eligible pure domain
+operation; and renders the external protocol.
 
-An outbound Adapter implements a consumer-owned capability using concrete technology. It owns protocol translation, framework lifecycle, external failure classification, safe diagnostics, and short-lived technical retries that preserve capability meaning.
+An outbound Adapter implements a consumer-owned capability using concrete technology. It owns protocol translation,
+framework lifecycle, external failure classification, safe diagnostics, and short-lived technical retries that preserve
+capability meaning.
 
-One concrete external client may remain private inside the service owning its use while a separate Adapter would only forward. Its owner translates client failures before they cross the public API. Extract an Adapter when it hides meaningful translation or mechanics, is reused, or supports real implementation variation.
+One concrete external client may remain private inside the service owning its use while a separate Adapter would only
+forward. Its owner translates client failures before they cross the public API. Extract an Adapter when it hides
+meaningful translation or mechanics, is reused, or supports real implementation variation.
 
 Before creating an Adapter or service:
 
@@ -79,7 +98,9 @@ Before creating an Adapter or service:
 4. Extend an Adapter when the method fits its owner and reason to change.
 5. Create one when it hides meaningful mechanics, serves multiple owners, or supports real variation.
 
-Apply the **deletion test** from [`codebase-design`](../../codebase-design/SKILL.md#principles). Record alternatives for consequential boundary, shared-contract, or provider decisions; routine helpers need no rejection ledger. Offer an ADR only under the criteria in [`domain-modeling`](../../domain-modeling/SKILL.md#offer-adrs-sparingly).
+Apply the **deletion test** from [`codebase-design`](../../codebase-design/SKILL.md#principles). Record alternatives for
+consequential boundary, shared-contract, or provider decisions; routine helpers need no rejection ledger. Offer an ADR
+only under the criteria in [`domain-modeling`](../../domain-modeling/SKILL.md#offer-adrs-sparingly).
 
 ## Authentication and authorization
 
@@ -90,4 +111,9 @@ Apply the **deletion test** from [`codebase-design`](../../codebase-design/SKILL
 
 ## Completion check
 
-Every changed operation is traced: each concern has one owner; domain packages remain pure; authorization follows the allocation above; each service uses a concrete dependency or consumer-owned interface justified by current need; orchestration keeps policy visible while delegating owned calculations and mechanics; framework, persistence, runtime, and vendor details stop at their Adapter or private implementation; each abstraction passes the deletion test and existing-owner check; and each entrypoint parses protocol input, invokes the owning operation, and renders the protocol result.
+Every changed operation is traced: each concern has one owner; domain packages remain pure; authorization follows the
+allocation above; each service uses a concrete dependency or consumer-owned interface justified by current need;
+orchestration keeps policy visible while delegating owned calculations and mechanics; framework, persistence, runtime,
+and vendor details stop at their Adapter or private implementation; each abstraction passes the deletion test and
+existing-owner check; and each entrypoint parses protocol input, invokes the owning operation, and renders the protocol
+result.

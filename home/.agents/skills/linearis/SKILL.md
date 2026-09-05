@@ -18,18 +18,31 @@ metadata:
 
 # linearis
 
-Drive [Linear.app](https://linear.app) from the shell via the `linearis` CLI (JSON-only output; `linear` is an alias). Do not guess the command surface — the CLI documents itself, and this skill teaches the protocol, not the flags.
+Drive [Linear.app](https://linear.app) from the shell via the `linearis` CLI (JSON-only output; `linear` is an alias).
+Do not guess the command surface — the CLI documents itself, and this skill teaches the protocol, not the flags.
 
 ## Preflight (reactive — branch on the CLI's own output; don't pre-run checks every turn)
 
-- **Not installed** — if the shell reports command-not-found, tell the user linearis isn't installed and offer `npm install -g linearis`. As a no-install fallback, prefix commands with `npx linearis@latest` (adds cold-start latency and needs network per call — fallback, not default). Never silently `npm install -g`.
+- **Not installed** — if the shell reports command-not-found, tell the user linearis isn't installed and offer `npm
+  install -g linearis`. As a no-install fallback, prefix commands with `npx linearis@latest` (adds cold-start latency
+  and needs network per call — fallback, not default). Never silently `npm install -g`.
 - **Auth required** — any command may fail with this envelope on stderr and exit code 42:
-  `{ "error": "AUTHENTICATION_REQUIRED", "action": "USER_ACTION_REQUIRED", "instruction": "Run 'linearis auth login' …", "exit_code": 42 }`.
-  Detect it by `exit_code === 42` / `error === "AUTHENTICATION_REQUIRED"` (not paraphrased text) and surface the CLI's own `instruction`. `linearis auth login` is an interactive browser flow you cannot complete — hand it to the user.
-- **Invalid invocation** — an unknown command or option, a wrong argument count, or a command group named without a subcommand fails on stderr with exit code `2`:
-  `{ "error": "UNKNOWN_COMMAND", "message": "…", "suggestion": "Did you mean read?", "command": "linearis issues", "available_commands": [...], "instruction": "Run 'linearis issues usage' …", "exit_code": 2 }`.
-  Recover from the envelope, not by guessing: pick from `available_commands`, or run the `instruction`. `error` is one of `UNKNOWN_COMMAND`, `UNKNOWN_OPTION`, `MISSING_ARGUMENT`, `MISSING_REQUIRED_OPTION`, `MISSING_OPTION_ARGUMENT`, `TOO_MANY_ARGUMENTS`, `MISSING_SUBCOMMAND`, `INVALID_USAGE`. A bare group (`linearis issues`) is a failure, not a request for help.
-- **Updates (advisory, never blocking)** — optionally run `linearis version check` once → `{ current, latest, channel, updateAvailable }`. If `updateAvailable` is true, mention it and ask the user before `npm install -g linearis@latest`, honoring `channel` (don't move a `next` user to `latest`). npm can hang or rate-limit; on any timeout/error just proceed with the installed version. Read the plain installed version with `linearis version` (JSON), not `--version`.
+  `{ "error": "AUTHENTICATION_REQUIRED", "action": "USER_ACTION_REQUIRED", "instruction": "Run 'linearis auth login' …",
+  "exit_code": 42 }`.
+  Detect it by `exit_code === 42` / `error === "AUTHENTICATION_REQUIRED"` (not paraphrased text) and surface the CLI's
+  own `instruction`. `linearis auth login` is an interactive browser flow you cannot complete — hand it to the user.
+- **Invalid invocation** — an unknown command or option, a wrong argument count, or a command group named without a
+  subcommand fails on stderr with exit code `2`:
+  `{ "error": "UNKNOWN_COMMAND", "message": "…", "suggestion": "Did you mean read?", "command": "linearis issues",
+  "available_commands": [...], "instruction": "Run 'linearis issues usage' …", "exit_code": 2 }`.
+  Recover from the envelope, not by guessing: pick from `available_commands`, or run the `instruction`. `error` is one
+  of `UNKNOWN_COMMAND`, `UNKNOWN_OPTION`, `MISSING_ARGUMENT`, `MISSING_REQUIRED_OPTION`, `MISSING_OPTION_ARGUMENT`,
+  `TOO_MANY_ARGUMENTS`, `MISSING_SUBCOMMAND`, `INVALID_USAGE`. A bare group (`linearis issues`) is a failure, not a
+  request for help.
+- **Updates (advisory, never blocking)** — optionally run `linearis version check` once → `{ current, latest, channel,
+  updateAvailable }`. If `updateAvailable` is true, mention it and ask the user before `npm install -g linearis@latest`,
+  honoring `channel` (don't move a `next` user to `latest`). npm can hang or rate-limit; on any timeout/error just
+  proceed with the installed version. Read the plain installed version with `linearis version` (JSON), not `--version`.
 
 ## Discover, then act
 
@@ -39,13 +52,21 @@ Drive [Linear.app](https://linear.app) from the shell via the `linearis` CLI (JS
 
 ## Output
 
-Every command prints JSON on stdout. Shape it at the source with the global `--fields identifier,title,state.name` and `--compact` — no external binary, works on Windows and fresh containers. Reach for `jq` only for complex reshaping, and fall back to raw JSON if `jq` is absent.
+Every command prints JSON on stdout. Shape it at the source with the global `--fields identifier,title,state.name` and
+`--compact` — no external binary, works on Windows and fresh containers. Reach for `jq` only for complex reshaping, and
+fall back to raw JSON if `jq` is absent.
 
 ## Invariants worth knowing (everything else lives in `usage`)
 
-- IDs are forgiving: pass a UUID, team key (`ENG`), issue identifier (`ABC-123`), or name interchangeably. Reference tickets by identifier.
+- IDs are forgiving: pass a UUID, team key (`ENG`), issue identifier (`ABC-123`), or name interchangeably. Reference
+  tickets by identifier.
 - `issues create` requires `--team`; some filters need a scope flag — confirm in `usage` rather than memorizing.
-- Threaded discussion lives under `issues discuss` / `discussions` / `replies` / `reply`. The top-level `comments` domain is a deprecated facade (still works) — prefer the `issues` discussion commands. During authorized implementation or tracker maintenance, record non-trivial progress and keep the description accurate without changing requirements. Read-only queries do not authorize discussion or description updates.
-- `files download <url>` only fetches Linear storage URLs (`uploads.linear.app`); `files upload` returns an `assetUrl` you can embed; `issues read --with-attachments` lists linked resources (PRs, docs, URLs) — references, not necessarily downloadable files.
+- Threaded discussion lives under `issues discuss` / `discussions` / `replies` / `reply`. The top-level `comments`
+  domain is a deprecated facade (still works) — prefer the `issues` discussion commands. During authorized
+  implementation or tracker maintenance, record non-trivial progress and keep the description accurate without changing
+  requirements. Read-only queries do not authorize discussion or description updates.
+- `files download <url>` only fetches Linear storage URLs (`uploads.linear.app`); `files upload` returns an `assetUrl`
+  you can embed; `issues read --with-attachments` lists linked resources (PRs, docs, URLs) — references, not necessarily
+  downloadable files.
 
 For anything not covered here, `linearis <domain> usage` is the reference.

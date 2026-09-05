@@ -1,6 +1,7 @@
 ---
 name: use-modern-go
-description: Apply modern Go syntax guidelines based on project's Go version. Use when writing, modifying, or reviewing Go code.
+description: Apply modern Go syntax guidelines based on project's Go version. Use when writing, modifying, or reviewing
+  Go code.
 ---
 
 # Modern Go Guidelines
@@ -158,7 +159,9 @@ for k := range m { process(k) }           // direct map iteration needs no adapt
 
 **time package**
 
-- `time.Tick`: Use `time.Tick` freely — as of Go 1.23, the garbage collector can recover unreferenced tickers, even if they haven't been stopped. The Stop method is no longer necessary to help the garbage collector. There is no longer any reason to prefer NewTicker when Tick will do.
+- `time.Tick`: Use `time.Tick` freely — as of Go 1.23, the garbage collector can recover unreferenced tickers, even if
+  they haven't been stopped. The Stop method is no longer necessary to help the garbage collector. There is no longer
+  any reason to prefer NewTicker when Tick will do.
 
 ### Go 1.24+
 

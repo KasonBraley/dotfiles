@@ -9,7 +9,8 @@ mux := http.NewServeMux()
 mux.HandleFunc("GET /users/{id}", getUser)
 ```
 
-Use a third-party router only for a demonstrated feature the standard library lacks or to follow an established repository choice. Treat middleware as ordinary composition:
+Use a third-party router only for a demonstrated feature the standard library lacks or to follow an established
+repository choice. Treat middleware as ordinary composition:
 
 ```go
 type Middleware func(http.Handler) http.Handler
@@ -23,7 +24,8 @@ func withRequestLog(logger *slog.Logger, next http.Handler) http.Handler {
 }
 ```
 
-Handlers honor `r.Context()`, bound request bodies, validate input at the edge, and keep independently valuable domain logic out of transport code.
+Handlers honor `r.Context()`, bound request bodies, validate input at the edge, and keep independently valuable domain
+logic out of transport code.
 
 ## Server lifetime
 
@@ -42,7 +44,8 @@ srv := &http.Server{
 
 These values are examples, not universal defaults. Streaming endpoints may require different write-timeout handling.
 
-On shutdown, stop accepting work and drain in-flight requests with a fresh bounded context. Normalize `http.ErrServerClosed` as successful shutdown where appropriate. Long-lived handlers observe request cancellation.
+On shutdown, stop accepting work and drain in-flight requests with a fresh bounded context. Normalize
+`http.ErrServerClosed` as successful shutdown where appropriate. Long-lived handlers observe request cancellation.
 
 ## Structured logging
 
@@ -61,12 +64,19 @@ Use levels consistently:
 - `Warn` for recovered or degraded conditions;
 - `Error` for failures requiring attention.
 
-Use stable field names and structured values. Group related fields with `slog.Group` when it improves downstream queries.
-Apply [`sensitive-data-and-observability.md`](sensitive-data-and-observability.md) for redaction and single-owner logging.
+Use stable field names and structured values. Group related fields with `slog.Group` when it improves downstream
+queries.
+Apply [`sensitive-data-and-observability.md`](sensitive-data-and-observability.md) for redaction and single-owner
+logging.
 
-Reusable packages accept a logger or remain silent. A package-level default logger is acceptable at the composition root.
-Tests that need a logger pass `slog.New(slog.DiscardHandler)` on Go 1.24+. On Go 1.21–1.23, use `slog.New(slog.NewTextHandler(io.Discard, nil))`. For older targets, use the repository's supported logger. Pass a usable logger rather than `nil`.
+Reusable packages accept a logger or remain silent. A package-level default logger is acceptable at the composition
+root.
+Tests that need a logger pass `slog.New(slog.DiscardHandler)` on Go 1.24+. On Go 1.21–1.23, use
+`slog.New(slog.NewTextHandler(io.Discard, nil))`. For older targets, use the repository's supported logger. Pass a
+usable logger rather than `nil`.
 
 ## Completion check
 
-Routing uses the smallest supported mechanism; handlers honor cancellation and bound input; server timeouts and graceful shutdown match the workload; loggers are explicit and non-nil; levels, fields, groups, and redaction are deliberate; and each failure is logged only at its owning operational boundary.
+Routing uses the smallest supported mechanism; handlers honor cancellation and bound input; server timeouts and graceful
+shutdown match the workload; loggers are explicit and non-nil; levels, fields, groups, and redaction are deliberate; and
+each failure is logged only at its owning operational boundary.

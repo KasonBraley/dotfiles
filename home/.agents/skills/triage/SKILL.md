@@ -1,6 +1,7 @@
 ---
 name: triage
-description: Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.
+description: Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed,
+  and write agent-ready briefs.
 disable-model-invocation: true
 ---
 
@@ -8,7 +9,9 @@ disable-model-invocation: true
 
 Move issues on the project issue tracker through a small state machine of triage roles.
 
-If this repo treats external pull requests as a request surface (see the issue-tracker config), triage covers them too: **a PR is an issue with attached code** — same roles, same states, same machine, with a few deltas marked "for a PR" below. Resolve a bare `#42` to an issue or PR per the tracker config.
+If this repo treats external pull requests as a request surface (see the issue-tracker config), triage covers them too:
+**a PR is an issue with attached code** — same roles, same states, same machine, with a few deltas marked "for a PR"
+below. Resolve a bare `#42` to an issue or PR per the tracker config.
 
 Every comment or issue posted to the issue tracker during triage **must** start with this disclaimer:
 
@@ -36,17 +39,25 @@ Five **state** roles:
 - `ready-for-human` — needs human implementation
 - `wontfix` — will not be actioned
 
-For a PR, the same states read against the attached code: `ready-for-agent` means a brief is attached and an agent should take the next step on the diff; `ready-for-human` means it's ready for a human to merge.
+For a PR, the same states read against the attached code: `ready-for-agent` means a brief is attached and an agent
+should take the next step on the diff; `ready-for-human` means it's ready for a human to merge.
 
-Every triaged issue should carry exactly one category role and one state role. If roles conflict, use the maintainer's stated target to resolve them. If the target is unclear, gather context and prepare a recommendation before asking about the role change.
+Every triaged issue should carry exactly one category role and one state role. If roles conflict, use the maintainer's
+stated target to resolve them. If the target is unclear, gather context and prepare a recommendation before asking about
+the role change.
 
-These are canonical role names; read `docs/agents/triage-labels.md` for the actual labels when present. Otherwise inspect existing labels and task context. Missing configuration does not block read-only triage; ask only about an ambiguous mapping needed for a write.
+These are canonical role names; read `docs/agents/triage-labels.md` for the actual labels when present. Otherwise
+inspect existing labels and task context. Missing configuration does not block read-only triage; ask only about an
+ambiguous mapping needed for a write.
 
-State transitions: an unlabeled issue normally goes to `needs-triage` first; from there it moves to `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. `needs-info` returns to `needs-triage` once the reporter replies. Honor explicit maintainer overrides without asking them to authorize the same transition again.
+State transitions: an unlabeled issue normally goes to `needs-triage` first; from there it moves to `needs-info`,
+`ready-for-agent`, `ready-for-human`, or `wontfix`. `needs-info` returns to `needs-triage` once the reporter replies.
+Honor explicit maintainer overrides without asking them to authorize the same transition again.
 
 ## Invocation
 
-The maintainer invokes `/triage` and describes what they want in natural language. Interpret the request and act. Examples:
+The maintainer invokes `/triage` and describes what they want in natural language. Interpret the request and act.
+Examples:
 
 - "Show me anything that needs my attention"
 - "Let's look at #42" (issue or PR)
@@ -61,33 +72,53 @@ Query the issue tracker and present three buckets, oldest first:
 2. **`needs-triage`** — evaluation in progress.
 3. **`needs-info` with reporter activity since the last triage notes** — needs re-evaluation.
 
-When PRs are in scope, include external PRs in these buckets and tag each line `[PR]` or `[issue]`. Discovery surfaces only *external* PRs (the tracker config defines who counts as external) — a collaborator's in-flight PR is not triage work. This filter is discovery-only; an explicitly named PR is always triaged regardless of author.
+When PRs are in scope, include external PRs in these buckets and tag each line `[PR]` or `[issue]`. Discovery surfaces
+only *external* PRs (the tracker config defines who counts as external) — a collaborator's in-flight PR is not triage
+work. This filter is discovery-only; an explicitly named PR is always triaged regardless of author.
 
 Show counts and a one-line summary per item. Let the maintainer pick.
 
 ## Triage a specific issue or PR
 
-1. **Gather context.** Read the full issue or PR (body, comments, labels, author, dates; for a PR, the diff too). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Run two checks against the codebase: (a) **redundancy** — search for an existing implementation of the requested behavior by domain concept (not just the request's wording), and report where you looked. If found, it's an already-implemented `wontfix` (step 5). (b) **prior rejection** — read `.out-of-scope/*.md` and surface any that resembles this request.
+1. **Gather context.** Read the full issue or PR (body, comments, labels, author, dates; for a PR, the diff too). Parse
+   any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain
+   glossary, respecting ADRs in the area. Run two checks against the codebase: (a) **redundancy** — search for an
+   existing implementation of the requested behavior by domain concept (not just the request's wording), and report
+   where you looked. If found, it's an already-implemented `wontfix` (step 5). (b) **prior rejection** — read
+   `.out-of-scope/*.md` and surface any that resembles this request.
 
-2. **Form a recommendation.** Identify the likely category and state from the request and evidence. Continue into permitted verification before asking for a decision.
+2. **Form a recommendation.** Identify the likely category and state from the request and evidence. Continue into
+   permitted verification before asking for a decision.
 
-3. **Verify and present.** Before any grilling, check that the claim holds up. For a bug, attempt the reporter's repro. For a PR, inspect the diff and run relevant checks in an isolated checkout when needed, preserving the user's working tree and following repository execution restrictions. Report confirmed behavior, failure, or insufficient detail. Present the category/state recommendation with a brief codebase summary and any draft brief or comment. Ask for a maintainer decision only if the outcome has not already been specified or delegated.
+3. **Verify and present.** Before any grilling, check that the claim holds up. For a bug, attempt the reporter's repro.
+   For a PR, inspect the diff and run relevant checks in an isolated checkout when needed, preserving the user's working
+   tree and following repository execution restrictions. Report confirmed behavior, failure, or insufficient detail.
+   Present the category/state recommendation with a brief codebase summary and any draft brief or comment. Ask for a
+   maintainer decision only if the outcome has not already been specified or delegated.
 
-4. **Grill (if needed).** If the request needs fleshing out, run the `/grilling` and `/domain-modeling` skills together — grill it into shape a round of questions at a time, sharpening domain terms and updating `CONTEXT.md`/ADRs inline as decisions land.
+4. **Grill (if needed).** If the request needs fleshing out, run the `/grilling` and `/domain-modeling` skills together
+   — grill it into shape a round of questions at a time, sharpening domain terms and updating `CONTEXT.md`/ADRs inline
+   as decisions land.
 
 5. **Apply the outcome:**
    - `ready-for-agent` — post an agent brief comment ([AGENT-BRIEF.md](AGENT-BRIEF.md)).
-   - `ready-for-human` — same structure as an agent brief, but note why it can't be delegated (judgment calls, external access, design decisions, manual testing).
+   - `ready-for-human` — same structure as an agent brief, but note why it can't be delegated (judgment calls, external
+     access, design decisions, manual testing).
    - `needs-info` — post triage notes (template below).
    - `wontfix` — close, with the comment depending on *why*:
-     - **Already implemented** — the change already exists in the codebase. Point to where it lives; do **not** write to `.out-of-scope/` (that KB is for *rejected* requests, not built ones).
+     - **Already implemented** — the change already exists in the codebase. Point to where it lives; do **not** write to
+       `.out-of-scope/` (that KB is for *rejected* requests, not built ones).
      - **Rejected (bug)** — polite explanation, then close.
-     - **Rejected (enhancement)** — write to `.out-of-scope/`, link to it from a comment, then close ([OUT-OF-SCOPE.md](OUT-OF-SCOPE.md)).
+     - **Rejected (enhancement)** — write to `.out-of-scope/`, link to it from a comment, then close
+       ([OUT-OF-SCOPE.md](OUT-OF-SCOPE.md)).
    - `needs-triage` — apply the role. Optional comment if there's partial progress.
 
 ## Quick state override
 
-If the maintainer says "move #42 to ready-for-agent", apply the role directly, removing conflicting state roles, and report the result. Skip grilling and repeated confirmation. Create a brief only if requested or required by the configured workflow; reuse available requirements and report missing information without inventing it. A state override alone does not authorize unrelated comments or closure.
+If the maintainer says "move #42 to ready-for-agent", apply the role directly, removing conflicting state roles, and
+report the result. Skip grilling and repeated confirmation. Create a brief only if requested or required by the
+configured workflow; reuse available requirements and report missing information without inventing it. A state override
+alone does not authorize unrelated comments or closure.
 
 ## Needs-info template
 
@@ -105,8 +136,10 @@ If the maintainer says "move #42 to ready-for-agent", apply the role directly, r
 - question 2
 ```
 
-Capture everything resolved during grilling under "established so far" so the work isn't lost. Questions must be specific and actionable, not "please provide more info".
+Capture everything resolved during grilling under "established so far" so the work isn't lost. Questions must be
+specific and actionable, not "please provide more info".
 
 ## Resuming a previous session
 
-If prior triage notes exist on the issue or PR, read them, check whether the reporter has answered any outstanding questions, and present an updated picture before continuing. Don't re-ask resolved questions.
+If prior triage notes exist on the issue or PR, read them, check whether the reporter has answered any outstanding
+questions, and present an updated picture before continuing. Don't re-ask resolved questions.
