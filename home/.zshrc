@@ -91,7 +91,12 @@ gwa() {
     esac
   done
 
-  [[ -n "$wt" ]] && git -C "$wt" sparse-checkout set --no-cone '/*' '!/.claude/' '!/docs/styles/go/STYLE.md' '!/AGENTS.md' '!/CLAUDE.md' '!/skills'
+  [[ -n "$wt" ]] || return 0
+  git -C "$wt" sparse-checkout set --no-cone '/*' '!/.claude/' '!/docs/styles/go/STYLE.md' '!/AGENTS.md' '!/CLAUDE.md' '!/skills'
+
+  # Seed the worktree with the personal AGENTS.override.md (globally gitignored).
+  local override="${XDG_CONFIG_HOME:-$HOME/.config}/agents/AGENTS.override.md"
+  [[ -f "$override" && ! -e "$wt/AGENTS.override.md" ]] && cp "$override" "$wt/AGENTS.override.md"
 }
 # To clean up and update the local list of remote branches
 alias gbc="git remote update origin --prune"

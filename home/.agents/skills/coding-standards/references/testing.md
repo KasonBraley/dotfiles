@@ -30,6 +30,13 @@ render, or diff checks instead of tests that mirror the edit. Explicit project c
 required checks and focused verification pass, broaden or repeat them only for new edits, failures, or unresolved
 concerns.
 
+## Extend existing tests first
+
+Before creating a test file, inspect existing tests for the behavior's owning interface. Add cases to an existing table
+when setup, action, and assertions match; otherwise add test functions to the existing relevant test file. Create a new
+file only when no existing file fits or a distinct suite, package, or build constraint warrants separation. A new
+feature, regression, or implementation task alone does not justify a new test file.
+
 ## Preserve coverage during restructuring
 
 Before deleting or replacing a test, map each contractual behavior it establishes—success, invariant, edge, failure,
