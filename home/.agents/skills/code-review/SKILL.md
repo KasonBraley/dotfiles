@@ -1,7 +1,8 @@
 ---
 name: code-review
-description: "Review committed, staged, or working-tree changes along two axes: documented standards and the originating
-  spec. Use for branch/PR reviews, work-in-progress reviews, or review since a fixed point."
+description: >-
+  Review committed, staged, or working-tree changes along two axes: documented standards and the originating
+  spec. Use for branch/PR reviews, work-in-progress reviews, or review since a fixed point.
 ---
 
 # Code Review

@@ -1,6 +1,7 @@
 ---
 name: to-architecture
-description: Design one implementation architecture for a spec and publish the approved design to its issue-tracker
+description: >-
+  Design one implementation architecture for a spec and publish the approved design to its issue-tracker
   ticket.
 disable-model-invocation: true
 ---

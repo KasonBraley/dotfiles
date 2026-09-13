@@ -1,6 +1,7 @@
 ---
 name: coding-standards
-description: Correct-by-construction Go standards. Use when designing, implementing, or reviewing Go code, or when
+description: >-
+  Correct-by-construction Go standards. Use when designing, implementing, or reviewing Go code, or when
   another skill needs the user's coding standards.
 ---
 
