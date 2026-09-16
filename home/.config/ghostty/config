@@ -1,5 +1,8 @@
+auto-update-channel = tip
+
 # Mouse
 mouse-hide-while-typing = true
+scroll-to-bottom = no-keystroke,no-output
 
 # Font
 font-family = "Berkeley Mono"

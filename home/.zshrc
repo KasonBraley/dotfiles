@@ -18,13 +18,6 @@ setopt ignoreeof
 
 bindkey -e
 
-# Completion
-autoload -Uz compinit
-compinit
-unsetopt auto_remove_slash
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-
 # Environment
 export EDITOR='nvim'
 
@@ -141,9 +134,17 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]="${_error_style}"
 
 # auto completion
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if type brew &>/dev/null; then
+    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Completion
+autoload -Uz compinit
+compinit
+unsetopt auto_remove_slash
+zstyle ':completion:*' menu select
+zmodload zsh/complist
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
