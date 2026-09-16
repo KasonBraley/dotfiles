@@ -1,0 +1,20 @@
+home/.config/ghostty/config
+  s_c1c3aceccb78fb::t_ae8c3af55a3d54 5
+  s_c1c3aceccb78fb::t_53b5b56efe8b6f 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c40be332bbfd7367435b2e4caa973084ebd7fc61",
+  "prompts": {},
+  "sessions": {
+    "s_c1c3aceccb78fb": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0abd0-731c-7616-a8eb-ae06435698c2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Kason Braley <kbraley9@gmail.com>"
+    }
+  }
+}
