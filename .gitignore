@@ -2,3 +2,4 @@
 
 /nvim/.config/nvim/plugin/
 lazy-lock.json
+.amp/portals/*

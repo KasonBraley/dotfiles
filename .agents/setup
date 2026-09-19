@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd -- "$repo_root"
+
+log_step() {
+    local label="$1"
+    shift
+    local started=$SECONDS
+
+    printf '[orb-setup] %s\n' "$label"
+    "$@"
+    printf '[orb-setup] %s completed in %ss\n' "$label" "$((SECONDS - started))"
+}
+
+as_root() {
+    if [[ $EUID -eq 0 ]]; then
+        "$@"
+    else
+        sudo "$@"
+    fi
+}
+
+ensure_system_packages() {
+    local -a missing=()
+
+    command -v git >/dev/null 2>&1 || missing+=(git)
+    command -v curl >/dev/null 2>&1 || missing+=(curl)
+    command -v rg >/dev/null 2>&1 || missing+=(ripgrep)
+    command -v fd >/dev/null 2>&1 || command -v fdfind >/dev/null 2>&1 || missing+=(fd-find)
+    command -v fzf >/dev/null 2>&1 || missing+=(fzf)
+    command -v stow >/dev/null 2>&1 || missing+=(stow)
+    command -v zsh >/dev/null 2>&1 || missing+=(zsh)
+    command -v perl >/dev/null 2>&1 || missing+=(perl)
+    command -v make >/dev/null 2>&1 || missing+=(build-essential)
+    command -v cc >/dev/null 2>&1 || missing+=(build-essential)
+    [[ -f /etc/ssl/certs/ca-certificates.crt ]] || missing+=(ca-certificates)
+
+    if ((${#missing[@]} > 0)); then
+        mapfile -t missing < <(printf '%s\n' "${missing[@]}" | sort -u)
+        as_root apt-get update
+        as_root apt-get install -y --no-install-recommends "${missing[@]}"
+    fi
+
+    mkdir -p "$HOME/.local/bin"
+    export PATH="$HOME/.local/bin:$PATH"
+    if ! command -v fd >/dev/null 2>&1 && command -v fdfind >/dev/null 2>&1; then
+        ln -sfn "$(command -v fdfind)" "$HOME/.local/bin/fd"
+    fi
+}
+
+ensure_local_bin_on_login_path() {
+    local profile="$HOME/.bash_profile"
+    local marker='# orb tools installed by dotfiles'
+
+    touch "$profile"
+    if ! grep -Fqx "$marker" "$profile"; then
+        cat >>"$profile" <<'EOF'
+
+# orb tools installed by dotfiles
+case ":${PATH:-}:" in
+    *":$HOME/.local/bin:"*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+EOF
+    fi
+}
+
+ensure_npm_version() {
+    local required="11.11.0"
+    local current
+
+    current="$(npm --version 2>/dev/null || true)"
+    if [[ "$current" != "$required" ]]; then
+        if ! npm install --global --no-fund --no-audit "npm@$required"; then
+            as_root npm install --global --no-fund --no-audit "npm@$required"
+        fi
+    fi
+}
+
+ensure_neovim() {
+    local install_dir="$HOME/.local/opt/nvim-linux-x86_64"
+    local nvim="$install_dir/bin/nvim"
+
+    if [[ ! -x "$nvim" ]]; then
+        local temp_dir archive extracted
+        temp_dir="$(mktemp -d)"
+        archive="$temp_dir/nvim-linux-x86_64.tar.gz"
+        extracted="$temp_dir/nvim-linux-x86_64"
+        trap 'rm -rf -- "$temp_dir"' RETURN
+
+        curl --fail --location --silent --show-error \
+            --output "$archive" \
+            'https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz'
+        tar -xzf "$archive" -C "$temp_dir"
+        mkdir -p -- "$(dirname -- "$install_dir")"
+        rm -rf -- "$install_dir"
+        mv -- "$extracted" "$install_dir"
+        trap - RETURN
+        rm -rf -- "$temp_dir"
+    fi
+
+    ln -sfn "$nvim" "$HOME/.local/bin/nvim"
+}
+
+install_pi_dependencies() {
+    local package_dir="$repo_root/home/.pi"
+    local marker="$package_dir/node_modules/.orb-dependency-fingerprint"
+    local tsc="$package_dir/node_modules/.bin/tsc"
+    local root_tsx="$package_dir/node_modules/.bin/tsx"
+    local skill_tsx="$package_dir/agent/extensions/pi-skill-toggle/node_modules/.bin/tsx"
+    local web_tsx="$package_dir/agent/extensions/web-tools/node_modules/.bin/tsx"
+    local fingerprint
+
+    fingerprint="$({
+        sha256sum "$package_dir/package.json" "$package_dir/package-lock.json"
+        printf 'node=%s\nnpm=%s\n' "$(node --version)" "$(npm --version)"
+    } | sha256sum | awk '{print $1}')"
+
+    if [[ -f "$marker" ]] \
+        && [[ "$(<"$marker")" == "$fingerprint" ]] \
+        && [[ -x "$tsc" ]] \
+        && { [[ -x "$root_tsx" ]] || [[ -x "$skill_tsx" ]]; } \
+        && { [[ -x "$root_tsx" ]] || [[ -x "$web_tsx" ]]; }; then
+        printf '[orb-setup] Pi dependencies match the lockfile and toolchain\n'
+        return
+    fi
+
+    npm ci --prefix "$package_dir" --fund=false --audit=false
+    printf '%s\n' "$fingerprint" >"$marker"
+}
+
+log_step 'Install system packages' ensure_system_packages
+log_step 'Persist the local tool path' ensure_local_bin_on_login_path
+log_step 'Install the pinned npm version' ensure_npm_version
+log_step 'Install Neovim' ensure_neovim
+log_step 'Install locked Pi workspace dependencies' install_pi_dependencies
+
+printf '[orb-setup] ready: node %s, npm %s, nvim %s\n' \
+    "$(node --version)" \
+    "$(npm --version)" \
+    "$(nvim --version | sed -n '1p')"

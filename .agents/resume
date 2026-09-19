@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+export PATH="$HOME/.local/bin:$PATH"
+
+required_commands=(git curl rg fzf stow zsh node npm nvim)
+for command_name in "${required_commands[@]}"; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+        printf '[orb-resume] missing command: %s; rerun .agents/setup\n' "$command_name" >&2
+        exit 1
+    fi
+done
+
+if [[ ! -x "$repo_root/home/.pi/node_modules/.bin/tsc" ]]; then
+    printf '[orb-resume] missing Pi dependency: tsc; rerun .agents/setup\n' >&2
+    exit 1
+fi
+
+root_tsx="$repo_root/home/.pi/node_modules/.bin/tsx"
+skill_tsx="$repo_root/home/.pi/agent/extensions/pi-skill-toggle/node_modules/.bin/tsx"
+web_tsx="$repo_root/home/.pi/agent/extensions/web-tools/node_modules/.bin/tsx"
+if ! { [[ -x "$root_tsx" ]] || [[ -x "$skill_tsx" ]]; } \
+    || ! { [[ -x "$root_tsx" ]] || [[ -x "$web_tsx" ]]; }; then
+    printf '[orb-resume] missing Pi dependency: tsx; rerun .agents/setup\n' >&2
+    exit 1
+fi
+
+printf '[orb-resume] ready: %s\n' "$repo_root"
