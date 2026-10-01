@@ -18,7 +18,7 @@ unavailable.
 Run focused checks during implementation and complete required repository verification. Reuse passing results for
 unchanged work; broaden or repeat checks only for new edits, failures, or unresolved concerns.
 
-Use [`code-review`](../code-review/SKILL.md) in **worktree** mode with the recorded pre-edit `HEAD` SHA, spec, task
+When completed implementation, call the skill tool with the [`code-review`](../code-review/SKILL.md) skill in **worktree** mode with the recorded pre-edit `HEAD` SHA, spec, task
 paths, pre-existing-change exclusions, and verification evidence. Include task-owned untracked files. Reviewers report
 findings without editing.
 
