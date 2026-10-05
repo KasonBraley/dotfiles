@@ -35,9 +35,8 @@ quote the instruction, and distinguish its requirement from your interpretation.
 2. Investigate failing checks and valid review findings against current code. For early failed-job diagnosis, failure
    classification, and bounded reruns, follow [references/ci-triage.md](references/ci-triage.md). Check review feedback
    before choosing a rerun: an upcoming fix commit takes priority over retrying CI on the old head. Fix branch-related
-   issues locally. Resolve merge conflicts using repository conventions. For in-progress conflicts, follow
-   [resolving-merge-conflicts](../resolving-merge-conflicts/SKILL.md). Investigate unknown mergeability before counting
-   the PR as conflict-free.
+   issues locally. Resolve merge conflicts using repository conventions. Investigate unknown mergeability before
+   counting the PR as conflict-free.
 3. Run checks appropriate to every fix and complete required repository checks. Add meaningful regression coverage for
    behavioral bugs when feasible; skip tests that merely mirror low-impact edits. Once checks pass, broaden or repeat
    local verification only for new edits, failures, or unresolved concerns.
