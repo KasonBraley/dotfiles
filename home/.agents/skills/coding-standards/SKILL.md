@@ -75,9 +75,7 @@ code, and project documentation. Apply the ownership rules in
 before adding an abstraction; use its deletion test rather than introducing layers by default.
 
 Record alternatives for consequential decisions: a new lasting boundary, shared contract, provider strategy, or
-deliberate exception. Routine helpers and direct implementations need no rejection ledger. For ADRs, use the criteria in
-[`domain-modeling`](../domain-modeling/SKILL.md#offer-adrs-sparingly); only its active modeling workflow authorizes
-glossary changes.
+deliberate exception. Routine helpers and direct implementations need no rejection ledger.
 
 **Complete when:** changed contracts and effect owners are explicit, abstractions hide meaningful complexity, and
 consequential trade-offs have a rationale. In review mode, assess the existing design rather than implementing a

@@ -91,8 +91,7 @@ explore only if the user has not already selected one or delegated that choice. 
 Once the user picks a candidate, run the `/grilling` skill to walk the decision tree with them — constraints,
 dependencies, the shape of the deepened module, what sits behind the seam, what tests survive.
 
-Side effects happen inline as decisions crystallize — run the `/domain-modeling` skill to keep the domain model current
-as you go:
+Side effects happen inline as decisions crystallize:
 
 - **Naming a deepened module after a concept not in `CONTEXT.md`?** Add the term to `CONTEXT.md`. Create the file lazily
   if it doesn't exist.

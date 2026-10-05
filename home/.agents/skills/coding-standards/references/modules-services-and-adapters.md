@@ -99,8 +99,7 @@ Before creating an Adapter or service:
 5. Create one when it hides meaningful mechanics, serves multiple owners, or supports real variation.
 
 Apply the **deletion test** from [`codebase-design`](../../codebase-design/SKILL.md#principles). Record alternatives for
-consequential boundary, shared-contract, or provider decisions; routine helpers need no rejection ledger. Offer an ADR
-only under the criteria in [`domain-modeling`](../../domain-modeling/SKILL.md#offer-adrs-sparingly).
+consequential boundary, shared-contract, or provider decisions; routine helpers need no rejection ledger.
 
 ## Authentication and authorization
 
