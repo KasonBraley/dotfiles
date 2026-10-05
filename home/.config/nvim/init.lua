@@ -189,6 +189,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+-- Keep Pkl folds open by default.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "pkl",
+  callback = function()
+    vim.opt_local.foldlevel = 99
+  end,
+})
+
 -- Open a terminal at the bottom of the screen with a fixed height.
 vim.keymap.set("n", "<Leader>st", function()
   vim.cmd.new()
