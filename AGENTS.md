@@ -7,7 +7,7 @@ This is a personal dotfiles repository. Prefer small, targeted changes that pres
 - Each top-level application directory is a GNU Stow package. Its contents mirror paths below `$HOME`;
     for example, `nvim/.config/nvim/init.lua` installs as `~/.config/nvim/init.lua`.
 - `install.sh` is the common installer. Platform provisioning lives under `macos/` and is run separately.
-- `.agents/skills/` is the canonical skill tree. `.claude/skills/` and `.pi/skills/` are consumer-specific symlink mirrors.
+- `home/.agents/skills/` is the canonical skill tree. `home/.claude/skills` is a symlink to it; Pi reads `~/.agents/skills` directly.
     The Skills CLI's global `.skill-lock.json` is the single lock file; keep it consistent with the skill tree and mirrors rather than copying divergent versions.
 
 ## Changes

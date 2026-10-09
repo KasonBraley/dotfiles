@@ -71,25 +71,117 @@ alias gw="git worktree "${@}""
 # worktree via sparse-checkout so harnesses never loads them and pollutes the context window.
 #
 # Usage: gwa [-b <branch>] <path> [<commit-ish>]  (same args as `git worktree add`)
-gwa() {
-  git worktree add "$@" || return
-
-  local wt="" skip_next=0 arg
+_gwa_path() {
+  local skip_next=0 arg
   for arg in "$@"; do
     if (( skip_next )); then skip_next=0; continue; fi
     case "$arg" in
       -b|-B|--orphan|--reason) skip_next=1 ;; # flags that consume the next arg
       -*) ;;
-      *) wt="$arg"; break ;;                  # first positional = worktree path
+      *) print -r -- "$arg"; return ;;       # first positional = worktree path
     esac
   done
+}
 
+gwa() {
+  git worktree add "$@" || return
+
+  local wt=$(_gwa_path "$@")
   [[ -n "$wt" ]] || return 0
   git -C "$wt" sparse-checkout set --no-cone '/*' '!/.claude/' '!/docs/styles/go/STYLE.md' '!/AGENTS.md' '!/CLAUDE.md' '!/skills'
 
   # Seed the worktree with the personal AGENTS.override.md (globally gitignored).
   local override="${XDG_CONFIG_HOME:-$HOME/.config}/agents/AGENTS.override.md"
   [[ -f "$override" && ! -e "$wt/AGENTS.override.md" ]] && cp "$override" "$wt/AGENTS.override.md"
+}
+
+_gwr_scripts="${XDG_CONFIG_HOME:-$HOME/.config}/rex/scripts"
+
+gwr() {
+  gwa "$@" || return
+
+  local wt=$(_gwa_path "$@")
+  [[ -n "$wt" ]] || return 0
+  wt=${wt:A}
+
+  if [[ -z "$REX_SESSION" ]] || (( ! $+commands[rex] )); then
+    print -u2 "gwr: not in a Rex terminal; created $wt without a window"
+    return 0
+  fi
+
+  local label=$(git -C "$wt" branch --show-current)
+  rex do "$_gwr_scripts/worktree-window.lua" \
+    --args "$(jq -nc --arg cwd "$wt" --arg label "${label:-${wt:t}}" '{cwd: $cwd, label: $label}')" >/dev/null
+}
+
+gwr-rm() {
+  local -a flags
+  local target="" arg
+  for arg in "$@"; do
+    case "$arg" in
+      -*) flags+=("$arg") ;;
+      *) target="$arg" ;;
+    esac
+  done
+
+  local wt
+  wt=$(git -C "${target:-.}" rev-parse --show-toplevel) || return
+  wt=${wt:A}
+  local main=$(git -C "$wt" worktree list --porcelain | sed -n '1s/^worktree //p')
+  if [[ "${main:A}" == "$wt" ]]; then
+    print -u2 "gwr-rm: $wt is the main worktree"
+    return 1
+  fi
+
+  local windows='{}'
+  if (( $+commands[rex] )); then
+    windows=$(rex do "$_gwr_scripts/worktree-windows.lua" \
+      --args "$(jq -nc --arg path "$wt" '{path: $path}')") || return
+  fi
+
+  git -C "$main" worktree remove "${flags[@]}" "$wt" || return
+
+  local sid wid
+  jq -r '.windows[]? | "\(.session_id) \(.window_id)"' <<< "$windows" | while read -r sid wid; do
+    rex api call -s "$sid" session.close_window "$(jq -nc --arg w "$wid" '{window_id: $w}')" >/dev/null
+  done
+}
+
+gwr-prune() {
+  git fetch --all --prune --quiet || return
+
+  local -a gone
+  local line wt="" main="" here=""
+  git worktree list --porcelain | while IFS= read -r line; do
+    case "$line" in
+      "worktree "*)
+        wt=${line#worktree }
+        [[ -n "$main" ]] || main=$wt
+        ;;
+      "branch "*)
+        [[ "$wt" == "$main" ]] && continue
+        [[ "$(git for-each-ref --format='%(upstream:track)' "${line#branch }")" == "[gone]" ]] || continue
+        if [[ "${PWD:A}/" == "${wt:A}/"* ]]; then here=$wt; else gone+=("$wt"); fi
+        ;;
+    esac
+  done
+  [[ -n "$here" ]] && gone+=("$here")
+
+  if (( ! ${#gone} )); then
+    print "gwr-prune: no worktrees with a gone upstream"
+    return 0
+  fi
+
+  print -l "Worktrees whose upstream branch is gone:" "${gone[@]/#/  }"
+  read -q "?Remove them and close their Rex windows? [y/N] " || { print; return 1; }
+  print
+
+  local -a failed
+  for wt in "${gone[@]}"; do
+    gwr-rm "$wt" || failed+=("$wt")
+  done
+  (( ${#failed} )) && print -u2 -l "gwr-prune: kept (see errors above):" "${failed[@]/#/  }"
+  return $(( ${#failed} > 0 ))
 }
 # To clean up and update the local list of remote branches
 alias gbc="git remote update origin --prune"
