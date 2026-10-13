@@ -208,8 +208,6 @@ vim.keymap.set("n", "<Leader>st", function()
   vim.bo.filetype = "terminal"
 end)
 
-vim.api.nvim_set_hl(0, "String", { fg = '#1C7E08' })
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -239,9 +237,8 @@ require("lazy").setup({
   },
 })
 
--- colorscheme
-vim.o.termguicolors = true
-vim.cmd("colorscheme grey")
+-- colorscheme: follow the host terminal's (Rex's) colors
+require("terminal_theme").setup()
 
 vim.keymap.set("n", "<Leader>g", ":Neogit<CR>")
 
@@ -255,24 +252,5 @@ end)
 
 vim.keymap.set("n", "<Leader>l", ":lua require('textcase').current_word('to_camel_case')<CR> <CR>")
 vim.keymap.set("n", "<Leader>L", ":lua require('textcase').current_word('to_pascal_case')<CR> <CR>")
-
-local green = '#1C7E08'
-local red = '#c4331d'
-local dark_yellow = '#b37f02'
-
-local highlights = {
-  GitSignsAdd = { fg = green },
-  GitSignsDelete = { fg = red },
-  GitSignsChange = { fg = dark_yellow },
-  GitSignsStagedAdd = { fg = green },
-  GitSignsStagedDelete = { fg = red },
-  GitSignsStagedChange = { fg = dark_yellow },
-
-  DiffDelete = { fg = red },
-}
-
-for group, o in pairs(highlights) do
-  vim.api.nvim_set_hl(0, group, o)
-end
 
 vim.lsp.inlay_hint.enable(false)
