@@ -5,6 +5,12 @@
     },
     "datadog": {
       "url": "https://mcp.datadoghq.com/v1/mcp?toolsets=all"
+    },
+    "puck": {
+      "url": "https://ampcode.com/mcp",
+      "oauth": {
+        "clientRegistration": "cimd"
+      }
     }
   }
 }
