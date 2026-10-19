@@ -3,7 +3,6 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       { "mason-org/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
-      { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
       --  This function gets run when an LSP attaches to a particular buffer.
@@ -50,9 +49,6 @@ return {
           end
           vim.keymap.set({ "n", "v" }, "<space>ca", code_action_fn, opts)
           vim.keymap.set({ "n", "v" }, "gra", code_action_fn, opts)
-          -- vim.keymap.set({ "n", "v" }, "<space>f", function()
-          --   vim.lsp.buf.format({ async = true })
-          -- end, opts)
 
           -- Fuzzy find all the symbols in your current document.
           -- Symbols are things like variables, functions, types, etc.
@@ -62,9 +58,6 @@ return {
           vim.keymap.set("n", "gS",
             require("telescope.builtin").lsp_dynamic_workspace_symbols,
             opts)
-
-          -- vim.keymap.set({ "n", "v" }, "<space>cc", vim.lsp.codelens.run, opts)
-          -- vim.keymap.set("n", "<space>cC", vim.lsp.codelens.refresh, opts)
 
           vim.keymap.set("i", "<C-CR>", function()
             if not vim.lsp.inline_completion.get() then
@@ -206,33 +199,5 @@ return {
         end
       end)
     end,
-  },
-
-  {
-    "ray-x/go.nvim",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {
-      -- lsp_keymaps = false,
-      -- other options
-      lsp_inlay_hints = {
-        enable = false,
-      },
-    },
-    config = function(lp, opts)
-      require("go").setup(opts)
-    end,
-    event = { "CmdlineEnter" },
-    ft = { "go", 'gomod' },
-    -- build =
-    -- ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
-  },
-
-  {
-    "folke/lazydev.nvim",
-    ft = "lua",
-    opts = {},
   },
 }

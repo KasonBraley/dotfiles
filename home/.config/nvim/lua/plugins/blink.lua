@@ -1,8 +1,6 @@
 return {
   {
     'saghen/blink.cmp',
-    -- optional: provides snippets for the snippet source
-    dependencies = { 'rafamadriz/friendly-snippets' },
 
     keys = {
       { '<Leader>tc', function() vim.g.blink_cmp = not vim.g.blink_cmp end, desc = 'Toggle completions' }
