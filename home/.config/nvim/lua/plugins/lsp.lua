@@ -59,32 +59,6 @@ return {
             require("telescope.builtin").lsp_dynamic_workspace_symbols,
             opts)
 
-          vim.keymap.set("i", "<C-CR>", function()
-            if not vim.lsp.inline_completion.get() then
-              return "<C-CR>"
-            end
-          end, {
-            expr = true,
-            replace_keycodes = true,
-            desc = "Get the current inline completion",
-          })
-
-          local function toggle_copilot()
-            if vim.lsp.inline_completion.is_enabled() then
-              -- Disable the lsp server entirely, then completion.
-              vim.lsp.enable("copilot", false)
-              vim.lsp.inline_completion.enable(false)
-              vim.notify('Copilot disabled')
-            else
-              -- Enable the lsp server, then completion.
-              vim.lsp.enable("copilot", true)
-              vim.lsp.inline_completion.enable(true)
-              vim.notify('Copilot enabled')
-            end
-          end
-
-          vim.api.nvim_create_user_command('CopilotToggle', toggle_copilot, {})
-          vim.keymap.set("n", "<Leader>ta", ":CopilotToggle<CR>", { noremap = true, silent = true })
         end
       })
 
@@ -107,7 +81,7 @@ return {
             usePlaceholders = false,
             analyses = {
               unusedparams = true,
-              nillness = true,
+              nilness = true,
               unusedwrite = true,
               unusedvariable = true,
               ST1000 = false,
@@ -149,15 +123,12 @@ return {
         "dockerls",
         "gopls",
         "html",
-        "ruff",
-        "pyright",
         "jsonls",
         "lua_ls",
         "terraformls",
         "vue_ls",
         "ts_ls",
         "yamlls",
-        "templ",
       })
     end
   },
@@ -182,7 +153,6 @@ return {
         "typescript-language-server",
         "vue-language-server",
         "yaml-language-server",
-        -- "terraform-ls",
       }
 
       registry.refresh(function()

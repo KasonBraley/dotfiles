@@ -75,10 +75,6 @@ vim.keymap.set("n", "<C-i>", "<C-i>zz")
 vim.keymap.set("x", ">", ">gv")
 vim.keymap.set("x", "<", "<gv")
 
--- OPEN TERMINALS --
-vim.keymap.set("n", "<Leader>tv", ":vnew +terminal | setlocal nobuflisted <CR>") -- term over right
-vim.keymap.set("n", "<Leader>tx", ":10new +terminal | setlocal nobuflisted <CR>") --  term bottom
-
 -- Tabs
 vim.keymap.set("n", "tt", "<cmd>tabnew<CR>", { desc = "New tab" })
 vim.keymap.set("n", "[t", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
@@ -167,17 +163,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
   group = vim.api.nvim_create_augroup("custom-term-open", {}),
   pattern = "term://*",
   callback = function()
-    vim.o.number = false
-    vim.o.relativenumber = false
-    vim.o.scrolloff = 0
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.scrolloff = 0
     vim.cmd.startinsert()
-  end,
-})
-
--- remove buffer on terminal close
-vim.api.nvim_create_autocmd("TermClose", {
-  callback = function()
-    vim.cmd.bd()
   end,
 })
 
@@ -196,17 +185,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.foldlevel = 99
   end,
 })
-
--- Open a terminal at the bottom of the screen with a fixed height.
-vim.keymap.set("n", "<Leader>st", function()
-  vim.cmd.new()
-  vim.cmd.wincmd "J"
-  vim.api.nvim_win_set_height(0, 12)
-  vim.wo.winfixheight = true
-  vim.cmd.term()
-
-  vim.bo.filetype = "terminal"
-end)
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -229,11 +207,9 @@ require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
-  {
-    change_detection = {
-      enabled = true,
-      notify = false,
-    },
+  change_detection = {
+    enabled = true,
+    notify = false,
   },
 })
 
@@ -249,8 +225,5 @@ vim.keymap.set({ "n", "v" }, "<Leader>f", function()
     lsp_fallback = true,
   })
 end)
-
-vim.keymap.set("n", "<Leader>l", ":lua require('textcase').current_word('to_camel_case')<CR> <CR>")
-vim.keymap.set("n", "<Leader>L", ":lua require('textcase').current_word('to_pascal_case')<CR> <CR>")
 
 vim.lsp.inlay_hint.enable(false)

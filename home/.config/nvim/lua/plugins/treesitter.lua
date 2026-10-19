@@ -23,7 +23,6 @@ return {
       "markdown",
       "rust",
       "proto",
-      "templ",
       "zig",
       "python",
     }

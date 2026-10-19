@@ -73,10 +73,7 @@ return {
         },
         pickers = {
           file_browser = picker_defaults,
-          find_files = {
-            picker_defaults,
-            hidden = true,
-          },
+          find_files = vim.tbl_extend('force', picker_defaults, { hidden = true }),
           git_files = picker_defaults,
           buffers = picker_defaults,
           tags = picker_defaults,
@@ -94,9 +91,7 @@ return {
           help_tags = picker_defaults,
         },
         extensions = {
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown(),
-          },
+          ["ui-select"] = require("telescope.themes").get_dropdown(),
         },
       })
 
