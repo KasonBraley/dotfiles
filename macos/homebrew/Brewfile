@@ -1,7 +1,6 @@
 # 'brew install'
 # GNU find utils
 # GNU grep
-# GNU sed
 # GNU utils
 brew "bat"
 brew "coreutils"
@@ -11,7 +10,6 @@ brew "fzf"
 brew "gh"
 brew "git"
 brew "git-extras"
-brew "gnu-sed"
 brew "grep"
 brew "htop"
 brew "jq"
@@ -21,5 +19,6 @@ brew "ripgrep"
 brew "ssh-copy-id"
 brew "stow"
 brew "tree-sitter-cli"
+brew "zig"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"

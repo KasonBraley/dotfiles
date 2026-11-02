@@ -226,9 +226,11 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]="${_error_style}"
 
 # auto completion
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
-if type brew &>/dev/null; then
-    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if (( $+commands[brew] )); then
+    _brew_prefix=${HOMEBREW_PREFIX:-$(brew --prefix)}
+    source "$_brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    source "$_brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    unset _brew_prefix
 fi
 
 # Completion
@@ -259,11 +261,10 @@ rg --colors line:fg:yellow      \
    --colors match:style:nobold  \
 "
 
-if [[ $(uname) == "Darwin" ]]; then
+if [[ $OSTYPE == darwin* ]]; then
     # use GNU utils by default on macos
     export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
-    export PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
 fi
 
@@ -283,8 +284,38 @@ esac
 # pnpm end
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+    source "$NVM_DIR/nvm.sh" --no-use
+    () {
+        local node=${commands[node]-} version
+        local -a nodes
+        if [[ $node != "$NVM_DIR"/versions/node/*/bin/node || ! -x $node ]]; then
+            if [[ -r "$NVM_DIR/alias/default" ]]; then
+                version=$(<"$NVM_DIR/alias/default")
+                version=${version#v}
+                if [[ $version == <->(|.<->)(|.<->) ]]; then
+                    nodes=("$NVM_DIR"/versions/node/v${version}(|.*)/bin/node(NnOn))
+                    node=${nodes[1]-}
+                else
+                    node=
+                fi
+            else
+                node=
+            fi
+        fi
+        if [[ ! -x $node || ${NVM_SYMLINK_CURRENT:-false} == true ]]; then
+            nvm_auto use
+            return
+        fi
+        export NVM_BIN=${node:h}
+        export NVM_INC=${NVM_BIN:h}/include/node
+        export PATH=$(nvm_change_path "$PATH" /bin "${NVM_BIN:h}")
+        if [[ -n ${MANPATH-} ]]; then
+            export MANPATH=$(nvm_change_path "$MANPATH" /share/man "${NVM_BIN:h}")
+        fi
+    }
+fi
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 export PATH="$HOME/.local/bin:$PATH"
 
 # bun completions
@@ -295,3 +326,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="/Users/kason/.terragrunt/bin:$PATH"
 eval "$(~/.local/bin/mise activate zsh)"
+
+# PostgreSQL 18 client tools (Homebrew libpq, keg-only)
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
